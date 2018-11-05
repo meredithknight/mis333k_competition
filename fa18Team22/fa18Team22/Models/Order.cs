@@ -1,7 +1,11 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+=======
+using System.ComponentModel.DataAnnotations;
+>>>>>>> afd9985a6cc2b0bf82c0eced24d03d6e9c393421
 namespace fa18Team22.Models
 {
     public class Order
