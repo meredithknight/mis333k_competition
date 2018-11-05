@@ -1,0 +1,43 @@
+﻿@using fa18Team22.Controllers
+
+<h2>Detailed Search</h2>
+<form asp-action="SearchResults" asp-controller="Search" method="get">
+    @*Title Text Box*@
+    <div class="form-group">
+        Title: @Html.TextBox("TitleText", null, new { @class = "form-control" })
+    </div>
+    @*Author Text Box*@
+    <div class="form-group">
+        Author: @Html.TextBox("AuthorText", null, new { @class = "form-control" })
+    </div>
+    @*Title + Author Text Box*@
+    <div class="form-group">
+        Title/Author: @Html.TextBox("BothText", null, new { @class = "form-control" })
+    </div>
+    @*Unique ID Search*@
+    <div class="form-group">
+        Unique Number: @Html.TextBox("UniqueIDText", null, new { @class = "form-control" })
+    </div>
+
+    @*Genre Drop down list*@
+    <div class="form-group">
+        <label>Choose a Genre:</label>
+        @Html.DropDownList("SelectedGenre", (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
+    </div>
+
+    @*User Sort Choice*@
+    <div class="form-group">
+        <label>Sort by:</label>
+        @Html.DropDownList("SelectedSortObject", (SelectList)ViewBag.AllSortObjects, new {@class ="form-control"})
+    </div>
+
+
+    @*Sort Order*@
+    <div class="form-group">
+        <label>Sort Order:</label>
+        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Ascending, true)Ascending</label>
+        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Decending)Decending</label>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Search</button>
+</form>
