@@ -1,0 +1,83 @@
+﻿@model IEnumerable<fa18Team22.Models.Repository>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Book Index</h2>
+<form asp-action="Index" asp-controller="Search" method="get">
+    <p class="form-group">
+        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
+        <a class="btn btn-success" href="/Search/DetailedSearch">Detailed Search</a>
+        @*TODO: Do we need to change href for this danger button the show all?*@
+        <a class="btn btn-danger" href="/Search/BookIndex">Show All</a>
+    </p>
+</form>
+
+@* <p>Displaying @ViewBag.SelectedRepositoriesCount out of @ViewBag.TotalRepositories Repositories </p> *@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookDetail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvgRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inventory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplenishMinimum)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookDetail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inventory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplenishMinimum)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
