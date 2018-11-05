@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace fa18Team22.Models
 {
@@ -17,7 +18,7 @@ namespace fa18Team22.Models
 
 
     	//navigational properties
-    	public virtual List<Order> Orders { get; set; }
+    	public List<Order> Orders { get; set; }
 
     }
 }

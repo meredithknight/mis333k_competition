@@ -10,12 +10,12 @@ namespace fa18Team22.Models
     	public Int32 Quantity { get; set; }
 
     	[Display(Name = "Price")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
     	public Decimal Price{ get; set; }
 
 
     	//navigational properties
     	public virtual Order Order { get; set; }
-
     	public virtual Book Book { get; set; }
 
     }

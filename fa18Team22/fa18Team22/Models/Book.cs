@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace fa18Team22.Models
 {
@@ -40,7 +41,6 @@ namespace fa18Team22.Models
         public Int32 ReplenishMinimum { get; set; }
 
         //navigational property
-        public virtual Language Language { get; set; }
         public virtual Genre Genre { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
     }

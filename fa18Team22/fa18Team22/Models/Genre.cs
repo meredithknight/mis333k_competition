@@ -1,13 +1,19 @@
 ﻿using System;
-namespace fa18Team22
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace fa18Team22.Models
 {
     public class Genre
     {
+        [Display(Name = "Genre ID")]
         public Int32 GenreID { get; set; }
+
+        [Display(Name = "Gendre Name")]
         public String GenreName { get; set; }
 
 
         //navigational properties
-        public virtual Book Book { get; set; }
+        public List<Book> Books { get; set; }
     }
 }
