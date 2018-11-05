@@ -39,8 +39,7 @@ namespace fa18Team22.Models
         [Display(Name = "Replenish Minimum")]
         public Int32 ReplenishMinimum { get; set; }
 
-        //navigational property
-        public virtual Language Language { get; set; }
+        //navigational properties
         public virtual Genre Genre { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
     }
