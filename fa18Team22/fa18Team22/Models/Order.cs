@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Nguyen_Tommy_HW5.Models
+namespace fa18Team22.Models
 {
     public class Order
     {
