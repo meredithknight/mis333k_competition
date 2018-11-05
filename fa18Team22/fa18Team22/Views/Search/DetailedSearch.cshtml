@@ -39,5 +39,14 @@
         <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Decending)Decending</label>
     </div>
 
+    @*In/Out Stock
+        TODO: WE NEED TO BOOKSTOCK BOOLEAN
+    *@
+    <div class="form-group">
+        <label>In/Out of Stock:</label>
+        <label class="radio">@Html.RadioButton("SelectedStock", BookStock.true, true)All Books</label>
+        <label class="radio">@Html.RadioButton("SelectedStock", BookStock.false)Books in Stock</label>
+    </div>
+
     <button type="submit" class="btn btn-danger">Search</button>
 </form>
