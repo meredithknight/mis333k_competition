@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Nguyen_Tommy_HW5.Models
+namespace fa18Team22.Models
 {
     public class Review
     {
@@ -11,9 +11,9 @@ namespace Nguyen_Tommy_HW5.Models
         public enum ApprovalStatus { Approved, Pending, Denied }
 
 
-        public virtual Book Book { get; set; }
-        public virtual User Author { get; set; }
-        public virtual User Approver { get; set; }
+        public  Book Book { get; set; }
+        public  User Author { get; set; }
+        public  User Approver { get; set; }
 
 
     }

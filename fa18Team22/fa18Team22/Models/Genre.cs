@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Application
+namespace fa18Team22
 {
     public class Genre
     {

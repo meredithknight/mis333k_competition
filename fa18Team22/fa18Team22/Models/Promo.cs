@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-namespace Team_22_SystemsProject.Models
+namespace fa18Team22.Models
 {
     public class Promo
     {

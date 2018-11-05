@@ -15,4 +15,7 @@
     <Folder Include="Views\" />
     <Folder Include="DAL\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\ProcurementDetail.cs" />
+  </ItemGroup>
 </Project>
