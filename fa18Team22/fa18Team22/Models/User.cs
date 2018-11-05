@@ -52,8 +52,6 @@ namespace fa18Team22.Models
         [DataType(DataType.CreditCard)]
         public String CreditCard3 { get; set; }
 
-
-
         public String UserStatus { get; set; }
 
 

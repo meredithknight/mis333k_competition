@@ -5,6 +5,7 @@ namespace fa18Team22.Models
 {
     public class Book
     {
+        [Display(Name = "BookID")]
         public Int32 BookID { get; set; }
 
         [Display(Name = "Title")]
@@ -40,11 +41,8 @@ namespace fa18Team22.Models
         [Display(Name = "Replenish Minimum")]
         public Int32 ReplenishMinimum { get; set; }
 
-<<<<<<< HEAD
-        //navigational property
-=======
+
         //navigational properties
->>>>>>> afd9985a6cc2b0bf82c0eced24d03d6e9c393421
         public virtual Genre Genre { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
     }
