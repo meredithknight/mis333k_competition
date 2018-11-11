@@ -13,14 +13,14 @@ namespace fa18Team22.Models
         public Int32 UnitedID { get; set; }
 
         [Display(Name = "Title")]
-        private String _strTitle;
+        private readonly String _strTitle;
         public String Title
         {
             get { return _strTitle; }
         }
 
         [Display(Name = "Author")]
-        private String _strAuthor;
+        private readonly String _strAuthor;
         public String Author
         {
             get { return _strAuthor; }
