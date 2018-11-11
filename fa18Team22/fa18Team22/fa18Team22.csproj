@@ -16,6 +16,8 @@
     <Folder Include="Models\" />
     <Folder Include="DAL\" />
     <Folder Include="Utilities\" />
+    <Folder Include="New Folder\" />
+    <Folder Include="Seeding\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ProcurementDetail.cs" />
