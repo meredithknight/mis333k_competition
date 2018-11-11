@@ -1,4 +1,5 @@
 ﻿@using fa18Team22.Controllers
+@using fa18Team22.Models
 
 <h2>Detailed Search</h2>
 <form asp-action="SearchResults" asp-controller="Search" method="get">
@@ -29,6 +30,7 @@
 
 
     @*Sort Order*@
+<<<<<<< HEAD
     <!--
     <div class="form-group">
         <label>Sort Order:</label>
@@ -36,14 +38,28 @@
         <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Descending)Decending</label>
     </div>
     -->
+=======
+    @*<div class="form-group">
+        <label>Sort Order:</label>
+        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Ascending, true)Ascending</label>
+        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Decending)Decending</label>
+    </div>*@
+
+>>>>>>> fb61b5b04270d0f7fad68435fb47751268ed2ef9
     @*In/Out Stock
         TODO: WE NEED TO BOOKSTOCK BOOLEAN
     *@
-    <div class="form-group">
+    @*<div class="form-group">
         <label>In/Out of Stock:</label>
+<<<<<<< HEAD
         <label class="radio">@Html.RadioButton("SelectedStock", DisplayBooks.AllBooks, true)All Books</label>
         <label class="radio">@Html.RadioButton("SelectedStock", DisplayBooks.InStock)Books in Stock</label>
     </div>
+=======
+        <label class="radio">@Html.RadioButton("SelectedStock", Inventory.true, true)All Books</label>
+        <label class="radio">@Html.RadioButton("SelectedStock", Inventory.false)Books in Stock</label>
+    </div>*@
+>>>>>>> fb61b5b04270d0f7fad68435fb47751268ed2ef9
 
     <button type="submit" class="btn btn-danger">Search</button>
 </form>
