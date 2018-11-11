@@ -39,13 +39,13 @@ namespace fa18Team22.Controllers
             //title or author
             if (!string.IsNullOrEmpty(SearchTitleAuthor))
             {
-                query = query.Where(r => r.BookTitle.Contains(SearchTitleAuthor) || r.Author.Contains(SearchTitleAuthor));
+                query = query.Where(r => r.Title.Contains(SearchTitleAuthor) || r.Author.Contains(SearchTitleAuthor));
             }
 
             //title
             if (!string.IsNullOrEmpty(SearchTitle))
             {
-                query = query.Where(r => r.BookTitle.Contains(SearchTitle));
+                query = query.Where(r => r.Title.Contains(SearchTitle));
             }
 
             //author
