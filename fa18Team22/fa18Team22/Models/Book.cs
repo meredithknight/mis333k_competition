@@ -5,9 +5,12 @@ namespace fa18Team22.Models
 {
     public class Book
     {
-        [Display(Name = "Unique ID")]
+        [Display(Name = "Book ID")]
         [Key]
         public Int32 BookID { get; set; }
+
+        [Display(Name = = "Unique ID")]
+        public Int32 UnitedID { get; set; }
 
         [Display(Name = "Title")]
         private String _strTitle;
