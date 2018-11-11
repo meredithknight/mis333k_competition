@@ -10,6 +10,7 @@ namespace fa18Team22.DAL
 
         //db set for each model class
         public DbSet<Book> Books { get; set; }
+        public DbSet<Genre> Genres { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
