@@ -44,7 +44,7 @@ namespace fa18Team22.Models
 
 
         //navigational properties
-        public virtual Genre Genre { get; set; }
-        public virtual List<OrderDetail> OrderDetails { get; set; }
+        public Genre Genre { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
     }
 }
