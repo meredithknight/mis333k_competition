@@ -10,7 +10,7 @@ namespace fa18Team22.Models
         public Int32 BookID { get; set; }
 
         [Display(Name = "Unique ID")]
-        public Int32 UnitedID { get; set; }
+        public Int32 UniqueID { get; set; }
 
         [Display(Name = "Title")]
         private readonly String _strTitle;

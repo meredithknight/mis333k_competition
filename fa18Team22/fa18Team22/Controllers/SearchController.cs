@@ -83,8 +83,8 @@ namespace fa18Team22.Controllers
             //genre
             if (SearchGenre != 0) // they chose "all language from the drop-down
             {
-                Book GenreToDisplay = _db.Books.Genre.Find(SelectedGenre);
-                query = query.Where(r => r.Books.Genre == GenreToDisplay);
+                Genre GenreToDisplay = _db.Genres.Find(SearchGenre);
+                query = query.Where(r => r.Genre == GenreToDisplay);
             }
 
 
@@ -111,7 +111,7 @@ namespace fa18Team22.Controllers
 
         public SelectList GetAllGenres()
         {
-            List<Genre> Genre = _db.Books.Genre.ToList();
+            List<Genre> Genre = _db.Genres.ToList();
 
             Genre SelectNone = new Genre() { GenreID = 0, GenreName = "All Genres" };
             Genre.Add(SelectNone);
