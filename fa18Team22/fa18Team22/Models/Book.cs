@@ -13,18 +13,10 @@ namespace fa18Team22.Models
         public Int32 UniqueID { get; set; }
 
         [Display(Name = "Title")]
-        private String _strTitle;
-        public String Title
-        {
-            get { return _strTitle; }
-        }
+        public String Title { get; set; }
 
         [Display(Name = "Author")]
-        private String _strAuthor;
-        public String Author
-        {
-            get { return _strAuthor; }
-        }
+        public String Author { get; set; }
 
         [Display(Name = "Publish Date")]
         [DataType(DataType.Date)]

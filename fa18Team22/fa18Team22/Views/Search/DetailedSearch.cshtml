@@ -4,48 +4,45 @@
 <form asp-action="SearchResults" asp-controller="Search" method="get">
     @*Title Text Box*@
     <div class="form-group">
-        Title: @Html.TextBox("TitleText", null, new { @class = "form-control" })
+        Title: @Html.TextBox("SearchTitle", null, new { @class = "form-control" })
     </div>
     @*Author Text Box*@
     <div class="form-group">
-        Author: @Html.TextBox("AuthorText", null, new { @class = "form-control" })
-    </div>
-    @*Title + Author Text Box*@
-    <div class="form-group">
-        Title/Author: @Html.TextBox("BothText", null, new { @class = "form-control" })
+        Author: @Html.TextBox("SearchAuthor", null, new { @class = "form-control" })
     </div>
     @*Unique ID Search*@
     <div class="form-group">
-        Unique Number: @Html.TextBox("UniqueIDText", null, new { @class = "form-control" })
+        Unique Number: @Html.TextBox("SearchUniqueID", null, new { @class = "form-control" })
     </div>
 
     @*Genre Drop down list*@
     <div class="form-group">
         <label>Choose a Genre:</label>
-        @Html.DropDownList("SelectedGenre", (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
+        @Html.DropDownList("SearchGenre", (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
     </div>
 
     @*User Sort Choice*@
     <div class="form-group">
         <label>Sort by:</label>
-        @Html.DropDownList("SelectedSortObject", (SelectList)ViewBag.AllSortObjects, new {@class ="form-control"})
+        @Html.DropDownList("SortBy", (SelectList)ViewBag.AllSortObjects, new { @class = "form-control" })
     </div>
 
 
     @*Sort Order*@
+    <!--
     <div class="form-group">
         <label>Sort Order:</label>
         <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Ascending, true)Ascending</label>
-        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Decending)Decending</label>
+        <label class="radio">@Html.RadioButton("SelectedSortOrder", SortOrder.Descending)Decending</label>
     </div>
-
+    -->
     @*In/Out Stock
         TODO: WE NEED TO BOOKSTOCK BOOLEAN
     *@
     <div class="form-group">
         <label>In/Out of Stock:</label>
-        <label class="radio">@Html.RadioButton("SelectedStock", BookStock.true, true)All Books</label>
-        <label class="radio">@Html.RadioButton("SelectedStock", BookStock.false)Books in Stock</label>
+        <label class="radio">@Html.RadioButton("SelectedStock", DisplayBooks.AllBooks, true)All Books</label>
+        <label class="radio">@Html.RadioButton("SelectedStock", DisplayBooks.InStock)Books in Stock</label>
     </div>
 
     <button type="submit" class="btn btn-danger">Search</button>

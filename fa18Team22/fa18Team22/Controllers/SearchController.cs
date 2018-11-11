@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace fa18Team22.Controllers
 {
     public enum DisplayBooks { AllBooks, InStock }
+    public enum SortOrder { Ascending, Descending }
 
     public class SearchController : Controller
     {
@@ -30,17 +31,12 @@ namespace fa18Team22.Controllers
         public ActionResult DetailedSearch()
         {
             ViewBag.AllGenres = GetAllGenres();
+            ViewBag.AllSortObjects = GetAllSortByOptions();
             return View();
         }
-        public IActionResult SearchResults(string SearchTitleAuthor, string SearchTitle, string SearchAuthor, string SearchUniqueNumber, int SearchGenre, DisplayBooks SelectedBooks, int SortBy)
+        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, String SortBy, SortOrder SelectedSortOrder)
         {
             var query = from r in _db.Books select r;
-
-            //title or author
-            if (!string.IsNullOrEmpty(SearchTitleAuthor))
-            {
-                query = query.Where(r => r.Title.Contains(SearchTitleAuthor) || r.Author.Contains(SearchTitleAuthor));
-            }
 
             //title
             if (!string.IsNullOrEmpty(SearchTitle))
@@ -55,12 +51,12 @@ namespace fa18Team22.Controllers
             }
 
             //unique number
-            if (!string.IsNullOrEmpty(SearchUniqueNumber))
+            if (!string.IsNullOrEmpty(SearchUniqueID))
             {
                 int intUniqueNumber;
                 try
                 {
-                    intUniqueNumber = Convert.ToInt16(SearchUniqueNumber);
+                    intUniqueNumber = Convert.ToInt32(SearchUniqueID);
                 }
                 catch
                 {
@@ -81,7 +77,7 @@ namespace fa18Team22.Controllers
 
 
             //genre
-            if (SearchGenre != 0) // they chose "all language from the drop-down
+            if (SearchGenre != 0) // 0 = they chose "all genres" from the drop-down
             {
                 Genre GenreToDisplay = _db.Genres.Find(SearchGenre);
                 query = query.Where(r => r.Genre == GenreToDisplay);
@@ -89,7 +85,7 @@ namespace fa18Team22.Controllers
 
 
             //selected books - all or in stock only
-            switch (SelectedBooks)
+            switch (SelectedStock)
             {
                 case DisplayBooks.AllBooks:
                     break;
@@ -100,13 +96,65 @@ namespace fa18Team22.Controllers
                     break;
             }
 
-
             List<Book> SelectedBooksSearch = query.ToList();
+
+            //sort by option
+            if (!string.IsNullOrEmpty(SortBy)) //should this be nullable???
+            {
+                if(SortBy == "Title")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Title);
+                }
+                if(SortBy == "Author")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Author);
+                }
+                //NO clue how to do this one
+                if (SortBy == "Most Popular")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.BookID);
+                }
+
+                if (SortBy == "Newest First")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                }
+                if (SortBy == "OldestFirst")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                }
+                if (SortBy == "Highest Rated")
+                {
+                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
+                }
+
+
+                //re-populate drop down
+                ViewBag.AllSortObjects = GetAllSortByOptions();
+
+                //Send user back to home page
+                return View("DetailedSearch");
+            }
+
+            //if (StarAmount == StarList.greaterThan)
+            //{
+            //    query = query.Where(x => x.StarCount >= decStarValue);
+            //}
+
+            //if (StarAmount == StarList.lessThan)
+            //{
+            //    query = query.Where(x => x.StarCount <= decStarValue);
+            //}
             ViewBag.TotalRepositories = _db.Books.Count();
             ViewBag.SelectedBooksSearch = SelectedBooksSearch.Count();
             return View("Index", SelectedBooksSearch);
 
         }
+
+
+
+
+
 
 
         public SelectList GetAllGenres()
@@ -123,6 +171,28 @@ namespace fa18Team22.Controllers
             //return the select list
             return AllGenre;
         }
+
+        public SelectList GetAllSortByOptions()
+        {
+            List<String> SortBy = new List<string>();
+
+            SortBy.Add("Don't Sort");
+            SortBy.Add("Title");
+            SortBy.Add("Author");
+            SortBy.Add("Most Popular");
+            SortBy.Add("Newest First"); 
+            SortBy.Add("Oldest First");
+            SortBy.Add("Highest Rated");
+
+
+            //convert list to select list
+            SelectList SortByOptions = new SelectList(SortBy);
+
+
+            //return the select list
+            return SortByOptions;
+        }
+
 
     }
 }
