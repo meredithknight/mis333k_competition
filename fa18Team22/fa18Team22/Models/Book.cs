@@ -7,7 +7,7 @@ namespace fa18Team22.Models
     {
         [Display(Name = "Unique ID")]
         [Key]
-        public Int32 UniqueID { get; set; }
+        public Int32 BookID { get; set; }
 
         [Display(Name = "Title")]
         private String _strTitle;
