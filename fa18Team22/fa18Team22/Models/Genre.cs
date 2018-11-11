@@ -14,7 +14,7 @@ namespace fa18Team22
         [Display(Name = "Genre ID")]
         public Int32 GenreID { get; set; }
 
-        [Display(Name = "Gendre Name")]
+        [Display(Name = "Genre Name")]
         public String GenreName { get; set; }
 
 
