@@ -33,8 +33,8 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var genre = await _context.Genres
-                .FirstOrDefaultAsync(m => m.GenreID == id);
+            var genre = _context.Genres.Include(c => c.Books).FirstOrDefault(m => m.GenreID == id);
+
             if (genre == null)
             {
                 return NotFound();

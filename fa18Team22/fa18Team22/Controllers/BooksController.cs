@@ -62,7 +62,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int SelectedGenre, [Bind("BookID,UniqueID,Title,Author,PublishDate,BookDetail,SalesPrice,Inventory,AvgRating,ReplenishMinimum")] Book book)
+        public async Task<IActionResult> Create(int SelectedGenre, [Bind("BookID,UniqueID,Title,Author,PublishDate,BookDetail,SalesPrice,Inventory,ReplenishMinimum")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -72,16 +72,12 @@ namespace fa18Team22.Controllers
                 _context.SaveChanges();
 
 
-                Book dbBook = _context.Books.Include(c => c.Genre)
-                        .FirstOrDefault(c => c.UniqueID == book.UniqueID);
-
+                Book dbBook = _context.Books.Include(c => c.Genre).FirstOrDefault(c => c.UniqueID == book.UniqueID);
                 Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == SelectedGenre);
-                dbBook.Genre = dbGenre;
-                _context.Books.Add(dbBook);
 
+                dbGenre.Books.Add(book);
                 //lets user pick genre the book belongs to, then add the genre to the book instance and the book instance to the genre
-                dbGenre.Books.Add(dbBook);
-                _context.Genres.Add(dbGenre);
+                _context.Update(dbGenre);
                 _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));

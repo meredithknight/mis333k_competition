@@ -19,6 +19,23 @@
     </dl>
 </div>
 <div>
+    <table class="table table-hover table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Books</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Book cd in Model.Books)
+            {
+                <tr>
+                    <td>@cd.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
     <a asp-action="Edit" asp-route-id="@Model.GenreID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
