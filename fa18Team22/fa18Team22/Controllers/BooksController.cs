@@ -29,7 +29,7 @@ namespace fa18Team22.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.ToListAsync());
+            return View(await _context.Books.Include(m => m.Genre).ToListAsync());
         }
 
         // GET: Books/Details/5
@@ -40,7 +40,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
+            var book = await _context.Books.Include(m => m.Genre)
                 .FirstOrDefaultAsync(m => m.BookID == id);
             if (book == null)
             {
@@ -75,7 +75,7 @@ namespace fa18Team22.Controllers
                 Book dbBook = _context.Books.Include(c => c.Genre).FirstOrDefault(c => c.UniqueID == book.UniqueID);
                 Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == SelectedGenre);
 
-                dbGenre.Books.Add(book);
+                dbGenre.Books.Add(dbBook);
                 //lets user pick genre the book belongs to, then add the genre to the book instance and the book instance to the genre
                 _context.Update(dbGenre);
                 _context.SaveChanges();
