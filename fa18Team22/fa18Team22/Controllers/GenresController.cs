@@ -7,32 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
-using fa18Team22.Utilities;
 
 namespace fa18Team22.Controllers
 {
-    public class BooksController : Controller
+    public class GenresController : Controller
     {
         private readonly AppDbContext _context;
 
-        public BooksController(AppDbContext context)
+        public GenresController(AppDbContext context)
         {
             _context = context;
         }
-        private MultiSelectList GetAllGenres()
-        {
-            List<Genre> allGenres = _context.Genres.ToList();
-            SelectList GenreList = new SelectList(allGenres, "GenreID", "GenreName");
-            return GenreList;
-        }
 
-        // GET: Books
+        // GET: Genres
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.ToListAsync());
+            return View(await _context.Genres.ToListAsync());
         }
 
-        // GET: Books/Details/5
+        // GET: Genres/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,58 +33,39 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookID == id);
-            if (book == null)
+            var genre = await _context.Genres
+                .FirstOrDefaultAsync(m => m.GenreID == id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(genre);
         }
 
-        // GET: Books/Create
+        // GET: Genres/Create
         public IActionResult Create()
         {
-            ViewBag.AllGenres = GetAllGenres();
             return View();
         }
 
-        // POST: Books/Create
+        // POST: Genres/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int SelectedGenre, [Bind("BookID,UniqueID,Title,Author,PublishDate,BookDetail,SalesPrice,Inventory,AvgRating,ReplenishMinimum")] Book book)
+        public async Task<IActionResult> Create([Bind("GenreID,GenreName")] Genre genre)
         {
             if (ModelState.IsValid)
             {
-                //Generate next course number
-                book.UniqueID = GenerateBUN.GetNextBUN(_context);
-                _context.Add(book);
-                _context.SaveChanges();
-
-
-                Book dbBook = _context.Books.Include(c => c.Genre)
-                        .FirstOrDefault(c => c.UniqueID == book.UniqueID);
-
-                Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == SelectedGenre);
-                dbBook.Genre = dbGenre;
-                _context.Books.Add(dbBook);
-
-                //lets user pick genre the book belongs to, then add the genre to the book instance and the book instance to the genre
-                dbGenre.Books.Add(dbBook);
-                _context.Genres.Add(dbGenre);
-                _context.SaveChanges();
-
+                _context.Add(genre);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-
-                return View(book);
+            return View(genre);
         }
 
-        // GET: Books/Edit/5
+        // GET: Genres/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,22 +73,22 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
+            var genre = await _context.Genres.FindAsync(id);
+            if (genre == null)
             {
                 return NotFound();
             }
-            return View(book);
+            return View(genre);
         }
 
-        // POST: Books/Edit/5
+        // POST: Genres/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookID,UniqueID,Title,Author,PublishDate,BookDetail,SalesPrice,Inventory,AvgRating,ReplenishMinimum")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("GenreID,GenreName")] Genre genre)
         {
-            if (id != book.BookID)
+            if (id != genre.GenreID)
             {
                 return NotFound();
             }
@@ -123,12 +97,12 @@ namespace fa18Team22.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(genre);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.BookID))
+                    if (!GenreExists(genre.GenreID))
                     {
                         return NotFound();
                     }
@@ -139,10 +113,10 @@ namespace fa18Team22.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(book);
+            return View(genre);
         }
 
-        // GET: Books/Delete/5
+        // GET: Genres/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,30 +124,30 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookID == id);
-            if (book == null)
+            var genre = await _context.Genres
+                .FirstOrDefaultAsync(m => m.GenreID == id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(book);
+            return View(genre);
         }
 
-        // POST: Books/Delete/5
+        // POST: Genres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
+            var genre = await _context.Genres.FindAsync(id);
+            _context.Genres.Remove(genre);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
+        private bool GenreExists(int id)
         {
-            return _context.Books.Any(e => e.BookID == id);
+            return _context.Genres.Any(e => e.GenreID == id);
         }
     }
 }
