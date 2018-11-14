@@ -14,11 +14,6 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BookID" />
             <div class="form-group">
-                <label asp-for="UniqueID" class="control-label"></label>
-                <input asp-for="UniqueID" class="form-control" />
-                <span asp-validation-for="UniqueID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
@@ -54,6 +49,10 @@
                 <span asp-validation-for="AvgRating" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Genre" class="control-label"></label>
+                @Html.ListBox("SelectedGenre", (SelectList)ViewBag.AllGenres, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
                 <label asp-for="ReplenishMinimum" class="control-label"></label>
                 <input asp-for="ReplenishMinimum" class="form-control" />
                 <span asp-validation-for="ReplenishMinimum" class="text-danger"></span>
@@ -69,6 +68,4 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
