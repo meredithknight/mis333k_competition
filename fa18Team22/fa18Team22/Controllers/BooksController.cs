@@ -142,103 +142,103 @@ namespace fa18Team22.Controllers
         // POST: Books/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int SelectedGenre, Book book)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Book dbBook = _context.Books
-                        .Include(c => c.Genre)
-                        .FirstOrDefault(c => c.BookID == book.BookID);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Edit(int SelectedGenre, Book book)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            Book dbBook = _context.Books
+        //                .Include(c => c.Genre)
+        //                .FirstOrDefault(c => c.BookID == book.BookID);
 
-                    dbBook.Title = book.Title;
-                    dbBook.Author = book.Author;
-                    dbBook.PublishDate = book.PublishDate;
-                    dbBook.BookDetail = book.BookDetail;
-                    dbBook.SalesPrice = book.SalesPrice;
-                    dbBook.Inventory = book.Inventory;
-                    dbBook.AvgRating = book.AvgRating;
-                    dbBook.ReplenishMinimum = book.ReplenishMinimum;
+        //            dbBook.Title = book.Title;
+        //            dbBook.Author = book.Author;
+        //            dbBook.PublishDate = book.PublishDate;
+        //            dbBook.BookDetail = book.BookDetail;
+        //            dbBook.SalesPrice = book.SalesPrice;
+        //            dbBook.Inventory = book.Inventory;
+        //            dbBook.AvgRating = book.AvgRating;
+        //            dbBook.ReplenishMinimum = book.ReplenishMinimum;
 
-                    _context.Update(dbBook);
-                    _context.SaveChanges();
+        //            _context.Update(dbBook);
+        //            _context.SaveChanges();
 
-                    //edit department/course relationships
+        //            //edit department/course relationships
 
-                    //loop through selected departments and find ones that need to be removed
-                    Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == SelectedGenre);
-                    dbGenre.Books.Remove(book);
-                    dbGenre.Books.Add(dbBook);
-                    _context.Update(dbGenre);
-                    _context.Update(dbBook);
+        //            //loop through selected departments and find ones that need to be removed
+        //            Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == SelectedGenre);
+        //            dbGenre.Books.Remove(book);
+        //            dbGenre.Books.Add(dbBook);
+        //            _context.Update(dbGenre);
+        //            _context.Update(dbBook);
 
-                //    //now add the departments that are new
-                //    foreach (int i in SelectedSuppliers)
-                //    {
-                //        if (dbProduct.ProductSuppliers.Any(c => c.Supplier.SupplierID == i) == false)
-                //        //this supplier has not yet been added
-                //        {
-                //            //create a new course department
-                //            ProductSupplier cd = new ProductSupplier();
+        //        //    //now add the departments that are new
+        //        //    foreach (int i in SelectedSuppliers)
+        //        //    {
+        //        //        if (dbProduct.ProductSuppliers.Any(c => c.Supplier.SupplierID == i) == false)
+        //        //        //this supplier has not yet been added
+        //        //        {
+        //        //            //create a new course department
+        //        //            ProductSupplier cd = new ProductSupplier();
 
-                //            //connect the new course department to the department and course
-                //            cd.Supplier = _context.Suppliers.Find(i);
-                //            cd.Product = dbProduct;
+        //        //            //connect the new course department to the department and course
+        //        //            cd.Supplier = _context.Suppliers.Find(i);
+        //        //            cd.Product = dbProduct;
 
-                //            //update the database
-                //            _context.ProductSuppliers.Add(cd);
-                //            _context.SaveChanges();
-                //        }
-                //    }
+        //        //            //update the database
+        //        //            _context.ProductSuppliers.Add(cd);
+        //        //            _context.SaveChanges();
+        //        //        }
+        //        //    }
 
-                //}
-                //catch (DbUpdateConcurrencyException)
-                //{
-                //    if (!ProductExists(product.ProductID))
-                //    {
-                //        return NotFound();
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                }
+        //        //}
+        //        //catch (DbUpdateConcurrencyException)
+        //        //{
+        //        //    if (!ProductExists(product.ProductID))
+        //        //    {
+        //        //        return NotFound();
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        throw;
+        //        //    }
+        //        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.AllGenres = GetAllGenres(book);
-            return View(book);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewBag.AllGenres = GetAllGenres(book);
+        //    return View(book);
 
-            //if (id != book.BookID)
-            //{
-            //    return NotFound();
-            //}
+        //    //if (id != book.BookID)
+        //    //{
+        //    //    return NotFound();
+        //    //}
 
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(book);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!BookExists(book.BookID))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //return View(book);
-        }
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        _context.Update(book);
+        //    //        await _context.SaveChangesAsync();
+        //    //    }
+        //    //    catch (DbUpdateConcurrencyException)
+        //    //    {
+        //    //        if (!BookExists(book.BookID))
+        //    //        {
+        //    //            return NotFound();
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            throw;
+        //    //        }
+        //    //    }
+        //    //    return RedirectToAction(nameof(Index));
+        //    //}
+        //    //return View(book);
+        //}
 
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
