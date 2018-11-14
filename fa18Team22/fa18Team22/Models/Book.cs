@@ -37,6 +37,9 @@ namespace fa18Team22.Models
         [Display(Name = "Replenish Minimum")]
         public Int32 ReplenishMinimum { get; set; }
 
+        //[Display(Name = "Book Cost")]
+        //public Decimal BookCost { get; set; }
+
 
         //navigational properties
         public Genre Genre { get; set; }
