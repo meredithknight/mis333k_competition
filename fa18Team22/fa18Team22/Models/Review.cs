@@ -10,9 +10,11 @@ namespace fa18Team22.Models
         public Int32 ReviewID { get; set; }
 
         [Display(Name = "Rating")]
+        [Range(1, 5, ErrorMessage = "Betweeen 1 to 5 stars")]
         public Decimal Rating { get; set; }
 
         [Display(Name = "Review")]
+        [StringLength(100, ErrorMessage = "100 characters max")]
         public String ReviewText { get; set; }
 
 

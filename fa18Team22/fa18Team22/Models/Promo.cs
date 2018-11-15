@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace fa18Team22.Models
 {
+    public enum CouponType { FreeShipping, Percent }
     public class Promo
     {
     	public Int32 PromoID { get; set; }
 
     	[Display(Name = "Promo Code")]
-    	public String PromoCode { get; set; }
+        [StringLength(20, ErrorMessage = "20 characters max")]
+        public String PromoCode { get; set; }
 
     	[Display(Name = "Discount Amount")]
     	public Decimal DiscountAmount{ get; set; }
