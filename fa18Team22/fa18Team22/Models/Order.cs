@@ -13,7 +13,7 @@ namespace fa18Team22.Models
         public DateTime OrderDate { get; set; }
 
         //navigational properties
-        public virtual User Customer { get; set; }
+        public virtual AppUser Customer { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
         public virtual Promo Promo {get; set; }
       

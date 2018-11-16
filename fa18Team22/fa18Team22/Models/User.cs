@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace fa18Team22.Models
 {
-    public class User
+    public class AppUser
     {
         [Key]
         [DataType(DataType.EmailAddress)]

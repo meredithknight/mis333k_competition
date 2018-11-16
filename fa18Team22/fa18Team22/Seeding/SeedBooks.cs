@@ -3939,7 +3939,7 @@ namespace fa18Team22.Seeding
 					else
 					{
 						dbbk.BookDetail = bk.BookDetail;
-						dbbk.Genre = db.Genres.FirstOrDefault(l => l.GenreID == repo.Genre.GenreID);
+						dbbk.Genre = db.Genres.FirstOrDefault(l => l.GenreID == bk.Genre.GenreID);
 						dbbk.UniqueID = bk.UniqueID;
 						dbbk.Title = bk.Title;
 						dbbk.Author = bk.Author;
