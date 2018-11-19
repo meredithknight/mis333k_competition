@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace fa18Team22.Models
 {
-    public class User
+    public class AppUser : IdentityUser
     {
-        [Key]
-        [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "Email address is required")]
-        [Display(Name = "Email Address")]
-        public String EmailAddress { get; set; }
+        //[Key]
+        //[DataType(DataType.EmailAddress)]
+        //[Required(ErrorMessage = "Email address is required")]
+        //[Display(Name = "Email Address")]
+        //public String EmailAddress { get; set; }
 
-        [DataType(DataType.PhoneNumber)]
-        [Required(ErrorMessage = "Phone number is required")]
-        [Display(Name = "Phone Number")]
-        public String PhoneNumber { get; set; }
+        //[DataType(DataType.PhoneNumber)]
+        //[Required(ErrorMessage = "Phone number is required")]
+        //[Display(Name = "Phone Number")]
+        //public String PhoneNumber { get; set; }
 
 
         [Required(ErrorMessage = "First name is required")]
@@ -39,9 +40,9 @@ namespace fa18Team22.Models
         [Display(Name = "Zip")]
         public String Zip { get; set; }
 
-        [Required(ErrorMessage = "Email Address is required")]
-        [StringLength(15, ErrorMessage = "Max of 15 characters for password")]
-        public String Password { get; set; }
+        //[Required(ErrorMessage = "Email Address is required")]
+        //[StringLength(15, ErrorMessage = "Max of 15 characters for password")]
+        //public String Password { get; set; }
 
         [DataType(DataType.CreditCard)]
         public String CreditCard1 { get; set; }
@@ -52,7 +53,6 @@ namespace fa18Team22.Models
         [DataType(DataType.CreditCard)]
         public String CreditCard3 { get; set; }
 
-        public String UserStatus { get; set; }
 
 
         //navigational properties

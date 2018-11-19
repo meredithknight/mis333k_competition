@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using fa18Team22.DAL;
+using fa18Team22.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,16 +29,20 @@ namespace fa18Team22
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
+            var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=True;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddIdentity<AppUser, IdentityRole>(opts => {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
             services.AddMvc();
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
