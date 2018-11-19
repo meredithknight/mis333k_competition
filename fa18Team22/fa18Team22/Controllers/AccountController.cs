@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 //TODO: Change this using statement to match your project
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -20,11 +21,11 @@ namespace fa18Team22.Controllers
         private SignInManager<AppUser> _signInManager;
         private UserManager<AppUser> _userManager;
         private PasswordValidator<AppUser> _passwordValidator;
-        private AppDbContext _db;
+        private AppDbContext _context;
 
         public AccountController(AppDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signIn)
         {
-            _db = context;
+            _context = context;
             _userManager = userManager;
             _signInManager = signIn;
            
@@ -101,7 +102,13 @@ namespace fa18Team22.Controllers
                     //Make sure that you have included ALL of the properties and that they match
                     //the model class EXACTLY!!
                     FirstName = model.FirstName,
-                    LastName = model.LastName
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip,
+
+
 
                 };
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
@@ -112,6 +119,8 @@ namespace fa18Team22.Controllers
                     //by navigating to the RoleAdmin controller and manually added the "Customer" role
                 
                     await _userManager.AddToRoleAsync(user, "Customer");
+
+
                     //another example
                     //await _userManager.AddToRoleAsync(user, "Manager");
 
@@ -136,7 +145,7 @@ namespace fa18Team22.Controllers
 
             //get user info
             String id = User.Identity.Name;
-            AppUser user = _db.Users.FirstOrDefault(u => u.UserName == id);
+            AppUser user = _context.Users.FirstOrDefault(u => u.UserName == id);
 
             //populate the view model
             ivm.Email = user.Email;
@@ -146,6 +155,69 @@ namespace fa18Team22.Controllers
 
 
             return View(ivm);
+        }
+
+        //GET: /Account/Edit
+        public ActionResult ModifyAccount(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = _context.Users.FirstOrDefault(c => c.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+            return View(account);
+        }
+
+        //POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ModifyAccount(AppUser account)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppUser dbAccount = _context.Users
+                        .FirstOrDefault(c => c.Id == account.Id);
+
+                    dbAccount.FirstName = account.FirstName;
+                    dbAccount.LastName = account.LastName;
+                    dbAccount.Email = account.Email;
+                    dbAccount.UserName = account.Email;
+                    dbAccount.Address = account.Address;
+                    dbAccount.City = account.City;
+                    dbAccount.State = account.State;
+                    dbAccount.Zip = account.Zip;
+                    dbAccount.PhoneNumber = account.PhoneNumber;
+
+
+                    _context.Update(dbAccount);
+                    _context.SaveChanges();
+
+                    //edit department/course relationships
+
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(account.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(account);
         }
 
 
@@ -200,6 +272,10 @@ namespace fa18Team22.Controllers
             {
                 ModelState.AddModelError("", error.Description);
             }
+        }
+        private bool AccountExists(string id)
+        {
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

@@ -36,6 +36,23 @@ namespace fa18Team22.Models
         [Display(Name = "Last Name")]
         public String LastName { get; set; }
 
+        [Required(ErrorMessage = "Address is required")]
+        [Display(Name = "Address")]
+        public String Address { get; set; }
+
+        [Required(ErrorMessage = "City is required")]
+        [Display(Name = "City")]
+        public String City { get; set; }
+
+        [Required(ErrorMessage = "State is required")]
+        [Display(Name = "State (ex: TX)")]
+        public String State { get; set; }
+
+        [Required(ErrorMessage = "Zip is required")]
+        [StringLength(5, ErrorMessage = "Zip is only 5 numbers")]
+        [Display(Name = "Zip")]
+        public String Zip { get; set; }
+
         //NOTE: Here is the property for email
         [Required]
         [EmailAddress]
