@@ -45,6 +45,8 @@ namespace fa18Team22.Models
         [Display(Name = "Zip")]
         public String Zip { get; set; }
 
+        public String UserStatus { get; set; }
+
         //[Required(ErrorMessage = "Email Address is required")]
         //[StringLength(15, ErrorMessage = "Max of 15 characters for password")]
         //public String Password { get; set; }
