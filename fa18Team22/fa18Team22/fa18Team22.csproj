@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ProcurementDetail.cs" />
+    <Compile Remove="Seeding\SeedCustomers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_Layout.cshtml" />
