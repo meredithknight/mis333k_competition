@@ -49,7 +49,7 @@ namespace fa18Team22
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider service)
         {
             if (env.IsDevelopment())
             {
@@ -64,14 +64,19 @@ namespace fa18Team22
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
+            app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
-        
+
+
+            Seeding.SeedIdentity.AddAdmin(service).Wait();
+
+
         }
     }
 }

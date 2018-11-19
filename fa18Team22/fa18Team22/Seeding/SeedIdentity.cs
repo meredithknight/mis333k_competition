@@ -50,9 +50,14 @@ namespace fa18Team22.Seeding
                 manager.Email = "admin@example.com";
                 manager.PhoneNumber = "(512)555-5555";
                 manager.FirstName = "Admin";
+                
 
                 //TODO: Add any other fields for your app user class here
                 manager.LastName = "Example";
+                manager.Address = "123 Bevo Ln.";
+                manager.City = "Austin";
+                manager.State = "TX";
+                manager.Zip = "78705";
                 //manager.DateAdded = DateTime.Today;
 
                 //NOTE: Ask the user manager to create the new user

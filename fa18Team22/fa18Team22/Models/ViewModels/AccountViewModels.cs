@@ -137,6 +137,8 @@ namespace fa18Team22.Models
         public string PhoneNumber { get; set; }
     }
 
+
+    //REMINDER: ONLY USER NAME AND EMAIL SHOWS
     public class IndexViewModel
     {
         public bool HasPassword { get; set; }
@@ -150,11 +152,6 @@ namespace fa18Team22.Models
         public String State { get; set; }
         public String Zip { get; set; }
         public String PhoneNumber { get; set; }
-
-
-
-
-
 
     }
 }
