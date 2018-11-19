@@ -5,11 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace fa18Team22.Models
 {
-<<<<<<< HEAD:fa18Team22/fa18Team22/Models/AppUser.cs
     public class AppUser : IdentityUser
-=======
-    public class AppUser
->>>>>>> 1bf2eabac66a7b6b6ea7387fb641fa68e0c97bbf:fa18Team22/fa18Team22/Models/User.cs
+
     {
         //[Key]
         //[DataType(DataType.EmailAddress)]
