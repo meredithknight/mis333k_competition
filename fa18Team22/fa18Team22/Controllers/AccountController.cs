@@ -123,6 +123,7 @@ namespace fa18Team22.Controllers
                     await _userManager.AddToRoleAsync(user, "Customer");
                     SendEmailNewAccount(model.Email, model.FirstName);
 
+
                   
 
 
@@ -155,8 +156,15 @@ namespace fa18Team22.Controllers
             //populate the view model
             ivm.Email = user.Email;
             ivm.HasPassword = true;
-            ivm.UserID = user.Id;
+            ivm.Id = user.Id;
             ivm.UserName = user.UserName;
+            ivm.FirstName = user.FirstName;
+            ivm.LastName = user.LastName;
+            ivm.Address = user.Address;
+            ivm.City = user.City;
+            ivm.State = user.State;
+            ivm.Zip = user.Zip;
+            ivm.PhoneNumber = user.PhoneNumber;
 
 
             return View(ivm);
@@ -175,7 +183,16 @@ namespace fa18Team22.Controllers
             {
                 return NotFound();
             }
-            return View(account);
+            RegisterViewModel rvm = new RegisterViewModel();
+            rvm.Email = account.Email;
+            rvm.FirstName = account.FirstName;
+            rvm.LastName = account.LastName;
+            rvm.Address = account.Address;
+            rvm.City = account.City;
+            rvm.State = account.State;
+            rvm.Zip = account.Zip;
+            rvm.PhoneNumber = account.PhoneNumber;
+            return View(rvm);
         }
 
        

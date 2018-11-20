@@ -9,8 +9,6 @@
         <h4>Change your account settings</h4>
         <hr />
         <dl class="dl-horizontal">
-            <a asp-action="ModifyAccount" asp-route-id="@Model.UserID">Modify Account</a> |
-
             <dt>User Name:</dt>
             <dd>@Model.UserName</dd>
 
@@ -39,7 +37,7 @@
             <dd>@Model.PhoneNumber</dd>
 
             <dt>Modify Account Information:</dt>
-            @Html.ActionLink("Modify Account", "ModifyAccount")
+            @Html.ActionLink("Modify Account", "ModifyAccount", "Account", new { id = Model.Id })
 
             <dt>Password:</dt>
             <dd>
