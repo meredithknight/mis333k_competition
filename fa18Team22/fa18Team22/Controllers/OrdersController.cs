@@ -19,7 +19,7 @@ namespace fa18Team22.Controllers
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Orders - list of all previous orders
         public async Task<IActionResult> Index()
         {
             return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
@@ -56,7 +56,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,OrderDate")] Order order)
+        public async Task<IActionResult> Create([Bind("OrderID,OrderDate,ShippingCost")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -67,6 +67,7 @@ namespace fa18Team22.Controllers
             return View(order);
         }
 
+        //SHOULD ONLY BE ABLE TO EDIT CURRENT SHOPPING CART, NOT AN OLD ORDER
         // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,7 +89,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,ShippingCost")] Order order)
         {
             if (id != order.OrderID)
             {
@@ -118,40 +119,40 @@ namespace fa18Team22.Controllers
             return View(order);
         }
 
-        // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //NO ONE SHOULD BE ABLE TO DELETE ORDERS
+        //// GET: Orders/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //    var order = await _context.Orders
+        //        .FirstOrDefaultAsync(m => m.OrderID == id);
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(order);
-        }
+        //    return View(order);
+        //}
 
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Orders/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var order = await _context.Orders.FindAsync(id);
+        //    _context.Orders.Remove(order);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool OrderExists(int id)
         {
             return _context.Orders.Any(e => e.OrderID == id);
         }
-
 
         //new actions MK added 11/14
 
@@ -196,5 +197,6 @@ namespace fa18Team22.Controllers
             //ViewBag.AllProducts = GetAllProducts();
             return View("PlaceOrder", od);
         }
+
     }
 }

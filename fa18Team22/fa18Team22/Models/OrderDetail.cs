@@ -24,8 +24,8 @@ namespace fa18Team22.Models
 
 
     	//navigational properties
-    	public virtual Order Order { get; set; }
-    	public virtual Book Book { get; set; }
+    	public Order Order { get; set; }
+    	public Book Book { get; set; }
 
     }
 }

@@ -22,8 +22,10 @@ namespace fa18Team22.Models
         }
 
         //calculate shipping cost in controller 
+        [Display(Name = "Shipping Cost")]
         public Decimal ShippingCost { get; set; }
 
+        [Display(Name = "Order Total")]
         public Decimal OrderTotal
         {
             get
@@ -32,10 +34,12 @@ namespace fa18Team22.Models
             }
         }
 
+        public Boolean IsComplete { get; set; }
+
         //navigational properties
-        public virtual AppUser Customer { get; set; }
-        public virtual List<OrderDetail> OrderDetails { get; set; }
-        public virtual Promo Promo {get; set; }
+        public AppUser Customer { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
+        public Promo Promo {get; set; }
       
     }
 }
