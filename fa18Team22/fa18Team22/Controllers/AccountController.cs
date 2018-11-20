@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 
 //TODO: Change this using statement to match your project
 using fa18Team22.DAL;
@@ -119,6 +121,9 @@ namespace fa18Team22.Controllers
                     //by navigating to the RoleAdmin controller and manually added the "Customer" role
                 
                     await _userManager.AddToRoleAsync(user, "Customer");
+                    SendEmailNewAccount(model.Email, model.FirstName);
+
+                  
 
 
                     //another example
@@ -278,6 +283,32 @@ namespace fa18Team22.Controllers
         private bool AccountExists(string id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+        private void SendEmailNewAccount (string ToAddress, string ToName)
+        {
+            var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
+            var toAddress = new MailAddress(ToAddress, "To "+ToName);
+            const string fromPassword = "fa18team22";
+            const string subject = "Bevo Books New Account";
+            const string body = "Welcome to Bevo Books! You just created a new account!";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                Timeout = 20000
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
         }
     }
 }
