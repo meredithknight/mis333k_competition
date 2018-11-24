@@ -22,7 +22,19 @@ namespace fa18Team22.Controllers
         // GET: Orders - list of all previous orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
+            List<Order> Orders = new List<Order>();
+            if (User.IsInRole("Customer"))
+            {
+                //REMINDER: fix this to include only the customer's orders
+                //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete != false).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
+            }
+            else
+            {
+                Orders = _context.Orders.Include(c => c.OrderDetails).ToList();
+            }
+            return View(Orders);
+            //return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -45,6 +57,7 @@ namespace fa18Team22.Controllers
             return View(order);
         }
 
+        //REMINDER: should this even be possible? -- or should it redirect you to shopping cart?
         // GET: Orders/Create
         public IActionResult Create()
         {
@@ -81,7 +94,20 @@ namespace fa18Team22.Controllers
             {
                 return NotFound();
             }
-            return View(order);
+
+            //only let them edit if the order is not complete
+            //return View(order);
+            if (order.IsComplete == false)
+            {
+                return View(order);
+            }
+            else
+            {
+                return NotFound();
+                //REMINDER: may want to change this error to say something like 
+                // "this order has been placed, you cannot change this order"
+            }
+
         }
 
         // POST: Orders/Edit/5
@@ -157,6 +183,23 @@ namespace fa18Team22.Controllers
         //new actions MK added 11/14
 
         //GET
+        public IActionResult ShoppingCart()
+        {
+            var order = _context.Orders.Include(m => m.OrderDetails);
+            //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
+            if (order == null)
+            {
+                return View();
+                //REMINDER: return an empty shopping cart
+            }
+            else //return a view of the current shopping cart
+            {
+                return View(order);
+            }
+
+        }
+
+        //GET
         public IActionResult Checkout(int? id)
         {
             if (id == null)
@@ -178,7 +221,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
-        public IActionResult PlaceOrder(int? id)
+        public IActionResult PlacedOrder(int? id)
         {
             if (id == null)
             {

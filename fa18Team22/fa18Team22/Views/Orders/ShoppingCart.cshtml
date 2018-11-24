@@ -1,0 +1,54 @@
+﻿@model fa18Team22.Models.Order
+@using fa18Team22.Models
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+<h2>Shopping Cart</h2>
+<div>
+    <h4>Order Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Current Order</h4>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Price</th>
+                <th>Quantity</th>
+                <th>Extended Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderDetail rd in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => rd.Book.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Price)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.ExtendedPrice)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Checkout">Checkout</a>
+    <!--Figure out how to get back to list of books-->
+    <a asp-action="Index">Keep Shopping</a>
+</div>
