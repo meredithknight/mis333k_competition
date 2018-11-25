@@ -12,12 +12,14 @@ namespace fa18Team22.Models
         [StringLength(20, ErrorMessage = "20 characters max")]
         public String PromoCode { get; set; }
 
-    	[Display(Name = "Discount Amount")]
+        [Display(Name = "Discount Amount")]
     	public Decimal DiscountAmount{ get; set; }
 
         [Display(Name = "Shipping Waived")]
         public Boolean ShippingWaiver{ get; set; }        
 
+        [Display(Name = "Enabled?")]
+        public Boolean Status { get; set; }
 
     	//navigational properties
     	public List<Order> Orders { get; set; }
