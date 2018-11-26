@@ -10,7 +10,7 @@ namespace fa18Team22.Seeding
 {
 	public static class SeedEmployees
 	{
-		public static async System.Threading.Tasks.Task SeedAllCustomersAsync(AppDbContext db, IServiceProvider serviceProvider)
+		public static async System.Threading.Tasks.Task SeedAllEmployeesAsync(AppDbContext db, IServiceProvider serviceProvider)
 		{
 			UserManager<AppUser> _userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             //51 customers +28 users is where the number below comes from
