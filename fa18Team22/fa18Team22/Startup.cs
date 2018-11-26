@@ -74,7 +74,7 @@ namespace fa18Team22
             });
 
             //Customers must be seeded first
-            //Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
+            Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
             //Seeding.SeedEmployees.SeedAllEmployeesAsync(db, service).Wait();
 
 

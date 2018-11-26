@@ -10,10 +10,10 @@ namespace fa18Team22.Seeding
 {
 	public static class SeedEmployees
 	{
-		public static async System.Threading.Tasks.Task SeedAllCustomersAsync(AppDbContext db, IServiceProvider serviceProvider)
+		public static async System.Threading.Tasks.Task SeedAllEmployeesAsync(AppDbContext db, IServiceProvider serviceProvider)
 		{
 			UserManager<AppUser> _userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-			if (db.Employees.Count() == 28)
+			if (db.Users.Count() == 28)
 			{
 				throw new NotSupportedException("The database already contains all 28 employees!");
 			}
@@ -535,11 +535,11 @@ namespace fa18Team22.Seeding
 					employeeEmail = ur.Email;
 
 					//see if repo exists in database
-					AppUser dbur = db.AppUsers.FirstOrDefault(r => r.Email == ur.Email);
+                    AppUser dbur = db.Users.FirstOrDefault(r => r.Email == ur.Email);
 
 					if (dbur == null) //user does not exist in database
 					{
-						db.AppUsers.Add(ur);
+                        db.Users.Add(ur);
 						db.SaveChanges();
 						intEmployeesAdded += 1;
 					}

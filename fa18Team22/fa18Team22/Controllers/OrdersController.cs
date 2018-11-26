@@ -20,14 +20,15 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
+
             if (User.IsInRole("Customer"))
             {
                 //REMINDER: fix this to include only the customer's orders
-                //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete != false).ToList();
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete != false).ToList();
+                //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
             }
             else
             {
@@ -185,15 +186,26 @@ namespace fa18Team22.Controllers
         //GET
         public IActionResult ShoppingCart()
         {
-            var order = _context.Orders.Include(m => m.OrderDetails);
+            var orderList = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false).ToList();
+
+
+            
+
+            //see if it's a fuzzy id
+
+
             //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
-            if (order == null)
+            if (!orderList.Any())
             {
+                //Order NewOrder = new Order{}; - REMINDER: check for existing order (and create new one if needed) when a book is added to order
+                //NewOrder.IsComplete = false;
+
                 return View();
                 //REMINDER: return an empty shopping cart
             }
             else //return a view of the current shopping cart
             {
+                Order order = orderList.ElementAt(0);
                 return View(order);
             }
 
