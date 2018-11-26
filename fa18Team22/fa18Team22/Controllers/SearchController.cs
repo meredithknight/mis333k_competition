@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using fa18Team22.Models;
 using fa18Team22.DAL;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace fa18Team22.Controllers
@@ -22,10 +23,10 @@ namespace fa18Team22.Controllers
             _db = context;
         }
 
-        // GET: /<controller>/
+        // GET: /<Search Controller>/
         public IActionResult Index()
         {
-            return View();
+            return View(_db.Books.Include(r => r.Genre).ToList());
         }
 
         public ActionResult DetailedSearch()
@@ -34,7 +35,7 @@ namespace fa18Team22.Controllers
             ViewBag.AllSortObjects = GetAllSortByOptions();
             return View();
         }
-        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, String SortBy, SortOrder SelectedSortOrder)
+        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, String SortBy, int SelectedSortOrder)
         {
             var query = from r in _db.Books select r;
 
@@ -159,17 +160,17 @@ namespace fa18Team22.Controllers
 
         public SelectList GetAllGenres()
         {
-            List<Genre> Genre = _db.Genres.ToList();
+            List<Genre> Genres = _db.Genres.ToList();
 
             Genre SelectNone = new Genre() { GenreID = 0, GenreName = "All Genres" };
-            Genre.Add(SelectNone);
+            Genres.Add(SelectNone);
 
 
             //convert list to select list
-            SelectList AllGenre = new SelectList(Genre.OrderBy(m => m.GenreID), "GenreID", "Name");
+            SelectList AllGenres = new SelectList(Genres.OrderBy(g => g.GenreID), "GenreID", "GenreName");
 
             //return the select list
-            return AllGenre;
+            return AllGenres;
         }
 
         public SelectList GetAllSortByOptions()
