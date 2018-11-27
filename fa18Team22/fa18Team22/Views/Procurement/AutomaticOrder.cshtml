@@ -1,0 +1,76 @@
+﻿@model IEnumerable<fa18Team22.Models.Book>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookDetail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvgRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inventory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplenishMinimum)
+            </th>
+            <th>
+                Quantity to Order 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookDetail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inventory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplenishMinimum)
+                </td>
+                <td>
+                    <input name ="Quantity" 5/>
+
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
