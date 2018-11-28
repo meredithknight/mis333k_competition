@@ -66,6 +66,9 @@ namespace fa18Team22
             app.UseCookiePolicy();
             app.UseAuthentication();
 
+            //added 11/27
+            app.UseStatusCodePages();
+
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "default",
@@ -74,7 +77,8 @@ namespace fa18Team22
             });
 
             //Customers must be seeded first
-            Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
+            //Seeding.SeedIdentity.AddAdmin(service).Wait();
+            //Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
             //Seeding.SeedEmployees.SeedAllEmployeesAsync(db, service).Wait();
 
 
