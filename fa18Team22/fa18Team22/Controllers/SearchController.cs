@@ -7,6 +7,7 @@ using fa18Team22.Models;
 using fa18Team22.DAL;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using fa18Team22.Utilities;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace fa18Team22.Controllers
@@ -35,7 +36,7 @@ namespace fa18Team22.Controllers
             ViewBag.AllSortObjects = GetAllSortByOptions();
             return View();
         }
-        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, String SortBy, int SelectedSortOrder)
+        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock,int SortBy)
         {
             var query = from r in _db.Books select r;
 
@@ -99,34 +100,41 @@ namespace fa18Team22.Controllers
 
             List<Book> SelectedBooksSearch = query.ToList();
 
-            //sort by option
-            if (!string.IsNullOrEmpty(SortBy)) //should this be nullable???
+            //TODO: sort by option
+            if (SortBy !=1) //should this be nullable???
             {
-                if(SortBy == "Title")
+                if(SortBy == 2)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Title);
+                    SelectedBooksSearch.OrderByDescending(r => r.Title);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Title);
                 }
-                if(SortBy == "Author")
+                if(SortBy == 3)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Author);
+                    SelectedBooksSearch.OrderByDescending(r => r.Author);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Author);
                 }
-                //NO clue how to do this one
-                if (SortBy == "Most Popular")
+                //TODO: NO clue how to do this one
+                if (SortBy == 4)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.BookID);
+                    SelectedBooksSearch.OrderByDescending(r => r.BookID);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.BookID);
                 }
 
-                if (SortBy == "Newest First")
+                if (SortBy == 5)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                    SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
                 }
-                if (SortBy == "OldestFirst")
+                if (SortBy == 6)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                    SelectedBooksSearch.OrderBy(r => r.PublishDate);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByAscending(r => r.PublishDate);
                 }
-                if (SortBy == "Highest Rated")
+                if (SortBy == 7)
                 {
-                    SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
+                    //REMINDER: TODO: No Ratings Yet please check
+                    SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
+                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
                 }
 
 
@@ -175,23 +183,29 @@ namespace fa18Team22.Controllers
 
         public SelectList GetAllSortByOptions()
         {
-            List<String> SortBy = new List<string>();
+            List<SortOrderOption> SortOrderOptions = new List<SortOrderOption>();
 
-            SortBy.Add("Don't Sort");
-            SortBy.Add("Title");
-            SortBy.Add("Author");
-            SortBy.Add("Most Popular");
-            SortBy.Add("Newest First"); 
-            SortBy.Add("Oldest First");
-            SortBy.Add("Highest Rated");
-
+            SortOrderOption DontSort = new SortOrderOption() { SortOrderOptionID = 1, SortOption = "Don't Sort" };
+            SortOrderOptions.Add(DontSort);
+            SortOrderOption Title = new SortOrderOption() { SortOrderOptionID = 2, SortOption = "Title" };
+            SortOrderOptions.Add(Title);
+            SortOrderOption Author = new SortOrderOption() { SortOrderOptionID = 3, SortOption = "Author" };
+            SortOrderOptions.Add(Author);
+            SortOrderOption MostPopular = new SortOrderOption() { SortOrderOptionID = 4, SortOption = "Most Popular" };
+            SortOrderOptions.Add(MostPopular);
+            SortOrderOption Newest = new SortOrderOption() { SortOrderOptionID = 5, SortOption = "Newest First" };
+            SortOrderOptions.Add(Newest);
+            SortOrderOption Oldest = new SortOrderOption() { SortOrderOptionID = 6, SortOption = "Oldest First" };
+            SortOrderOptions.Add(Oldest);
+            SortOrderOption HighestRating420 = new SortOrderOption() { SortOrderOptionID = 7, SortOption = "Highest Rated" };
+            SortOrderOptions.Add(HighestRating420);
 
             //convert list to select list
-            SelectList SortByOptions = new SelectList(SortBy);
+            SelectList AllSortOptions = new SelectList(SortOrderOptions.OrderBy(so => so.SortOrderOptionID),"SortOrderOptionID","SortOption");
 
 
             //return the select list
-            return SortByOptions;
+            return AllSortOptions;
         }
 
 

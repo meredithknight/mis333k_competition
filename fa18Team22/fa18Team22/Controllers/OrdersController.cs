@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -20,6 +21,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
+        //[Authorize(Roles = "Manager, Customer")]
         public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
@@ -197,10 +199,10 @@ namespace fa18Team22.Controllers
             //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
             if (!orderList.Any())
             {
-                //Order NewOrder = new Order{}; - REMINDER: check for existing order (and create new one if needed) when a book is added to order
+                //Order NewOrder = new Order{}; //REMINDER: check for existing order (and create new one if needed) when a book is added to order
                 //NewOrder.IsComplete = false;
 
-                return View();
+                return View("EmptyShoppingCart");
                 //REMINDER: return an empty shopping cart
             }
             else //return a view of the current shopping cart

@@ -14,7 +14,7 @@ using fa18Team22.Models;
 //TODO: Change this namespace to match your project
 namespace fa18Team22.Controllers
 {
-    //TODO: Uncomment this line once you have roles working correctly
+
     //[Authorize(Roles = "Manager")]
     public class RoleAdminController : Controller
     {
