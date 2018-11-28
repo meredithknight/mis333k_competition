@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -20,6 +21,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
+        //[Authorize(Roles = "Manager, Customer")]
         public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
