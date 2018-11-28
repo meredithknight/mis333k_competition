@@ -17,6 +17,7 @@ namespace fa18Team22.DAL
         public DbSet<Procurement> Procurements { get; set; }
         public DbSet<Promo> Promos { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<SortOrderOption> SortOrderOptions { get; set; }
 
         //AppUser is implicitly set
     }
