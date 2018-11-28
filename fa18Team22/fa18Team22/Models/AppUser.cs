@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace fa18Team22.Models
@@ -64,7 +65,9 @@ namespace fa18Team22.Models
 
         //navigational properties
         public List<Order> Orders { get; set; }
+        [InverseProperty("Author")]
         public List<Review> ReviewsWritten { get; set; }
+        [InverseProperty("Approver")]
         public List<Review> ReviewsApproved { get; set; }
     }
 }

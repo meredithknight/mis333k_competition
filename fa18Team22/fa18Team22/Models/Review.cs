@@ -21,8 +21,8 @@ namespace fa18Team22.Models
 
         //navigational properties
         public Book Book { get; set; }
-        //public User Author { get; set; }
-        //public User Approver { get; set; }
+        public AppUser Author { get; set; }
+        public AppUser Approver { get; set; }
 
 
     }

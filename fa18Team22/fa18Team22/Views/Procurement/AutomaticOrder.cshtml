@@ -12,12 +12,6 @@
                 @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PublishDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookDetail)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.AvgRating)
             </th>
             <th>
@@ -31,6 +25,9 @@
             </th>
             <th>
                 Quantity to Order 
+            </th>
+            <th>
+                Cost
             </th>
             <th></th>
         </tr>
@@ -46,12 +43,6 @@
                     @Html.DisplayFor(modelItem => item.Author)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PublishDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookDetail)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.AvgRating)
                 </td>
                 <td>
@@ -64,11 +55,13 @@
                     @Html.DisplayFor(modelItem => item.ReplenishMinimum)
                 </td>
                 <td>
-                    <input name ="Quantity" 5/>
-
+                    @Html.TextBox("Quantity", 5, new { @class = "form-control" })
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+                    @Html.TextBox("Cost", item.BookCost, new { @class = "form-control"})
+                </td>
+                <td>
+                    <a asp-controller="Book" asp-action="Details" asp-route-id="@item.BookID">Details</a>
                 </td>
             </tr>
         }

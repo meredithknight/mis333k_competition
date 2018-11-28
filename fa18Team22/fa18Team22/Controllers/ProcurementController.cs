@@ -55,6 +55,11 @@ namespace fa18Team22.Controllers
 
         }
 
+        //public IActionResult DeleteFromProcurementQuery()
+        //{
+
+        //}
+
         // GET: Procurement/Create
         public IActionResult Create()
         {
