@@ -22,6 +22,7 @@
     <Folder Include="Views\RoleAdmin\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Seeding\" />
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ProcurementDetail.cs" />
