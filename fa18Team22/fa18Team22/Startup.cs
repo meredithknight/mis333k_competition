@@ -80,7 +80,7 @@ namespace fa18Team22
             //Seeding.SeedIdentity.AddAdmin(service).Wait();
             //Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
             //Seeding.SeedEmployees.SeedAllEmployeesAsync(db, service).Wait();
-            Seeding.SeedSortOrderOptions.SeedAllSortOrderOptions(db);
+            //Seeding.SeedSortOrderOptions.SeedAllSortOrderOptions(db);
 
         }
     }
