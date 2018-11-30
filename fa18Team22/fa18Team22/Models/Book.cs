@@ -52,6 +52,9 @@ namespace fa18Team22.Models
         [Display(Name = "Average Rating")]
         public Decimal AvgBookCost { get; set; }
 
+        [Display(Name = "Book Profit Margin")]
+        public Decimal BookProfitMargin { get; set; }
+
         //navigational properties
         public Genre Genre { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
