@@ -38,7 +38,7 @@ namespace fa18Team22.Seeding
 				IdentityResult resultu1 = await _userManager.CreateAsync(u1,"dewey4");
 				if(resultu1.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(u1,"Employee");
+					await _userManager.AddToRoleAsync(u1,"Manager");
 				}
 				AppUsers.Add(u1);
 
@@ -362,7 +362,7 @@ namespace fa18Team22.Seeding
 				IdentityResult resultu19 = await _userManager.CreateAsync(u19,"arched");
 				if(resultu19.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(u19,"Employee");
+					await _userManager.AddToRoleAsync(u19,"Manager");
 				}
 				AppUsers.Add(u19);
 
@@ -380,7 +380,7 @@ namespace fa18Team22.Seeding
 				IdentityResult resultu20 = await _userManager.CreateAsync(u20,"lottery");
 				if(resultu20.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(u20,"Employee");
+					await _userManager.AddToRoleAsync(u20,"Manager");
 				}
 				AppUsers.Add(u20);
 
@@ -416,7 +416,7 @@ namespace fa18Team22.Seeding
 				IdentityResult resultu22 = await _userManager.CreateAsync(u22,"offbeat");
 				if(resultu22.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(u22,"Employee");
+					await _userManager.AddToRoleAsync(u22,"Manager");
 				}
 				AppUsers.Add(u22);
 
@@ -524,7 +524,7 @@ namespace fa18Team22.Seeding
 				IdentityResult resultu28 = await _userManager.CreateAsync(u28,"landus");
 				if(resultu28.Succeeded)
 				{
-					await _userManager.AddToRoleAsync(u28,"Employee");
+					await _userManager.AddToRoleAsync(u28,"Manager");
 				}
 				AppUsers.Add(u28);
 
