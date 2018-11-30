@@ -23,5 +23,6 @@ namespace fa18Team22.Models
         public Int16 Quantity { get; set; }
 
         public List<Book> Books { get; set; }
+        public AppUser Employee { get; set; }
     }
 }

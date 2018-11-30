@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<fa18Team22.Models.Book>
-
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "All Books Sold";
 }
 
+@*TODO Finish AllBooks Sold*@
 <h2>Book Index</h2>
 <form asp-action="Index" asp-controller="Search" method="get">
     <p class="form-group">
@@ -13,9 +13,7 @@
         <a class="btn btn-danger" href="/Search/Index">Show All</a>
     </p>
 </form>
-
-<p>Displaying @ViewBag.SelectedBooksCount out of @ViewBag.TotalBooks Books </p> 
-
+<p>Displaying @ViewBag.SelectedRecords Records </p>
 <table class="table">
     <thead>
         <tr>

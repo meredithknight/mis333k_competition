@@ -7,29 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
-using PagedList;
-using PagedList.Mvc;
 
 namespace fa18Team22.Controllers
 {
-    public class ProcurementController : Controller
+    public class OrderDetailsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ProcurementController(AppDbContext context)
+        public OrderDetailsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Procurement
-        //[Authorize(Roles = "Manager")]
+        // GET: OrderDetails
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Procurements.ToListAsync());
+            return View(await _context.OrderDetails.ToListAsync());
         }
 
-
-        // GET: Procurement/Details/5
+        // GET: OrderDetails/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,64 +33,39 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var procurement = await _context.Procurements
-                .FirstOrDefaultAsync(m => m.ProcurementID == id);
-            if (procurement == null)
+            var orderDetail = await _context.OrderDetails
+                .FirstOrDefaultAsync(m => m.OrderDetailID == id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
 
-            return View(procurement);
+            return View(orderDetail);
         }
 
-
-        //GET: Automatic Order
-        public IActionResult AutomaticOrder()
-        {
-            var query = from r in _context.Books select r;
-            query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
-            List<Book> ProcurementBookSearch = query.ToList();
-            return View("AutomaticOrder", ProcurementBookSearch);
-
-        }
-
-        public IActionResult DeleteFromProcurementQuery(int id, List<Book> ProcurementBookSearch)
-        {
-            ProcurementBookSearch.RemoveAll(r => r.BookID == id);
-            return View("AutomaticOrder", ProcurementBookSearch);
-        }
-
-        //POST: Automatic Order
-        [HttpPost]
-        public IActionResult AutomaticOrder(int Quantity, Decimal Cost, PagedList.PagedList<Book> ListofBookOrder) 
-        {
-            return View("Index");
-        }
-
-
-        // GET: Procurement/Create
+        // GET: OrderDetails/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Procurement/Create
+        // POST: OrderDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProcurementID,ProcurementDate,Price,Quantity")] Procurement procurement)
+        public async Task<IActionResult> Create([Bind("OrderDetailID,Quantity,Price")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(procurement);
+                _context.Add(orderDetail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(procurement);
+            return View(orderDetail);
         }
 
-        // GET: Procurement/Edit/5
+        // GET: OrderDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,22 +73,22 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var procurement = await _context.Procurements.FindAsync(id);
-            if (procurement == null)
+            var orderDetail = await _context.OrderDetails.FindAsync(id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
-            return View(procurement);
+            return View(orderDetail);
         }
 
-        // POST: Procurement/Edit/5
+        // POST: OrderDetails/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProcurementID,ProcurementDate,Price,Quantity")] Procurement procurement)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailID,Quantity,Price")] OrderDetail orderDetail)
         {
-            if (id != procurement.ProcurementID)
+            if (id != orderDetail.OrderDetailID)
             {
                 return NotFound();
             }
@@ -126,12 +97,12 @@ namespace fa18Team22.Controllers
             {
                 try
                 {
-                    _context.Update(procurement);
+                    _context.Update(orderDetail);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProcurementExists(procurement.ProcurementID))
+                    if (!OrderDetailExists(orderDetail.OrderDetailID))
                     {
                         return NotFound();
                     }
@@ -142,10 +113,10 @@ namespace fa18Team22.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(procurement);
+            return View(orderDetail);
         }
 
-        // GET: Procurement/Delete/5
+        // GET: OrderDetails/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,30 +124,30 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var procurement = await _context.Procurements
-                .FirstOrDefaultAsync(m => m.ProcurementID == id);
-            if (procurement == null)
+            var orderDetail = await _context.OrderDetails
+                .FirstOrDefaultAsync(m => m.OrderDetailID == id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
 
-            return View(procurement);
+            return View(orderDetail);
         }
 
-        // POST: Procurement/Delete/5
+        // POST: OrderDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var procurement = await _context.Procurements.FindAsync(id);
-            _context.Procurements.Remove(procurement);
+            var orderDetail = await _context.OrderDetails.FindAsync(id);
+            _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProcurementExists(int id)
+        private bool OrderDetailExists(int id)
         {
-            return _context.Procurements.Any(e => e.ProcurementID == id);
+            return _context.OrderDetails.Any(e => e.OrderDetailID == id);
         }
     }
 }

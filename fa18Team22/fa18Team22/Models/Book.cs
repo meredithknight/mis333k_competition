@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
 namespace fa18Team22.Models
 {
     public class Book
@@ -40,6 +42,18 @@ namespace fa18Team22.Models
         [Display(Name = "Book Cost")]
         public Decimal BookCost { get; set; }
 
+        [Display(Name = "Average Rating")]
+        public Decimal AvgSalesPrice
+        {
+            get { return OrderDetails.Average(od => od.ExtendedPrice); }
+        }
+
+        //TODO: set Avg Book Cost in list
+        [Display(Name = "Average Rating")]
+        public Decimal AvgBookCost { get; set; }
+
+        [Display(Name = "Book Profit Margin")]
+        public Decimal BookProfitMargin { get; set; }
 
         //navigational properties
         public Genre Genre { get; set; }

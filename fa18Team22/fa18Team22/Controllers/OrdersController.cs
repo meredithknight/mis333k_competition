@@ -85,14 +85,18 @@ namespace fa18Team22.Controllers
 
         //SHOULD ONLY BE ABLE TO EDIT CURRENT SHOPPING CART, NOT AN OLD ORDER
         // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
+            //var order = await _context.Orders.FindAsync(id);
+
+            var order =  _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == id);
+
             if (order == null)
             {
                 return NotFound();
@@ -188,10 +192,7 @@ namespace fa18Team22.Controllers
         //GET
         public IActionResult ShoppingCart()
         {
-            var orderList = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false).ToList();
-
-
-            
+            var orderList = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).ToList();
 
             //see if it's a fuzzy id
 

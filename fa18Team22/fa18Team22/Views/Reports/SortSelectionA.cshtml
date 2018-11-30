@@ -1,0 +1,22 @@
+﻿@using fa18Team22.Controllers
+@using fa18Team22.Models
+
+
+<h2>All Books Report</h2>
+<form asp-action="AllBooksSold" asp-controller="Reports" method="get">
+
+    @*Sort Options *@
+    <div class="form-group">
+        <label>Sort by Options:</label>
+        <br />
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostRecent, true) Most Recent </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc) Profit Margin Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Profit Margin Descending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Price Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Price Descending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostPopular) Most Popular </label>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Generate Report</button>
+</form>

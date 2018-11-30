@@ -90,7 +90,7 @@ namespace fa18Team22.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         //TODO: This is the method where you create a new user
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, LoginViewModel LoginModel)
         {
             if (ModelState.IsValid)
             {
@@ -124,13 +124,13 @@ namespace fa18Team22.Controllers
                     SendEmailNewAccount(model.Email, model.FirstName);
 
 
-                  
+
 
 
                     //another example
                     //await _userManager.AddToRoleAsync(user, "Manager");
 
-
+                    Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
                     return RedirectToAction("Index", "Home");
                 }
                 else
