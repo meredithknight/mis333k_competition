@@ -96,47 +96,61 @@ namespace fa18Team22.Models
         public string ConfirmPassword { get; set; }
     } 
 
-    //public class ModifyAccountViewModel
-    //{
-    //    [Required(ErrorMessage = "First name is required.")]
-    //    [Display(Name = "First Name")]
-    //    public String FirstName { get; set; }
+    public class ModifyAccountViewModel
+    {
+        [Required(ErrorMessage = "First name is required.")]
+        [Display(Name = "First Name")]
+        public String FirstName { get; set; }
 
-    //    //Additional fields go here
-    //    [Required(ErrorMessage = "Last name is required.")]
-    //    [Display(Name = "Last Name")]
-    //    public String LastName { get; set; }
+        //Additional fields go here
+        [Required(ErrorMessage = "Last name is required.")]
+        [Display(Name = "Last Name")]
+        public String LastName { get; set; }
 
-    //    [Required(ErrorMessage = "Address is required")]
-    //    [Display(Name = "Address")]
-    //    public String Address { get; set; }
+        [Required(ErrorMessage = "Address is required")]
+        [Display(Name = "Address")]
+        public String Address { get; set; }
 
-    //    [Required(ErrorMessage = "City is required")]
-    //    [Display(Name = "City")]
-    //    public String City { get; set; }
+        [Required(ErrorMessage = "City is required")]
+        [Display(Name = "City")]
+        public String City { get; set; }
 
-    //    [Required(ErrorMessage = "State is required")]
-    //    [Display(Name = "State (ex: TX)")]
-    //    public String State { get; set; }
+        [Required(ErrorMessage = "State is required")]
+        [Display(Name = "State (ex: TX)")]
+        public String State { get; set; }
 
-    //    [Required(ErrorMessage = "Zip is required")]
-    //    [StringLength(5, ErrorMessage = "Zip is only 5 numbers")]
-    //    [Display(Name = "Zip")]
-    //    public String Zip { get; set; }
+        [Required(ErrorMessage = "Zip is required")]
+        [StringLength(5, ErrorMessage = "Zip is only 5 numbers")]
+        [Display(Name = "Zip")]
+        public String Zip { get; set; }
 
-    //    //NOTE: Here is the property for email
-    //    [Required]
-    //    [EmailAddress]
-    //    [Display(Name = "Email")]
-    //    public string Email { get; set; }
+        //NOTE: Here is the property for email
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
-    //    //NOTE: Here is the property for phone number
-    //    [Required(ErrorMessage = "Phone number is required")]
-    //    [Phone]
-    //    [Display(Name = "Phone Number")]
-    //    public string PhoneNumber { get; set; }
-         
-    //}
+        //NOTE: Here is the property for phone number
+        [Required(ErrorMessage = "Phone number is required")]
+        [Phone]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [DataType(DataType.CreditCard)]
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [Display(Name = "Credit Card 1")]
+        public String CreditCard1 { get; set; }
+
+        [DataType(DataType.CreditCard)]
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [Display(Name = "Credit Card 2")]
+        public String CreditCard2 { get; set; }
+
+        [DataType(DataType.CreditCard)]
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [Display(Name = "Credit Card 3")]
+        public String CreditCard3 { get; set; }
+    }
 
 
     //REMINDER: ONLY USER NAME AND EMAIL SHOWS
