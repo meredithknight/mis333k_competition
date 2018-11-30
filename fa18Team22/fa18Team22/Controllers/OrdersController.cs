@@ -299,6 +299,8 @@ namespace fa18Team22.Controllers
                 //if a shopping cart doesn't exist, 
                 if (od.Order == null) //no current shopping cart --> add all the fields that need to be put in to create an order
                 {
+                    Order newOrder = od.Order;
+
                     od.Order = new Order { };
 
                     od.Order.OrderDate = System.DateTime.Today;
@@ -320,9 +322,12 @@ namespace fa18Team22.Controllers
                 //what to change for the order if it does already exist
                 else
                 {
+
+                    Order existingCart = od.Order;
+
                     od.Order.OrderDate = System.DateTime.Today;
                     //check if there's another book in the order already
-                    if (od.Order.ShippingCost != 0)
+                    if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
                     {
                         od.Order.ShippingCost = 1.50m + od.Order.ShippingCost;
                     }

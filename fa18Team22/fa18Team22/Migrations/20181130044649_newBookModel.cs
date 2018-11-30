@@ -2,7 +2,7 @@
 
 namespace fa18Team22.Migrations
 {
-    public partial class editreview : Migration
+    public partial class newBookModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,6 +13,10 @@ namespace fa18Team22.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Reviews_AspNetUsers_AppUserId1",
                 table: "Reviews");
+
+            migrationBuilder.DropColumn(
+                name: "AvgBookCost",
+                table: "Books");
 
             migrationBuilder.RenameColumn(
                 name: "AppUserId1",
@@ -120,6 +124,12 @@ namespace fa18Team22.Migrations
                 name: "IX_Reviews_ApproverId",
                 table: "Reviews",
                 newName: "IX_Reviews_AppUserId");
+
+            migrationBuilder.AddColumn<decimal>(
+                name: "AvgBookCost",
+                table: "Books",
+                nullable: false,
+                defaultValue: 0m);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Reviews_AspNetUsers_AppUserId",

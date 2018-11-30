@@ -10,14 +10,14 @@ using fa18Team22.DAL;
 namespace fa18Team22.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181130034432_editreview")]
-    partial class editreview
+    [Migration("20181130044649_newBookModel")]
+    partial class newBookModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -107,15 +107,11 @@ namespace fa18Team22.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<decimal>("AvgBookCost");
-
                     b.Property<decimal>("AvgRating");
 
                     b.Property<decimal>("BookCost");
 
                     b.Property<string>("BookDetail");
-
-                    b.Property<decimal>("BookProfitMargin");
 
                     b.Property<int?>("GenreID");
 
