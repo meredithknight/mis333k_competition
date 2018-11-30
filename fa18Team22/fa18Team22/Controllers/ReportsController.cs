@@ -38,6 +38,7 @@ namespace fa18Team22.Controllers
             List<Book> SelectedBooks = new List<Book>();
 
             var query = from b in _db.Books select b;
+            SelectedBooks = query.Include(b => b.OrderDetails).ThenInclude(b => b.Order).ToList();
 
             decimal totalcost = 0;
             decimal totalprice = 0;
@@ -47,7 +48,7 @@ namespace fa18Team22.Controllers
 
             foreach(Book b in SelectedBooks)
             {
-                countervariable += countervariable;
+                countervariable += 1;
                 totalcost += b.BookCost;
                 totalprice += b.SalesPrice;
             }
@@ -58,7 +59,7 @@ namespace fa18Team22.Controllers
             foreach (Book b in SelectedBooks)
             {
                 b.AvgBookCost = avgcost;
-
+                //b.BookProfitMargin = b.SalesPrice - avgcost;
                 //TODO: Should we calculate Avg Sales price here. Intial Reaction no, because in the order details is where coupons and promos will be added and this will just take the latest price
             }
 
@@ -66,13 +67,14 @@ namespace fa18Team22.Controllers
 
             if (SelectedSort == SortReport.MostRecent)
             {
-                return View("AllBooksIndex", SelectedBooks.OrderBy(b => b.PublishDate));
+                return View("AllBooksIndex", SelectedBooks);
+                            //.OrderBy(b => b.PublishDate));
             }
-
-            if (SelectedSort == SortReport.ProfitMarginAsc)
-            {
-                return View("AllBooksIndex", SelectedBooks.OrderBy(b => b.))
-            }
+            return View();
+            //if (SelectedSort == SortReport.ProfitMarginAsc)
+            //{
+            //    return View("AllBooksIndex", SelectedBooks.OrderBy(b => b.))
+            //}
         }
 
         // GET: /<controller>/
