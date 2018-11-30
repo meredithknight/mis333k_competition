@@ -203,27 +203,27 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ModifyAccount(AppUser user)
+        public IActionResult ModifyAccount(AppUser account)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     AppUser dbAccount = _context.Users
-                        .FirstOrDefault(c => c.Id == user.Id);
+                        .FirstOrDefault(c => c.Id == account.Id);
 
-                    dbAccount.FirstName = user.FirstName;
-                    dbAccount.LastName = user.LastName;
-                    dbAccount.Email = user.Email;
-                    dbAccount.UserName = user.Email;
-                    dbAccount.Address = user.Address;
-                    dbAccount.City = user.City;
-                    dbAccount.State = user.State;
-                    dbAccount.Zip = user.Zip;
-                    dbAccount.PhoneNumber = user.PhoneNumber;
-                    dbAccount.CreditCard1 = user.CreditCard1;
-                    dbAccount.CreditCard2 = user.CreditCard2;
-                    dbAccount.CreditCard3 = user.CreditCard3;
+                    dbAccount.FirstName = account.FirstName;
+                    dbAccount.LastName = account.LastName;
+                    dbAccount.Email = account.Email;
+                    dbAccount.UserName = account.Email;
+                    dbAccount.Address = account.Address;
+                    dbAccount.City = account.City;
+                    dbAccount.State = account.State;
+                    dbAccount.Zip = account.Zip;
+                    dbAccount.PhoneNumber = account.PhoneNumber;
+                    dbAccount.CreditCard1 = account.CreditCard1;
+                    dbAccount.CreditCard2 = account.CreditCard2;
+                    dbAccount.CreditCard3 = account.CreditCard3;
 
                     _context.Update(dbAccount);
                     _context.SaveChanges();
@@ -234,7 +234,7 @@ namespace fa18Team22.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccountExists(user.Id))
+                    if (!AccountExists(account.Id))
                     {
                         return NotFound();
                     }
@@ -246,7 +246,7 @@ namespace fa18Team22.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(account);
         }
 
 
