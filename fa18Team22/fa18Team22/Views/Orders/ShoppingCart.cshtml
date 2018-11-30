@@ -1,4 +1,5 @@
 ﻿@model fa18Team22.Models.Order
+@*@model IEnumerable<fa18Team22.Models.Order>*@
 @using fa18Team22.Models
 @{
     ViewData["Title"] = "Shopping Cart";
@@ -53,11 +54,36 @@
         </tbody>
     </table>
 </div>
+<div>
+    <table class="table table-sm table-bordered" style="width:30%">
+        <tr>
+            <th colspan="2" style="text-align:center">Order Summary</th>
+        </tr>
+        <tr>
+            <td>Order Subtotal</td>
+            <td>@Html.DisplayFor(r => r.OrderSubtotal)</td>
+        </tr>
+        <tr>
+            <td>Shipping Cost</td>
+            <td>@Html.DisplayFor(r => r.ShippingCost)</td>
+        </tr>
+        <tr>
+            <td>Order Total</td>
+            <td>@Html.DisplayFor(r => r.OrderTotal)</td>
+        </tr>
+
+    </table>
+</div>
+
 
 <div>
-    @Html.ActionLink("Checkout", "Checkout", "Orders", null, new { @class = "btn btn-primary" })
-    <!--<a asp-action="Checkout">Checkout</a>-->
+    <!--REMINDER: WORKING ON ROUTE VALUE TO GET CHECKOUT TO CONNECT TO THE CORRECT ORDER-->
+    @*@Html.ActionLink("Checkout", "Checkout", "Orders", null, new { id = Model.OrderID })*@
+
+
+    <a asp-action="Checkout" asp-route-id="@Model.OrderID">Checkout</a>
     <!--Figure out how to get back to list of books-->
+    &nbsp&nbsp&nbsp
     <a asp-controller="Books"
        asp-action="Index">Keep Shopping</a>
 </div>

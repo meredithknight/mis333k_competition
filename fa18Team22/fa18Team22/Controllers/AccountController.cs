@@ -183,16 +183,19 @@ namespace fa18Team22.Controllers
             {
                 return NotFound();
             }
-            RegisterViewModel rvm = new RegisterViewModel();
-            rvm.Email = account.Email;
-            rvm.FirstName = account.FirstName;
-            rvm.LastName = account.LastName;
-            rvm.Address = account.Address;
-            rvm.City = account.City;
-            rvm.State = account.State;
-            rvm.Zip = account.Zip;
-            rvm.PhoneNumber = account.PhoneNumber;
-            return View(rvm);
+            ModifyAccountViewModel mvm = new ModifyAccountViewModel();
+            mvm.Email = account.Email;
+            mvm.FirstName = account.FirstName;
+            mvm.LastName = account.LastName;
+            mvm.Address = account.Address;
+            mvm.City = account.City;
+            mvm.State = account.State;
+            mvm.Zip = account.Zip;
+            mvm.PhoneNumber = account.PhoneNumber;
+            mvm.CreditCard1 = account.CreditCard1;
+            mvm.CreditCard2 = account.CreditCard2;
+            mvm.CreditCard3 = account.CreditCard3;
+            return View(mvm);
         }
 
        
@@ -200,25 +203,27 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ModifyAccount(AppUser account)
+        public IActionResult ModifyAccount(AppUser user)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     AppUser dbAccount = _context.Users
-                        .FirstOrDefault(c => c.Id == account.Id);
+                        .FirstOrDefault(c => c.Id == user.Id);
 
-                    dbAccount.FirstName = account.FirstName;
-                    dbAccount.LastName = account.LastName;
-                    dbAccount.Email = account.Email;
-                    dbAccount.UserName = account.Email;
-                    dbAccount.Address = account.Address;
-                    dbAccount.City = account.City;
-                    dbAccount.State = account.State;
-                    dbAccount.Zip = account.Zip;
-                    dbAccount.PhoneNumber = account.PhoneNumber;
-
+                    dbAccount.FirstName = user.FirstName;
+                    dbAccount.LastName = user.LastName;
+                    dbAccount.Email = user.Email;
+                    dbAccount.UserName = user.Email;
+                    dbAccount.Address = user.Address;
+                    dbAccount.City = user.City;
+                    dbAccount.State = user.State;
+                    dbAccount.Zip = user.Zip;
+                    dbAccount.PhoneNumber = user.PhoneNumber;
+                    dbAccount.CreditCard1 = user.CreditCard1;
+                    dbAccount.CreditCard2 = user.CreditCard2;
+                    dbAccount.CreditCard3 = user.CreditCard3;
 
                     _context.Update(dbAccount);
                     _context.SaveChanges();
@@ -229,7 +234,7 @@ namespace fa18Team22.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AccountExists(account.Id))
+                    if (!AccountExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -241,7 +246,7 @@ namespace fa18Team22.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(account);
+            return View(user);
         }
 
 

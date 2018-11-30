@@ -6,8 +6,10 @@ namespace fa18Team22.Models
     {
     	public Int32 OrderDetailID { get; set; }
 
-    	[Display(Name = "Quantity")]
-    	public Int32 Quantity { get; set; }
+        [Required(ErrorMessage = "Quantity is required")]
+        [Display(Name = "Quantity")]
+        [Range(1, 10000000000, ErrorMessage = "Number of products cannot be negative")]
+        public Int32 Quantity { get; set; }
 
     	[Display(Name = "Price")]
         [DisplayFormat(DataFormatString = "{0:C}")]
@@ -15,11 +17,7 @@ namespace fa18Team22.Models
 
         public Decimal ExtendedPrice
         {
-            get
-            {
-                return Quantity * Price;
-            }
-
+            get { return Quantity * Price; }
         }
 
 

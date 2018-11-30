@@ -42,7 +42,7 @@ namespace fa18Team22.Models
         [Display(Name = "Book Cost")]
         public Decimal BookCost { get; set; }
 
-        [Display(Name = "Average Rating")]
+        [Display(Name = "Average Sales Price")]
         public Decimal AvgSalesPrice
         {
             get { return OrderDetails.Average(od => od.ExtendedPrice); }

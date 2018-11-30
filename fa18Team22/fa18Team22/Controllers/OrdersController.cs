@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
 using Microsoft.AspNetCore.Authorization;
+using fa18Team22.Utilities;
+
 
 namespace fa18Team22.Controllers
 {
@@ -29,12 +31,12 @@ namespace fa18Team22.Controllers
             if (User.IsInRole("Customer"))
             {
                 //REMINDER: fix this to include only the customer's orders
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete != false).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete).ToList();
                 //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
             }
-            else
+            else //for employees and managers to see all completed orders
             {
-                Orders = _context.Orders.Include(c => c.OrderDetails).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).ToList();
             }
             return View(Orders);
             //return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
@@ -192,13 +194,16 @@ namespace fa18Team22.Controllers
         //GET
         public IActionResult ShoppingCart()
         {
-            var orderList = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).ToList();
+            //REMINDER: make it to find the open order for a 
+            //var orderList = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer == User.Identity).ToList();
+            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+
 
             //see if it's a fuzzy id
 
 
             //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
-            if (!orderList.Any())
+            if (order == null)
             {
                 //Order NewOrder = new Order{}; //REMINDER: check for existing order (and create new one if needed) when a book is added to order
                 //NewOrder.IsComplete = false;
@@ -208,7 +213,6 @@ namespace fa18Team22.Controllers
             }
             else //return a view of the current shopping cart
             {
-                Order order = orderList.ElementAt(0);
                 return View(order);
             }
 
@@ -229,10 +233,10 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "Order not found!" });
             }
 
-            OrderDetail od = new OrderDetail() { Order = ord };
+            //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
-            return View("Checkout", od);
+            return View("Checkout", ord);
         }
 
         //GET
@@ -250,11 +254,96 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "Order not found!" });
             }
 
+            //once order is placed, change "IsComplete" property to true
+            ord.IsComplete = true;
+
+
+            //I don't know what this is
             OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
             return View("PlaceOrder", od);
         }
 
+
+        public IActionResult AddToOrder(int? id) //book id
+        {
+            //find the book being added to the order
+            Book book = _context.Books.Find(id);
+
+            //if the book is out of stock, cannot add to order
+            if(book.Inventory == 0)
+            {
+                return RedirectToAction("Index", "Book");
+                //this book is out of stock, return user to error page saying it cannot be ordered.
+            }
+            //when a user adds a book to an order, do they go to a page to choose how many???? (elif)
+            else
+            {
+                //create a new order detail for the book for the shopping cart order
+                OrderDetail od = new OrderDetail { };
+
+                //add values for all other fields for orderDetail
+
+                od.Book = book;
+                od.Price = od.Book.SalesPrice;
+                od.Quantity = 1; //automatically add 1 book to the order
+
+                //this actually saves all the data just entered, into the actual database
+                _context.OrderDetails.Add(od);
+                _context.SaveChanges();
+
+                //connect to the shopping cart order
+                od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+
+                //if a shopping cart doesn't exist, 
+                if (od.Order == null) //no current shopping cart --> add all the fields that need to be put in to create an order
+                {
+                    od.Order = new Order { };
+
+                    od.Order.OrderDate = System.DateTime.Today;
+
+                    od.Order.ShippingCost = 3.50m; //because this is the first book being added to order
+
+                    od.Order.IsComplete = false; //makes this the shopping cart
+
+                    //od.Order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
+
+
+                    String userId = User.Identity.Name;
+                    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
+                    od.Order.Customer = user;
+
+
+                }
+
+                //what to change for the order if it does already exist
+                else
+                {
+                    od.Order.OrderDate = System.DateTime.Today;
+                    //check if there's another book in the order already
+                    if (od.Order.ShippingCost != 0)
+                    {
+                        od.Order.ShippingCost = 1.50m + od.Order.ShippingCost;
+                    }
+                    else 
+                    {
+                        od.Order.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                    }
+
+                }
+                //adds this shopping cart ORDER to the orders table in database
+                _context.Orders.Add(od.Order);
+                _context.SaveChanges();
+
+
+
+                //Order order = _context.Orders.Find(od.Order.OrderID);
+
+
+
+                return RedirectToAction("Details", "Book");
+            }
+        }
     }
 }

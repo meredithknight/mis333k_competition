@@ -82,6 +82,7 @@ namespace fa18Team22.Controllers
         }
 
         // POST: OrderDetails/Edit/5
+        //REMINDER: edit the extended price and quantity
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -111,7 +112,8 @@ namespace fa18Team22.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("ShoppingCart", "Orders");
             }
             return View(orderDetail);
         }

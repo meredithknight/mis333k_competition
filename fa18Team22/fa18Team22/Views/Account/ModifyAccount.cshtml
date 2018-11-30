@@ -1,4 +1,4 @@
-﻿@model RegisterViewModel
+﻿@model ModifyAccountViewModel
 <h2>Modify Account</h2>
 @using (Html.BeginForm("ModifyAccount", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -46,6 +46,22 @@
          <input asp-for="PhoneNumber" class="form-control" />
          <span asp-validation-for="PhoneNumber" class="text-danger"></span>
      </div>
+     <div class="form-group">
+         <label asp-for="CreditCard1" class="control-label"></label>
+         <input asp-for="CreditCard1" class="form-control" />
+         <span asp-validation-for="CreditCard1" class="text-danger"></span>
+     </div>
+     <div class="form-group">
+         <label asp-for="CreditCard2" class="control-label"></label>
+         <input asp-for="CreditCard2" class="form-control" />
+         <span asp-validation-for="CreditCard2" class="text-danger"></span>
+     </div>
+     <div class="form-group">
+         <label asp-for="CreditCard3" class="control-label"></label>
+         <input asp-for="CreditCard3" class="form-control" />
+         <span asp-validation-for="CreditCard3" class="text-danger"></span>
+     </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Modify Account" class="btn btn-default" />
