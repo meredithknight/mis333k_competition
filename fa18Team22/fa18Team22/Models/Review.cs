@@ -17,6 +17,8 @@ namespace fa18Team22.Models
         [StringLength(100, ErrorMessage = "100 characters max")]
         public String ReviewText { get; set; }
 
+        public Boolean ApprovalStatus { get; set; }
+
 
 
         //navigational properties
