@@ -293,6 +293,8 @@ namespace fa18Team22.Controllers
                 _context.OrderDetails.Add(od);
                 _context.SaveChanges();
 
+                //WORKS UP TO HERE
+
                 //connect to the shopping cart order
                 od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
@@ -316,13 +318,16 @@ namespace fa18Team22.Controllers
                     AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
                     od.Order.Customer = user; //THIS IS THROWING ERROR WITH IDENTITY_INSERT
 
+                    //adds this shopping cart ORDER to the orders table in database
+                    _context.Orders.Add(od.Order);
+                    _context.SaveChanges();
 
                 }
 
                 //what to change for the order if it does already exist
                 else
                 {
-                    _context.Orders.Add(od.Order);
+                    //_context.Orders.Add(od.Order);
                     _context.SaveChanges();
 
                     Order existingCart = od.Order;
@@ -339,10 +344,11 @@ namespace fa18Team22.Controllers
                         od.Order.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
                     }
 
+                    _context.SaveChanges();
+
                 }
-                //adds this shopping cart ORDER to the orders table in database
-                _context.Orders.Add(od.Order);
-                _context.SaveChanges();
+
+
 
 
 
@@ -350,7 +356,7 @@ namespace fa18Team22.Controllers
 
 
 
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Details", "Book", new {id = od.Book.BookID });
             }
         }
     }
