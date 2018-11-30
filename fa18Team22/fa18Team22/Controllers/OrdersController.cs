@@ -314,7 +314,7 @@ namespace fa18Team22.Controllers
 
                     String userId = User.Identity.Name;
                     AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
-                    od.Order.Customer = user;
+                    od.Order.Customer = user; //THIS IS THROWING ERROR WITH IDENTITY_INSERT
 
 
                 }
@@ -322,10 +322,13 @@ namespace fa18Team22.Controllers
                 //what to change for the order if it does already exist
                 else
                 {
+                    _context.Orders.Add(od.Order);
+                    _context.SaveChanges();
 
                     Order existingCart = od.Order;
 
                     od.Order.OrderDate = System.DateTime.Today;
+                    existingCart.OrderDetails.Count();
                     //check if there's another book in the order already
                     if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
                     {
