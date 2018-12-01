@@ -356,7 +356,7 @@ namespace fa18Team22.Controllers
 
 
 
-                return RedirectToAction("Details", "Book", new {id = od.Book.BookID });
+                return RedirectToAction("ShoppingCart", "Orders", new {id = od.Book.BookID });
             }
         }
     }
