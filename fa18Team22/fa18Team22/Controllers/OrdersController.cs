@@ -226,17 +226,18 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order ord = _context.Orders.Find(id);
+            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
-            if (ord == null)
+            if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
 
+
             //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
-            return View("Checkout", ord);
+            return View("Checkout", order);
         }
 
         //GET
@@ -247,22 +248,22 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order ord = _context.Orders.Find(id);
+            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
-            if (ord == null)
+            if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
 
             //once order is placed, change "IsComplete" property to true
-            ord.IsComplete = true;
+            order.IsComplete = true;
 
-
+            _context.SaveChanges();
             //I don't know what this is
-            OrderDetail od = new OrderDetail() { Order = ord };
+            //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
-            return View("PlaceOrder", od);
+            return View("PlacedOrder", order);
         }
 
 
