@@ -192,7 +192,6 @@ namespace fa18Team22.Controllers
         //new actions MK added 11/14
 
         //GET
-        [Authorize]
         public IActionResult ShoppingCart()
         {
             //REMINDER: make it to find the open order for a 
@@ -220,7 +219,6 @@ namespace fa18Team22.Controllers
         }
 
         //GET
-        [Authorize]
         public IActionResult Checkout(int? id)
         {
             if (id == null)
@@ -243,7 +241,6 @@ namespace fa18Team22.Controllers
         }
 
         //GET
-        [Authorize]
         public IActionResult PlacedOrder(int? id)
         {
             if (id == null)
@@ -269,7 +266,7 @@ namespace fa18Team22.Controllers
             return View("PlacedOrder", order);
         }
 
-        [Authorize]
+
         public IActionResult AddToOrder(int? id) //book id
         {
             //find the book being added to the order
