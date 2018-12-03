@@ -9,7 +9,8 @@ using fa18Team22.DAL;
 using fa18Team22.Models;
 using Microsoft.AspNetCore.Authorization;
 using fa18Team22.Utilities;
-
+using System.Net.Mail;
+using System.Net;
 
 namespace fa18Team22.Controllers
 {
@@ -264,8 +265,8 @@ namespace fa18Team22.Controllers
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
             _context.SaveChanges();
-            //I don't know what this is
-            //OrderDetail od = new OrderDetail() { Order = ord };
+
+            //send order confirmation email
 
             //REMINDER: where we'll update inventory
 
@@ -365,6 +366,34 @@ namespace fa18Team22.Controllers
 
 
                 return RedirectToAction("ShoppingCart", "Orders", new {id = od.Book.BookID });
+            }
+        }
+        private void SendEmailConfirmOrder(string ToAddress, string ToName)
+        {
+            var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
+            var toAddress = new MailAddress(ToAddress, "To " + ToName);
+            const string fromPassword = "fa18team22";
+            const string subject = "Order Confirmed!";
+            const string body = "Your Bevo Books order is on the way! Here are some other books you might like:";
+
+            //REMINDER: add book recommendations
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                Timeout = 20000
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
             }
         }
     }
