@@ -31,17 +31,15 @@ namespace fa18Team22.Models
 
     public class OrderReportVM
     {
-        public String Title { get; set; }
-
-        public Int32 Quantity { get; set; }
+        public List<string> BookTandQ { get; set; }
 
         public Int32 OrderNumber { get; set; }
 
         public String CustomerName { get; set; }
 
-        public Decimal SellingPrice { get; set; }
+        public Decimal OrderTotal { get; set; }
 
-        public Decimal WeightedAvgCost { get; set; }
+        public Decimal OrderCost { get; set; }
 
         public Decimal ProfitMargin { get; set; }
 

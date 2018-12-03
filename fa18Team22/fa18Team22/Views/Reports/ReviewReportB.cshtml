@@ -1,0 +1,71 @@
+﻿@model IEnumerable<fa18Team22.Models.OrderReportVM>
+@using fa18Team22.Models
+@{
+    ViewData["Title"] = "All Books Sold";
+}
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+@*TODO Finish AllBooks Sold*@
+<h2>All Books Report</h2>
+<form asp-action="ChooseReport" asp-controller="Reports" method="get">
+    <div>
+        <a asp-controller="Reports"
+           asp-action="ChooseReport" class="btn btn-secondary">Back to All Reports</a>
+    </div>
+</form>
+<p>Displaying @ViewBag.SelectedRecords Records </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Number
+            </th>
+            <th>
+                Book Titles (Quantity Ordered)
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>
+                Order Total
+            </th>
+            <th>
+                Order Cost (Avg)
+            </th>
+            <th>
+                Profit Margin
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (OrderReportVM item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTandQ)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfitMargin)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
