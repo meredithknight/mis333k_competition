@@ -46,7 +46,8 @@ namespace fa18Team22.Controllers
                 {
                     books.Add(orddlt.Book);
                 }
-                return View(books);
+                List<Book> noduplicatebooks = books.Distinct().ToList();
+                return View(noduplicatebooks);
 
 
             }
