@@ -28,8 +28,8 @@ namespace fa18Team22
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=True;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
+            var connectionString = "Server=tcp:fa18team22v2.database.windows.net,1433;Initial Catalog=fa18team22_v2;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=True;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddIdentity<AppUser, IdentityRole>(opts => {
@@ -77,10 +77,11 @@ namespace fa18Team22
             });
 
             //Customers must be seeded first
+            //Seeding.SeedGenres.SeedAllGenres(db);
             //Seeding.SeedIdentity.AddAdmin(service).Wait();
+            Seeding.SeedBooks.SeedAllBooks(db);
             //Seeding.SeedCustomers.SeedAllCustomersAsync(db, service).Wait();
-            //Seeding.SeedEmployees.SeedAllEmployeesAsync(db, service).Wait();
-            //Seeding.SeedSortOrderOptions.SeedAllSortOrderOptions(db);
+            Seeding.SeedEmployees.SeedAllEmployeesAsync(db, service).Wait();
 
         }
     }

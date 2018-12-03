@@ -36,7 +36,7 @@ namespace fa18Team22.Controllers
         public ActionResult DetailedSearch()
         {
             ViewBag.AllGenres = GetAllGenres();
-            ViewBag.AllSortObjects = GetAllSortByOptions();
+            //ViewBag.AllSortObjects = GetAllSortByOptions();
             return View();
         }
         public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock,SortOrderOpt SortButton)

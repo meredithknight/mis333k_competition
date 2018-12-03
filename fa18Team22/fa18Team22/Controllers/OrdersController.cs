@@ -260,10 +260,14 @@ namespace fa18Team22.Controllers
 
             //once order is placed, change "IsComplete" property to true
             order.IsComplete = true;
+            order.OrderDate = System.DateTime.Today;
+            order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
             _context.SaveChanges();
             //I don't know what this is
             //OrderDetail od = new OrderDetail() { Order = ord };
+
+            //REMINDER: where we'll update inventory
 
             //ViewBag.AllProducts = GetAllProducts();
             return View("PlacedOrder", order);

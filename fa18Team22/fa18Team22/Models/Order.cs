@@ -10,8 +10,8 @@ namespace fa18Team22.Models
         [Display(Name = "Order ID")]
         public Int32 OrderID { get; set; }
 
-        //[Display(Name = "Order Number")]
-        //public Int32 OrderNumber { get; set; }
+        [Display(Name = "Order Number")]
+        public Int32 OrderNumber { get; set; }
 
         [Display(Name = "Order Date")]
         [DisplayFormat(DataFormatString = "{0:MM.dd.yyyy}", ApplyFormatInEditMode = true)]
