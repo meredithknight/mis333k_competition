@@ -45,6 +45,33 @@ namespace fa18Team22.Controllers
         }
 
 
+        public ActionResult AllBooksSold()
+        {
+            //initialize booksreport viewmodel
+            List<AllBooksReportViewModel> allBooksReports = new List<AllBooksReportViewModel>();
+
+            List<OrderDetail> BooksReport = new List<OrderDetail>();
+            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            BooksReport = query.ToList();
+
+            foreach(OrderDetail od in BooksReport)
+            {
+                AllBooksReportViewModel brvm = new AllBooksReportViewModel();
+
+                brvm.Title = od.Book.Title;
+                brvm.Quantity = od.Quantity;
+                brvm.OrderNumber = od.Order.OrderNumber;
+                brvm.CustomerName = od.Order.Customer.FirstName + ' '+ od.Order.Customer.LastName;
+                brvm.SellingPrice = od.Price;
+                //TODO: YOU NEED to add to books model class weghted
+                brvm.WeightedAvgCost = od.Book.BookCost;
+                brvm.ProfitMargin = (od.Price - od.Book.BookCost);
+                allBooksReports.Add(brvm);
+            }
+            return View(allBooksReports);
+
+        }
+
         //GET:Report D (totals)
         //TODO: Build the View for Report D
         public ActionResult ReviewReportD()
