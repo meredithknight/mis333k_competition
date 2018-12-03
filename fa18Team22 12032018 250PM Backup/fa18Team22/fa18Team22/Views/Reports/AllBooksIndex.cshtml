@@ -1,0 +1,76 @@
+﻿@model IEnumerable<fa18Team22.Models.OrderDetail>
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "All Books Sold";
+}
+
+@*TODO Finish AllBooks Sold*@
+<h2>All Books Sold Report</h2>
+<form asp-action="AllBooksIndex" asp-controller="Reports" method="get">
+    <p class="form-group">
+        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
+        <a class="btn btn-success" href="/Reports/ChooseReport">Back to Reports</a>
+
+    </p>
+</form>
+<p>Displaying @ViewBag.SelectedRecords Records </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Book Title
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Order Number
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Selling Price
+            </th>
+            <th>
+                Weighted Average Cost
+            </th>
+            @*<th>
+                Profit Margin
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Book.Title
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    @*TODO: Change to Order Number*@
+                    @Html.DisplayFor(modelItem => item.Order.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order.Customer.FirstName)
+                    @Html.DisplayFor(modelItem => item.Order.Customer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Book.AvgBookCost)
+                </td>*@
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Book.BookProfitMargin)
+                </td>*@
+              
+            </tr>
+        }
+    </tbody>
+</table>

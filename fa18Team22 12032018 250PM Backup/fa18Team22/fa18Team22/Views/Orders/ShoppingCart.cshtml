@@ -1,0 +1,89 @@
+﻿@model fa18Team22.Models.Order
+@*@model IEnumerable<fa18Team22.Models.Order>*@
+@using fa18Team22.Models
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+<h2>Shopping Cart</h2>
+<div>
+    <h4>Order Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Current Order</h4>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Price</th>
+                <th>Quantity</th>
+                <th>Extended Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderDetail rd in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => rd.Book.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Price)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.ExtendedPrice)</td>
+                    <td>
+                        <!--this needs to take it to the orderDetail edit, not the order edit (but edits the orderDetail list that is attached to the order-->
+                        <a asp-action="Edit" asp-controller="OrderDetails" asp-route-id="@rd.OrderDetailID">Details</a> <!--| where you edit or delete book from order
+                        <a asp-action="RemoveFromOrder" asp-route-id="@rd.OrderDetailID">Remove From Order</a>-->
+
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <table class="table table-sm table-bordered" style="width:30%">
+        <tr>
+            <th colspan="2" style="text-align:center">Order Summary</th>
+        </tr>
+        <tr>
+            <td>Order Subtotal</td>
+            <td>@Html.DisplayFor(r => r.OrderSubtotal)</td>
+        </tr>
+        <tr>
+            <td>Shipping Cost</td>
+            <td>@Html.DisplayFor(r => r.ShippingCost)</td>
+        </tr>
+        <tr>
+            <td>Order Total</td>
+            <td>@Html.DisplayFor(r => r.OrderTotal)</td>
+        </tr>
+
+    </table>
+</div>
+
+
+<div>
+    <!--REMINDER: WORKING ON ROUTE VALUE TO GET CHECKOUT TO CONNECT TO THE CORRECT ORDER-->
+    @*@Html.ActionLink("Checkout", "Checkout", "Orders", null, new { id = Model.OrderID })*@
+
+
+    <a asp-action="Checkout" asp-route-id="@Model.OrderID">Checkout</a>
+    <!--Figure out how to get back to list of books-->
+    &nbsp&nbsp&nbsp
+    <a asp-controller="Books"
+       asp-action="Index">Keep Shopping</a>
+</div>
