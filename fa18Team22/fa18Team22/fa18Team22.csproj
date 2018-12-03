@@ -26,6 +26,8 @@
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Seeding\" />
     <Folder Include="Views\Reports\" />
+    <Folder Include="Views\CustomerAccount\" />
+    <Folder Include="Views\EmployeeAccount\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ProcurementDetail.cs" />
