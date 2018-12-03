@@ -15,13 +15,10 @@
 <h2>@ViewBag.Title</h2>
 
 @Html.ActionLink("Modify account details", "ModifyAccount", "Account", new { id = Model.Id }, new { @class = "btn btn-warning" })
-
-<dd>
-    @if (Model.HasPassword)
+@if (Model.HasPassword)
     {
         @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.Id }, new { @class = "btn btn-danger" })
     }
-</dd>
 
 <div>
     <hr />
