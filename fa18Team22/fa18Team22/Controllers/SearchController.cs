@@ -12,6 +12,7 @@ using fa18Team22.Utilities;
 
 namespace fa18Team22.Controllers
 {
+    public enum SortOrderOpt {DontSort,Title,Author,MostPopular,Newest,Oldest,HighestRating}
     public enum DisplayBooks { AllBooks, InStock }
     public enum SortOrder { Ascending, Descending }
 
@@ -38,7 +39,7 @@ namespace fa18Team22.Controllers
             ViewBag.AllSortObjects = GetAllSortByOptions();
             return View();
         }
-        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock,int SortBy)
+        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock,SortOrderOpt SortButton)
         {
             List<Book> SelectedBooks = new List<Book>();
 
@@ -102,62 +103,81 @@ namespace fa18Team22.Controllers
                     break;
             }
 
-            List<Book> SelectedBooksSearch = query.ToList();
+            SelectedBooks = query.ToList();
+            ViewBag.SelectedBooksCount = SelectedBooks.Count();
+            ViewBag.TotalBooks = _db.Books.Count();
+
+            switch (SortButton)
+            {
+                case SortOrderOpt.DontSort:break;
+                case SortOrderOpt.Title:
+                    return View("Index", SelectedBooks.OrderBy(r => r.Title));
+                case SortOrderOpt.Author:
+                    return View("Index", SelectedBooks.OrderBy(r => r.Author));
+                case SortOrderOpt.MostPopular:
+                    return View("Index", SelectedBooks.OrderBy(r => r.BookID));
+                case SortOrderOpt.Newest:
+                    return View("Index", SelectedBooks.OrderByDescending(r => r.PublishDate));
+                case SortOrderOpt.Oldest:
+                    return View("Index", SelectedBooks.OrderBy(r => r.PublishDate));
+                case SortOrderOpt.HighestRating:
+                    return View("Index", SelectedBooks.OrderByDescending(r => r.AvgRating));
+            }
 
             //TODO: sort by option
-            if (SortBy != 1) //should this be nullable???
-            {
-                if (SortBy == 2)
-                {
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderBy(r => r.Title));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Title);
-                }
-                if (SortBy == 3)
-                {
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderBy(r => r.Author));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Author);
-                }
-                //TODO: NO clue how to do this one
-                if (SortBy == 4)
-                {
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderBy(r => r.BookID));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.BookID);
-                }
+            //if (SortOrderOpt != 1) //should this be nullable???
+            //{
+                //if (SortBy == 2)
+                //{
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderBy(r => r.Title));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Title);
+                //}
+                //if (SortBy == 3)
+                //{
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderBy(r => r.Author));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.Author);
+                //}
+                ////TODO: NO clue how to do this one
+                //if (SortBy == 4)
+                //{
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderBy(r => r.BookID));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.BookID);
+                //}
 
-                if (SortBy == 5)
-                {
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderByDescending(r => r.PublishDate));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
-                }
-                if (SortBy == 6)
-                {
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderBy(r => r.PublishDate));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByAscending(r => r.PublishDate);
-                }
-                if (SortBy == 7)
-                {
-                    //REMINDER: TODO: No Ratings Yet please check
-                    SelectedBooks = query.ToList();
-                    ViewBag.SelectedBooksCount = SelectedBooks.Count();
-                    ViewBag.TotalBooks = _db.Books.Count();
-                    return View("Index", SelectedBooksSearch.OrderByDescending(r => r.AvgRating));
-                    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
-                }
+                //if (SortBy == 5)
+                //{
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderByDescending(r => r.PublishDate));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.PublishDate);
+                //}
+                //if (SortBy == 6)
+                //{
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderBy(r => r.PublishDate));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByAscending(r => r.PublishDate);
+                //}
+                //if (SortBy == 7)
+                //{
+                //    //REMINDER: TODO: No Ratings Yet please check
+                //    SelectedBooks = query.ToList();
+                //    ViewBag.SelectedBooksCount = SelectedBooks.Count();
+                //    ViewBag.TotalBooks = _db.Books.Count();
+                //    return View("Index", SelectedBooksSearch.OrderByDescending(r => r.AvgRating));
+                //    //SelectedBooksSearch = (System.Collections.Generic.List<fa18Team22.Models.Book>)SelectedBooksSearch.OrderByDescending(r => r.AvgRating);
+                //}
 
 
                 ////re-populate drop down
@@ -166,22 +186,22 @@ namespace fa18Team22.Controllers
 
                 ////Send user back to home page
                 //return View("DetailedSearch");
-            }
-
-            //if (StarAmount == StarList.greaterThan)
-            //{
-            //    query = query.Where(x => x.StarCount >= decStarValue);
             //}
 
-            //if (StarAmount == StarList.lessThan)
-            //{
-            //    query = query.Where(x => x.StarCount <= decStarValue);
-            //}
+        //if (StarAmount == StarList.greaterThan)
+        //{
+        //    query = query.Where(x => x.StarCount >= decStarValue);
+        //}
+
+        //if (StarAmount == StarList.lessThan)
+        //{
+        //    query = query.Where(x => x.StarCount <= decStarValue);
+        //}
             SelectedBooks = query.ToList();
             ViewBag.SelectedBooksCount = SelectedBooks.Count();
             ViewBag.TotalBooks = _db.Books.Count();
             //ViewBag.SelectedBooksSearch = SelectedBooksSearch.Count();
-            return View("Index", SelectedBooksSearch);
+            return View("Index", SelectedBooks);
             
         }
 
