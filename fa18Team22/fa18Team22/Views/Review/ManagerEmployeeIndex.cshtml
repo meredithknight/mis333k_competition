@@ -47,8 +47,8 @@
                     @Html.DisplayFor(modelItem => item.ReviewText)
                 </td>
                 <td>
-                    <a asp-controller="Review" asp-action="Approve" asp-route-id="@item.ReviewID">Approve</a>
-                    <a asp-controller="Review" asp-action="Reject" asp-route-id="@item.ReviewID">Reject</a>
+                    <a asp-controller="Review" asp-action="Approve" asp-route-id="@item.ReviewID" class="btn btn-success">Approve</a>
+                    <a asp-controller="Review" asp-action="Reject" asp-route-id="@item.ReviewID" class="btn btn-danger">Reject</a>
                 </td>
             </tr>
         }

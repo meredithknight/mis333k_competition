@@ -14,6 +14,15 @@
 
 <h2>@ViewBag.Title</h2>
 
+@Html.ActionLink("Modify account details", "ModifyAccount", "Account", new { id = Model.Id }, new { @class = "btn btn-warning" })
+
+<dd>
+    @if (Model.HasPassword)
+    {
+        @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.Id }, new { @class = "btn btn-danger" })
+    }
+</dd>
+
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -52,20 +61,6 @@
 
         <dt>Credit Card 3:</dt>
         <dd>@Model.CreditCard3</dd>
-
-        <dt>Modify Account Information:</dt>
-        @Html.ActionLink("Modify Account", "ModifyAccount", "Account", new { id = Model.Id })
-
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            ]
-
-        </dd>
     </dl>
 
 

@@ -14,14 +14,13 @@
 
 @Html.ValidationSummary(true)
 
-<form>
-{ 
+<form> 
     <div class="form-group">
         <label>Name</label>
         <input name="name" value="@Model" class="form-control" />
     </div>
     
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-success">Create</button>
     
-    <a asp-action="Index" class="btn btn-default">Cancel</a>
+    <a asp-action="Index" class="btn btn-danger">Cancel</a>
 </form>

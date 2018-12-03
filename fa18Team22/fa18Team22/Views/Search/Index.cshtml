@@ -25,13 +25,13 @@
     }
 </style>
 
-<h2>Book Index</h2>
+<h2>Search</h2>
 <form asp-action="Index" asp-controller="Search" method="get">
     <p class="form-group">
         @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-success" href="/Search/DetailedSearch">Detailed Search</a>
+        <a class="btn btn-primary" href="/Search/DetailedSearch">Detailed Search</a>
         @*TODO: Do we need to change href for this danger button the show all?*@
-        <a class="btn btn-danger" href="/Search/Index">Show All</a>
+        <a class="btn btn-secondary" href="/Search/Index">Show All</a>
     </p>
 </form>
 
@@ -96,7 +96,7 @@
                     @Html.DisplayFor(modelItem => item.ReplenishMinimum)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
                 </td>
             </tr>
         }

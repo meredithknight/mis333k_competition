@@ -32,7 +32,7 @@
     <thead>
         <tr>
             <th>
-                Include in procurement?
+                Include?
             </th>
             <th>                     @Html.DisplayNameFor(model => model.Title)             </th>
             <th>                     @Html.DisplayNameFor(model => model.Author)             </th>
@@ -59,7 +59,7 @@
                 <td>                         @Html.DisplayFor(modelItem => item.ReplenishMinimum)                 </td>
                 <td>                         @Html.TextBox("Quantity", 5, new { @class = "form-control" })                 </td>
                 <td>                         @Html.TextBox("Cost", item.BookCost, new { @class = "form-control" })                 </td>
-                <td>                         @*<a asp-controller="Procurement" asp-action="DeleteFromProcurementQuery" asp-route-id="@item.BookID">Delete From Order</a>*@                         @Html.ActionLink("Delete From Order", "DeleteFromProcurementQuery", "Procurement", new { id = item.BookID })                 </td>
+                <td>                         @*<a asp-controller="Procurement" asp-action="DeleteFromProcurementQuery" asp-route-id="@item.BookID">Delete From Order</a>*@                         @Html.ActionLink("Delete", "DeleteFromProcurementQuery", "Procurement", new { id = item.BookID }, new { @class = "btn btn-danger"})                 </td>
             </tr>
         }
     </tbody>
