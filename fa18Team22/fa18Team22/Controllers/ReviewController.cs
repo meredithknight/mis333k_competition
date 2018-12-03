@@ -55,6 +55,7 @@ namespace fa18Team22.Controllers
             {
                 var query = from r in _context.Reviews.Include(r => r.Author).Include(r => r.Book) select r;
                 query = query.Where(r => r.ApprovalStatus == null);
+                query = query.Where(r => r.Author != null);
                 List<Review> notapprovedlist = query.ToList();
                 return View("ManagerEmployeeIndex", notapprovedlist);
             }
@@ -113,14 +114,14 @@ namespace fa18Team22.Controllers
                 _context.SaveChangesAsync();
 
 
-                //delete first create to make sure no empty reviews are shown
-                var querytodelete = from r in _context.Reviews select r;
-                querytodelete = querytodelete.Where(r => r.Author == null && r.ReviewText == null);
-                List<Review> reviewstodelete = querytodelete.ToList();
-                foreach (Review reviewobject in reviewstodelete)
-                {
-                    _context.Reviews.Remove(reviewobject);
-                }
+                ////delete first create to make sure no empty reviews are shown
+                //var querytodelete = from r in _context.Reviews select r;
+                //querytodelete = querytodelete.Where(r => r.Author == null && r.ReviewText == null);
+                //List<Review> reviewstodelete = querytodelete.ToList();
+                //foreach (Review reviewobject in reviewstodelete)
+                //{
+                //    _context.Reviews.Remove(reviewobject);
+                //}
 
 
                 return View(review);
