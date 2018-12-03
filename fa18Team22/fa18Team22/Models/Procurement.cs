@@ -22,7 +22,7 @@ namespace fa18Team22.Models
         [Display(Name = "Quantity")]
         public Int16 Quantity { get; set; }
 
-        public List<Book> Books { get; set; }
+        public Book Books { get; set; }
         public AppUser Employee { get; set; }
     }
 }

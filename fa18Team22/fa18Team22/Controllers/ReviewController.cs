@@ -112,6 +112,17 @@ namespace fa18Team22.Controllers
                 _context.Add(review);
                 _context.SaveChangesAsync();
 
+
+                //delete first create to make sure no empty reviews are shown
+                var querytodelete = from r in _context.Reviews select r;
+                querytodelete = querytodelete.Where(r => r.Author == null && r.ReviewText == null);
+                List<Review> reviewstodelete = querytodelete.ToList();
+                foreach (Review reviewobject in reviewstodelete)
+                {
+                    _context.Reviews.Remove(reviewobject);
+                }
+
+
                 return View(review);
             }
             else
@@ -156,6 +167,17 @@ namespace fa18Team22.Controllers
             AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
             Review currentreview = _context.Reviews.Include(r => r.Approver).FirstOrDefault(r => r.ReviewID == id);
             currentreview.ApprovalStatus = true;
+            currentreview.Approver = currentuser;
+            _context.Update(currentreview);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public IActionResult Reject(int? id)
+        {
+            String userId = User.Identity.Name;
+            AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
+            Review currentreview = _context.Reviews.Include(r => r.Approver).FirstOrDefault(r => r.ReviewID == id);
+            currentreview.ApprovalStatus = false;
             currentreview.Approver = currentuser;
             _context.Update(currentreview);
             _context.SaveChanges();

@@ -49,6 +49,7 @@ namespace fa18Team22.Models
         }
 
         //navigational properties
+        public Procurement procurement { get; set; }
         public Genre Genre { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<Review> Reviews { get; set; }
