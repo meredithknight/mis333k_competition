@@ -13,12 +13,12 @@
 </style>
 
 @*TODO Finish AllBooks Sold*@
-<h2>Book Index</h2>
+<h2>All Books Report</h2>
 <form asp-action="ChooseReport" asp-controller="Reports" method="get">
-    <p class="form-group">
-        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-danger" href="/Reports/ChooseReports"> Back to All Reports </a>
-    </p>
+    <div>
+        <a asp-controller="Reports"
+       asp-action="ChooseReport" class="btn btn-secondary">Back to All Reports</a>
+    </div>
 </form>
 <p>Displaying @ViewBag.SelectedRecords Records </p>
 <table class="table">

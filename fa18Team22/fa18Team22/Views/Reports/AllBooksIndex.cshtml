@@ -15,11 +15,10 @@
 @*TODO Finish AllBooks Sold*@
 <h2>All Books Sold Report</h2>
 <form asp-action="AllBooksIndex" asp-controller="Reports" method="get">
-    <p class="form-group">
-        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-success" href="/Reports/ChooseReport">Back to Reports</a>
-
-    </p>
+    <div>
+        <a asp-controller="Reports"
+       asp-action="Index" class="btn btn-secondary">Back to All Reports</a>
+    </div>
 </form>
 <p>Displaying @ViewBag.SelectedRecords Records </p>
 <table class="table">
