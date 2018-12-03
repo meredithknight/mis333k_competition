@@ -45,7 +45,45 @@ namespace fa18Team22.Controllers
         }
 
 
+        //GET:Report D (totals)
+        //TODO: Build the View for Report D
+        public ActionResult ReviewReportD()
+        {
+            List<Order> SelectedOrders = new List<Order>();
+            var query = from o in _db.Orders select o;
+            SelectedOrders = query.ToList();
 
+            decimal TotalCost = 0;
+            decimal TotalProfit = 0;
+            decimal TotalRevenue = 0;
+
+            foreach (Order so in SelectedOrders)
+            {
+                TotalProfit += so.OrderSubtotal;
+                //TODO: PROCUREMENT TOTAL COST CALCULATION
+                //TotalCost += so;
+                TotalRevenue += (TotalProfit - TotalCost);
+
+            }
+
+            ViewBag.TotalP = TotalProfit;
+            ViewBag.TotalC = TotalCost;
+            ViewBag.TotalR = TotalRevenue;
+
+
+            return View();
+        }
+
+        //Get Report E (Current Inventory)
+        public ActionResult ReviewReportE()
+        {
+            List<Book> InventoryList = new List<Book>();
+            var query = from b in _db.Books select b;
+            //InventoryList = query.Include(b => b.Procurement).ToList();
+            ViewBag.SelectedRecords = InventoryList.Count();
+
+            return View("ReviewReportE",InventoryList);
+        }
 
         //GET Report F (Reviews)
         public ActionResult ReviewReport()
