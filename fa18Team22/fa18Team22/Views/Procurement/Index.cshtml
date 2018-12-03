@@ -5,9 +5,10 @@
 }
 
 <h2>Index</h2>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Automatic Reorder", "AutomaticReorder", "Procurement", null, new { @class = "btn btn-primary" })
+
+    @Html.ActionLink("Manual Reorder", "Create", "Procurement", null, new { @class = "btn btn-secondary" })
 </p>
 <table class="table">
     <thead>
