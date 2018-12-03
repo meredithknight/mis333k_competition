@@ -12,15 +12,12 @@ using fa18Team22.Utilities;
 
 namespace fa18Team22.Controllers
 {
-    public enum SortOrderOpt { DontSort, Title, Author, MostPopular, Newest, Oldest, HighestRating }
-    public enum DisplayBooks { AllBooks, InStock }
-    public enum SortOrder { Ascending, Descending }
 
-    public class SearchController : Controller
+    public class ProcurementSearchController : Controller
     {
 
         private AppDbContext _db;
-        public SearchController(AppDbContext context)
+        public ProcurementSearchController(AppDbContext context)
         {
             _db = context;
         }
@@ -132,7 +129,6 @@ namespace fa18Team22.Controllers
             return View("Index", SelectedBooks);
 
         }
-
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -172,7 +168,7 @@ namespace fa18Team22.Controllers
             return AllGenres;
         }
 
-     
+
 
     }
 }

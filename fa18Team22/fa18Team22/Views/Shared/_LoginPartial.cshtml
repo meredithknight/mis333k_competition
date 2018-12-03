@@ -1,7 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 @if (User.Identity.IsAuthenticated)
 {
-    <form asp-action="LogOff" asp-controller="Account" method="post" id="logoutForm" class="navbar-right")>
+    <form asp-action="LogOff" asp-controller="Account" method="post" id="logoutForm" class="navbar-right" )>
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-action="Index" asp-controller="Account" title="Manage" class="nav-link">Hello @User.Identity.Name!</a>

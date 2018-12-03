@@ -1,7 +1,7 @@
 ﻿@using fa18Team22.Controllers
 @using fa18Team22.Models
 @{
-    ViewData["Title"] = "Search";
+    ViewData["Title"] = "Procurement";
 }
 
 @*FONT*@
@@ -12,7 +12,7 @@
 </style>
 
 <h2>Detailed Search</h2>
-<form asp-action="SearchResults" asp-controller="Search" method="get">
+<form asp-action="SearchResults" asp-controller="ProcurementSearch" method="get">
     @*Title Text Box*@
     <div class="form-group">
         Title: @Html.TextBox("SearchTitle", null, new { @class = "form-control" })

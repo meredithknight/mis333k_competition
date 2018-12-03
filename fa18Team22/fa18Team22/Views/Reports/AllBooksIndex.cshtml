@@ -5,14 +5,20 @@
     ViewData["Title"] = "All Books Sold";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 @*TODO Finish AllBooks Sold*@
 <h2>All Books Sold Report</h2>
 <form asp-action="AllBooksIndex" asp-controller="Reports" method="get">
-    <p class="form-group">
-        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-success" href="/Reports/ChooseReport">Back to Reports</a>
-
-    </p>
+    <div>
+        <a asp-controller="Reports"
+       asp-action="Index" class="btn btn-secondary">Back to All Reports</a>
+    </div>
 </form>
 <p>Displaying @ViewBag.SelectedRecords Records </p>
 <table class="table">
@@ -37,8 +43,8 @@
                 Weighted Average Cost
             </th>
             @*<th>
-                Profit Margin
-            </th>*@
+                    Profit Margin
+                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -64,12 +70,12 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.Book.AvgBookCost)
-                </td>*@
+                        @Html.DisplayFor(modelItem => item.Book.AvgBookCost)
+                    </td>*@
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.Book.BookProfitMargin)
-                </td>*@
-              
+                        @Html.DisplayFor(modelItem => item.Book.BookProfitMargin)
+                    </td>*@
+
             </tr>
         }
     </tbody>

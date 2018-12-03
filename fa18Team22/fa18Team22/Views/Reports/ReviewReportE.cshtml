@@ -4,10 +4,17 @@
     ViewData["Title"] = "View";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <h2>Inventory Report</h2>
 <form asp-action="ChooseReport" asp-controller="Search" method="get">
     <p class="form-group">
-        @*TODO: Do we need to change href for this danger button the show all?*@
+
         <a class="btn btn-danger" href="/Reports/ChooseReport"> Back to Reports </a>
     </p>
 </form>
@@ -30,37 +37,38 @@
         </tr>
     </thead>
     <tbody>
+        @*TODO: Change the other parts of the View*@
         @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inventory)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookCost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BookDetail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AvgRating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalesPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Inventory)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReplenishMinimum)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
-                </td>
-            </tr>
-        }
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inventory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookDetail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvgRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inventory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReplenishMinimum)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

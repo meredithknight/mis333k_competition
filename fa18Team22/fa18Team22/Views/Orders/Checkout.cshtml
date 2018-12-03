@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Checkout";
 }
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <div>
     <table class="table table-sm table-bordered" style="width:30%">
         <tr>
@@ -47,6 +55,6 @@
 </div>
 <div>
     <!-- place order-->
-    <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID">Place Order</a>
+    <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>
 </div>
 
