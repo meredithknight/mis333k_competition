@@ -1,13 +1,22 @@
 ﻿@{
     ViewData["Title"] = "Home";
 }
-<h2 align="center">Bevo Books</h2>
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+<h1 align="center">Bevo Books</h1>
+
 <p align="center">
     Hello there! Welcome to the best book store at UT.
 </p>
+
 <p align="center">
-    <a asp-controller="Books"
-       asp-action="Index">Shop Books</a>
+    @Html.ActionLink("Shop Books", "Index", "Books", null, new { @class = "btn btn-primary" })
 </p>
 
 

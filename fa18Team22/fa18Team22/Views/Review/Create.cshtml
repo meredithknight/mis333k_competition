@@ -4,6 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <h2>Create</h2>
 
 <h4>Review</h4>
@@ -23,14 +30,14 @@
                 <span asp-validation-for="ReviewText" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="ApprovalStatus" /> @Html.DisplayNameFor(model => model.ApprovalStatus)
-                    </label>
-                </div>
-            </div>*@
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ApprovalStatus" /> @Html.DisplayNameFor(model => model.ApprovalStatus)
+                        </label>
+                    </div>
+                </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" id="@Model.ReviewID"/>
+                <input type="submit" value="Create" class="btn btn-default" id="@Model.ReviewID" />
                 @*<a asp-controller="Review" asp-action="Creates" asp-route-id="@Model.ReviewID">Add a Review</a>*@
 
             </div>

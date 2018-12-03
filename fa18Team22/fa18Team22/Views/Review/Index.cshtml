@@ -2,7 +2,29 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h2>Index</h2>
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+@*TABLE FORMAT*@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+
+<h2>Reviews</h2>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -38,7 +60,7 @@
                 <td>
                     <a asp-controller="Review" asp-action="Create" asp-route-id="@item.BookID">Add a Review</a> |
                     <a asp-controller="Review" asp-action="Details" asp-route-id="@item.BookID">Details</a>
-                  
+
 
                 </td>
             </tr>

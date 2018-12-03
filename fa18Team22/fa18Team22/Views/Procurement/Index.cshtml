@@ -4,12 +4,34 @@
     ViewData["Title"] = "Procurement";
 }
 
-<h2>Index</h2>
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+@*TABLE FORMAT*@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+
+<h2>Procurement</h2>
 <p>
     @Html.ActionLink("Automatic Reorder", "AutomaticOrder", "Procurement", null, new { @class = "btn btn-primary" })
 
     @Html.ActionLink("Manual Reorder", "Index", "ProcurementSearch", null, new { @class = "btn btn-secondary" })
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,23 +48,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProcurementDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProcurementID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProcurementID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProcurementID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcurementDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProcurementID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProcurementID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProcurementID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

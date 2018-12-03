@@ -267,6 +267,7 @@ namespace fa18Team22.Controllers
             _context.SaveChanges();
 
             //send order confirmation email
+            //SendEmailConfirmOrder(model.Email, model.FirstName);
 
             //REMINDER: where we'll update inventory
 
@@ -373,7 +374,7 @@ namespace fa18Team22.Controllers
             var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
             var toAddress = new MailAddress(ToAddress, "To " + ToName);
             const string fromPassword = "fa18team22";
-            const string subject = "Order Confirmed!";
+            const string subject = "Team 22: Order Confirmed!";
             const string body = "Your Bevo Books order is on the way! Here are some other books you might like:";
 
             //REMINDER: add book recommendations

@@ -4,6 +4,13 @@
     ViewData["Title"] = "Edit";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <h2>Edit Book</h2>
 
 <!--<h4>OrderDetail</h4>-->
@@ -15,7 +22,7 @@
             <input type="hidden" asp-for="OrderDetailID" />
             <dl class="dl-horizontal">
                 <dt>
-                    @Html.DisplayNameFor(model => model.Book.Title) 
+                    @Html.DisplayNameFor(model => model.Book.Title)
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Book.Title) <!--WHY WONT THE BOOK TITLE FREAKING SHOW UP-->
@@ -42,7 +49,7 @@
 </div>
 
 <div>
-    <a asp-action="Delete" asp-controller="OrderDetails"asp-route-id="@Model.OrderDetailID">Delete Book From Order</a>
+    <a asp-action="Delete" asp-controller="OrderDetails" asp-route-id="@Model.OrderDetailID">Delete Book From Order</a>
     <p></p>
     <a asp-action="ShoppingCart" asp-controller="Orders">Back to Shopping Cart</a>
 </div>

@@ -313,7 +313,7 @@ namespace fa18Team22.Controllers
             var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
             var toAddress = new MailAddress(ToAddress, "To "+ToName);
             const string fromPassword = "fa18team22";
-            const string subject = "Bevo Books New Account";
+            const string subject = "Team 22: New Account";
             const string body = "Welcome to Bevo Books! You just created a new account!";
 
             var smtp = new SmtpClient

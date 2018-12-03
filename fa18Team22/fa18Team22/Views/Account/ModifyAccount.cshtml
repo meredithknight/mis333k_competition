@@ -1,12 +1,19 @@
 ﻿@model ModifyAccountViewModel
-<h2>Modify Account</h2>
 @{
     ViewData["Title"] = "Modify Account";
 }
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+<h2>Modify Account</h2>
 @using (Html.BeginForm("ModifyAccount", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Modify Account Form</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">

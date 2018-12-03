@@ -3,10 +3,16 @@
     ViewBag.Title = "Error";
 }
 
-<h2>Error</h2>
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
 
+<h2>Error</h2>
 <div class="alert alert-danger">
-    @switch (Model.Count()) 
+    @switch (Model.Count())
     {
         case 0:
             @: Something went wrong.  Please try again.
@@ -17,7 +23,7 @@
         default:
             @: The following errors were encountered:
             <ul>
-                @foreach (string error in Model) 
+                @foreach (string error in Model)
                 {
                     <li>@error</li>
                 }
@@ -25,4 +31,4 @@
             break;
     }
 </div>
-@Html.ActionLink("OK", "Index","Home", null, new { @class = "btn btn-success"})
+@Html.ActionLink("OK", "Index", "Home", null, new { @class = "btn btn-success" })
