@@ -52,12 +52,15 @@ namespace fa18Team22.Models
         //[StringLength(15, ErrorMessage = "Max of 15 characters for password")]
         //public String Password { get; set; }
 
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]
         public String CreditCard1 { get; set; }
 
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]
         public String CreditCard2 { get; set; }
 
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]
         public String CreditCard3 { get; set; }
 

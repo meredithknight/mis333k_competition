@@ -73,7 +73,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var orderDetail = await _context.OrderDetails.FindAsync(id);
+            var orderDetail = _context.OrderDetails.Include(c => c.Book).FirstOrDefault(c => c.OrderDetailID == id);
             if (orderDetail == null)
             {
                 return NotFound();
@@ -87,19 +87,28 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailID,Quantity,Price")] OrderDetail orderDetail)
+        //public async Task<IActionResult> Edit(int id, [Bind("OrderDetailID,Quantity,Price")] OrderDetail orderDetail)
+        //{
+        //if (id != orderDetail.OrderDetailID)
+        //{
+        //    return NotFound();
+        //}
+        public IActionResult Edit(OrderDetail orderDetail)
         {
-            if (id != orderDetail.OrderDetailID)
-            {
-                return NotFound();
-            }
+
+            OrderDetail DbOrdDet = _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).FirstOrDefault(r => r.OrderDetailID == orderDetail.OrderDetailID);
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(orderDetail);
-                    await _context.SaveChangesAsync();
+
+                    DbOrdDet.Quantity = orderDetail.Quantity;
+                    DbOrdDet.Price = DbOrdDet.Price; //price should not change
+                    _context.OrderDetails.Update(DbOrdDet);
+                    //_context.Update(orderDetail);
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,11 +124,13 @@ namespace fa18Team22.Controllers
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("ShoppingCart", "Orders");
             }
-            return View(orderDetail);
+            //this breaks
+            return View(DbOrdDet);
         }
+    
 
-        // GET: OrderDetails/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+    // GET: OrderDetails/Delete/5
+    public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -144,7 +155,7 @@ namespace fa18Team22.Controllers
             var orderDetail = await _context.OrderDetails.FindAsync(id);
             _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("ShoppingCart", "Orders");
         }
 
         private bool OrderDetailExists(int id)

@@ -98,6 +98,8 @@ namespace fa18Team22.Models
 
     public class ModifyAccountViewModel
     {
+        public String Id { get; set; }
+
         [Required(ErrorMessage = "First name is required.")]
         [Display(Name = "First Name")]
         public String FirstName { get; set; }
@@ -137,17 +139,17 @@ namespace fa18Team22.Models
         public string PhoneNumber { get; set; }
 
         [DataType(DataType.CreditCard)]
-        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [StringLength(16, MinimumLength = 16, ErrorMessage = "Credit card number must be 16 digits")]
         [Display(Name = "Credit Card 1")]
         public String CreditCard1 { get; set; }
 
         [DataType(DataType.CreditCard)]
-        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [StringLength(16, MinimumLength = 16, ErrorMessage = "Credit card number must be 16 digits")]
         [Display(Name = "Credit Card 2")]
         public String CreditCard2 { get; set; }
 
         [DataType(DataType.CreditCard)]
-        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [StringLength(16, MinimumLength = 16, ErrorMessage = "Credit card number must be 16 digits")]
         [Display(Name = "Credit Card 3")]
         public String CreditCard3 { get; set; }
     }
@@ -167,6 +169,8 @@ namespace fa18Team22.Models
         public String State { get; set; }
         public String Zip { get; set; }
         public String PhoneNumber { get; set; }
-
+        public String CreditCard1 { get; set; }
+        public String CreditCard2 { get; set; }
+        public String CreditCard3 { get; set; }
     }
 }

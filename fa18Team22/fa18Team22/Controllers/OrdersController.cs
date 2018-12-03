@@ -192,6 +192,7 @@ namespace fa18Team22.Controllers
         //new actions MK added 11/14
 
         //GET
+        [Authorize]
         public IActionResult ShoppingCart()
         {
             //REMINDER: make it to find the open order for a 
@@ -219,6 +220,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize]
         public IActionResult Checkout(int? id)
         {
             if (id == null)
@@ -226,20 +228,22 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order ord = _context.Orders.Find(id);
+            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
-            if (ord == null)
+            if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
 
+
             //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
-            return View("Checkout", ord);
+            return View("Checkout", order);
         }
 
         //GET
+        [Authorize]
         public IActionResult PlacedOrder(int? id)
         {
             if (id == null)
@@ -247,25 +251,25 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order ord = _context.Orders.Find(id);
+            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
-            if (ord == null)
+            if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
 
             //once order is placed, change "IsComplete" property to true
-            ord.IsComplete = true;
+            order.IsComplete = true;
 
-
+            _context.SaveChanges();
             //I don't know what this is
-            OrderDetail od = new OrderDetail() { Order = ord };
+            //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
-            return View("PlaceOrder", od);
+            return View("PlacedOrder", order);
         }
 
-
+        [Authorize]
         public IActionResult AddToOrder(int? id) //book id
         {
             //find the book being added to the order
@@ -293,6 +297,8 @@ namespace fa18Team22.Controllers
                 _context.OrderDetails.Add(od);
                 _context.SaveChanges();
 
+                //WORKS UP TO HERE
+
                 //connect to the shopping cart order
                 od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
@@ -314,18 +320,24 @@ namespace fa18Team22.Controllers
 
                     String userId = User.Identity.Name;
                     AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
-                    od.Order.Customer = user;
+                    od.Order.Customer = user; //THIS IS THROWING ERROR WITH IDENTITY_INSERT
 
+                    //adds this shopping cart ORDER to the orders table in database
+                    _context.Orders.Add(od.Order);
+                    _context.SaveChanges();
 
                 }
 
                 //what to change for the order if it does already exist
                 else
                 {
+                    //_context.Orders.Add(od.Order);
+                    _context.SaveChanges();
 
                     Order existingCart = od.Order;
 
                     od.Order.OrderDate = System.DateTime.Today;
+                    existingCart.OrderDetails.Count();
                     //check if there's another book in the order already
                     if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
                     {
@@ -336,10 +348,11 @@ namespace fa18Team22.Controllers
                         od.Order.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
                     }
 
+                    _context.SaveChanges();
+
                 }
-                //adds this shopping cart ORDER to the orders table in database
-                _context.Orders.Add(od.Order);
-                _context.SaveChanges();
+
+
 
 
 
@@ -347,7 +360,7 @@ namespace fa18Team22.Controllers
 
 
 
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("ShoppingCart", "Orders", new {id = od.Book.BookID });
             }
         }
     }

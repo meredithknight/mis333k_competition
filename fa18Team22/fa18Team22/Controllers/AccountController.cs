@@ -165,7 +165,9 @@ namespace fa18Team22.Controllers
             ivm.State = user.State;
             ivm.Zip = user.Zip;
             ivm.PhoneNumber = user.PhoneNumber;
-
+            ivm.CreditCard1 = user.CreditCard1;
+            ivm.CreditCard2 = user.CreditCard2;
+            ivm.CreditCard3 = user.CreditCard3;
 
             return View(ivm);
         }
@@ -203,7 +205,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ModifyAccount(AppUser account)
+        public IActionResult ModifyAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
             {

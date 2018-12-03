@@ -36,6 +36,15 @@
             <dt>Phone Number:</dt>
             <dd>@Model.PhoneNumber</dd>
 
+            <dt>Credit Card 1:</dt>
+            <dd>@Model.CreditCard1</dd>
+
+            <dt>Credit Card 2:</dt>
+            <dd>@Model.CreditCard2</dd>
+
+            <dt>Credit Card 3:</dt>
+            <dd>@Model.CreditCard3</dd>
+
             <dt>Modify Account Information:</dt>
             @Html.ActionLink("Modify Account", "ModifyAccount", "Account", new { id = Model.Id })
 
@@ -43,9 +52,9 @@
             <dd>
                 [
                 @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-        }
+        {
+            @Html.ActionLink("Change your password", "ChangePassword")
+}
                 ]
 
             </dd>

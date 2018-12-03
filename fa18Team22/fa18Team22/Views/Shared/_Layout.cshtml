@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Product and Order Management</title>
+    <title>@ViewBag.Title - Bevo Books</title>
+    <link rel="shortcut icon" href="https://sportslogohistory-tvgu1jdkm2wvqi.netdna-ssl.com/wp-content/uploads/2018/02/texas_longhorns_1883-pres_a.png" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
 </head>
@@ -24,18 +25,42 @@
                     <li class="nav-item">
                         @Html.ActionLink("Books", "Index", "Books", null, new { @class = "nav-link" })
                     </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Genres", "Index", "Genres", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Promo", "Index", "Promo", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Reports", "ChooseReport", "Reports", null, new { @class = "nav-link" })
-                    </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Manage Users", "Index", "RoleAdmin", null, new { @class = "nav-link" })
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Orders", "Index", "Orders", null, new { @class = "nav-link" })
+                        </li>
+
+                        if (User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item">
+                                @Html.ActionLink("Genres", "Index", "Genres", null, new { @class = "nav-link" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Promo", "Index", "Promo", null, new { @class = "nav-link" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Reports", "ChooseReport", "Reports", null, new { @class = "nav-link" })
+                            </li>
+                        }
+
+                        if (User.IsInRole("Manager"))
+                        {
+                            <li class="nav-item">
+                                @Html.ActionLink("Genres", "Index", "Genres", null, new { @class = "nav-link" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Promo", "Index", "Promo", null, new { @class = "nav-link" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Reports", "ChooseReport", "Reports", null, new { @class = "nav-link" })
+                            </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Manage Users", "Index", "RoleAdmin", null, new { @class = "nav-link" })
+                            </li>
+                        }
+
+                    }
 
                 </ul>
             </div>
@@ -47,7 +72,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer align ="center">
             <p>&copy; @DateTime.Now.Year - Bevo Books</p>
         </footer>
     </div>
