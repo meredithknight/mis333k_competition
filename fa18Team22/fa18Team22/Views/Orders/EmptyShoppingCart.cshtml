@@ -4,6 +4,13 @@
     ViewData["Title"] = "Shopping Cart";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <h2>Your Shopping Cart is Empty</h2>
 @*
     <h2>Shopping Cart</h2>
@@ -54,6 +61,6 @@
     <!--<a asp-action="Checkout">Checkout</a>-->
     <!--Figure out how to get back to list of books-->
     <a asp-controller="Books"
-       asp-action="Index">Keep Shopping</a>
+       asp-action="Index" class="btn btn-primary">Keep Shopping</a>
 
 </div>

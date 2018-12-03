@@ -1,0 +1,52 @@
+﻿@model fa18Team22.Models.Order
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+<div>
+    <table class="table table-sm table-bordered" style="width:30%">
+        <tr>
+            <th colspan="2" style="text-align:center">Order Summary</th>
+        </tr>
+        <tr>
+            <td>Order Subtotal</td>
+            <td>@Html.DisplayFor(r => r.OrderSubtotal)</td>
+        </tr>
+        <tr>
+            <td>Sales Tax</td>
+            <td>@Html.DisplayFor(r => r.ShippingCost)</td>
+        </tr>
+        <tr>
+            <td>Order Total</td>
+            <td>@Html.DisplayFor(r => r.OrderTotal)</td>
+        </tr>
+    </table>
+</div>
+<div>
+    <!-- FORM to enter coupon code-->
+    <form action="enterCoupon">
+        Enter Coupon Code:<br>
+        <input type="text" name="couponCode">
+        <br>
+        <input type="submit" value="Apply Code">
+    </form>
+</div>
+<div>
+    <!-- enter payment information-->
+    <form action="paymentInformation">
+        Select Credit Card: 
+        <!-- drop down to select credit card on file-->
+        <br />
+        Enter Credit Card Number:<br>
+        <input type="text" name="creditCard">
+        <br>
+        <input type="submit" value="Use New Card">
+
+    </form>
+
+</div>
+<div>
+    <!-- place order-->
+    <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID">Place Order</a>
+</div>
+

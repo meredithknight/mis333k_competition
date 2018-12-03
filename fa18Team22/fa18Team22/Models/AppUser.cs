@@ -65,6 +65,16 @@ namespace fa18Team22.Models
         [DataType(DataType.CreditCard)]
         public String CreditCard3 { get; set; }
 
+        public Int32? NumofApprove
+        {
+            get { return ReviewsApproved.Count; }
+        }
+
+        public Int32? NumofRejected
+        {
+            get { return ReviewsRejected.Count; }
+        }
+
 
 
         //navigational properties
@@ -73,5 +83,9 @@ namespace fa18Team22.Models
         public List<Review> ReviewsWritten { get; set; }
         [InverseProperty("Approver")]
         public List<Review> ReviewsApproved { get; set; }
+        [InverseProperty("Rejecter")]
+        public List<Review> ReviewsRejected { get; set; }
+
+
     }
 }

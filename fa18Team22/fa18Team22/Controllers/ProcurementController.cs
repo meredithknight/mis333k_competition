@@ -52,6 +52,7 @@ namespace fa18Team22.Controllers
         public IActionResult AutomaticOrder()
         {
             var query = from r in _context.Books select r;
+            //change to < r.ReplenishMinimum, exclude books on active procurement
             query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
             List<Book> ProcurementBookSearch = query.ToList();
             return View("AutomaticOrder", ProcurementBookSearch);

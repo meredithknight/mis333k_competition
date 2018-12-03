@@ -1,0 +1,52 @@
+﻿@model IEnumerable<fa18Team22.Models.AppUser>
+
+
+
+@{
+    ViewData["Title"] = "Review Report";
+}
+
+<h2> Reviews Report </h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+                Number of Approved
+            </th>
+            <th>
+                Number of Rejected
+            </th>
+
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumofApprove)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumofRejected)
+                </td>
+                @*<td>
+                        <a asp-controller="Review" asp-action="Create" asp-route-id="@item.BookID">Add a Review</a> |
+                        <a asp-controller="Review" asp-action="Details" asp-route-id="@item.BookID">Details</a>
+
+
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>

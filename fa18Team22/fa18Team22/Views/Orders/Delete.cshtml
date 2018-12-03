@@ -4,6 +4,13 @@
     ViewData["Title"] = "Delete";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
 <h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
@@ -24,10 +31,10 @@
             @Html.DisplayFor(model => model.ShippingCost)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="OrderID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </form>
 </div>

@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using fa18Team22.Controllers
+@using fa18Team22.Models
+
+<h2> Reviews Report Search Options </h2>
+<form asp-action="ReviewReport" asp-controller="Reports" method="get">
+
+    Sort Option:
+    <div class="form-group">
+        <label class="radio">@Html.RadioButton("ReviewOption", ReviewOptions.EmpNum, true) Employee Email </label>
+        <label class="radio">@Html.RadioButton("ReviewOption", ReviewOptions.Accept) Number of Accepted </label>
+        <label class="radio">@Html.RadioButton("ReviewOption", ReviewOptions.Reject) Number of Rejected </label>
+
+    </div>
+
+
+
+    Sort By:
+    <div class="form-group">
+        <label class="radio">@Html.RadioButton("SortBy", SortReport.Ascending, true) Ascending </label>
+        <label class="radio">@Html.RadioButton("SortBy", SortReport.Descending) Descending </label>
+
+    </div>
+
+
+    <p class="form-group">
+        <button type="submit" asp-action="DisplayReviewReport" class="btn btn-secondary">Search</button>
+
+    </p>
+
+
+
+</form>
+

@@ -16,8 +16,8 @@ using System.Threading.Tasks;
 
 namespace fa18Team22.Controllers
 {
-    public enum SortReport { MostRecent, ProfitMarginAsc, ProfitMarginDesc, PriceAsc, PriceDesc, MostPopular }
-    public enum ReviewSort {Ascending, Desending}
+    public enum SortReport { MostRecent, ProfitMarginAsc, ProfitMarginDesc, PriceAsc, PriceDesc, MostPopular, Ascending, Descending }
+    public enum ReviewOptions {EmpNum, Accept, Reject }
 
     public class ReportsController : Controller
     {
@@ -45,14 +45,141 @@ namespace fa18Team22.Controllers
         }
 
 
+        public ActionResult AllBooksSold()
+        {
+            //initialize booksreport viewmodel
+            List<AllBooksReportViewModel> allBooksReports = new List<AllBooksReportViewModel>();
 
+            List<OrderDetail> BooksReport = new List<OrderDetail>();
+            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            BooksReport = query.ToList();
+
+            foreach(OrderDetail od in BooksReport)
+            {
+                AllBooksReportViewModel brvm = new AllBooksReportViewModel();
+
+                brvm.Title = od.Book.Title;
+                brvm.Quantity = od.Quantity;
+                brvm.OrderNumber = od.Order.OrderNumber;
+                brvm.CustomerName = od.Order.Customer.FirstName + ' '+ od.Order.Customer.LastName;
+                brvm.SellingPrice = od.Price;
+                //TODO: YOU NEED to add to books model class weghted
+                brvm.WeightedAvgCost = od.Book.BookCost;
+                brvm.ProfitMargin = (od.Price - od.Book.BookCost);
+                allBooksReports.Add(brvm);
+            }
+            return View(allBooksReports);
+
+        }
+
+        //GET:Report D (totals)
+        //TODO: Build the View for Report D
+        public ActionResult ReviewReportD()
+        {
+            List<Order> SelectedOrders = new List<Order>();
+            var query = from o in _db.Orders select o;
+            SelectedOrders = query.ToList();
+
+            decimal TotalCost = 0;
+            decimal TotalProfit = 0;
+            decimal TotalRevenue = 0;
+
+            foreach (Order so in SelectedOrders)
+            {
+                TotalProfit += so.OrderSubtotal;
+                //TODO: PROCUREMENT TOTAL COST CALCULATION
+                //TotalCost += so;
+                TotalRevenue += (TotalProfit - TotalCost);
+
+            }
+
+            ViewBag.TotalP = TotalProfit;
+            ViewBag.TotalC = TotalCost;
+            ViewBag.TotalR = TotalRevenue;
+
+
+            return View();
+        }
+
+        //Get Report E (Current Inventory)
+        public ActionResult ReviewReportE()
+        {
+            List<Book> InventoryList = new List<Book>();
+            var query = from b in _db.Books select b;
+            //InventoryList = query.Include(b => b.Procurement).ToList();
+            ViewBag.SelectedRecords = InventoryList.Count();
+
+            return View("ReviewReportE",InventoryList);
+        }
 
         //GET Report F (Reviews)
         public ActionResult ReviewReport()
         {
-            return View("ReturnResultSort");
+            return View("ReviewReportSort");
         }
 
+        //POST report F (reviews)
+        public async Task<ActionResult> DisplayReviewReport(ReviewOptions ReviewOption, SortReport SortBy)
+        {
+            List<AppUser> employees = new List<AppUser>();
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users.Include(User => User.ReviewsApproved).Include(User => User.ReviewsRejected))
+            {
+                var emplist = await _userManager.IsInRoleAsync(user, "Employee") ? members : nonMembers;
+                emplist.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
 
+            foreach(var emps in re.Members)
+            {
+                employees.Add(emps);
+            }
+
+
+            var empsort = employees.OrderBy(User => User.Email);
+
+            switch (ReviewOption)
+            {
+                case ReviewOptions.EmpNum:
+                    switch(SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.Email);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.Email);
+                            break;
+                    }
+                    break;
+                case ReviewOptions.Accept:
+                    switch(SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.NumofApprove);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.NumofApprove);
+                            break;
+                    }
+                    break;
+                case ReviewOptions.Reject:
+                    switch(SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.NumofRejected);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.NumofRejected);
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return View("ReviewReport", empsort);  
+        }
     }
 }

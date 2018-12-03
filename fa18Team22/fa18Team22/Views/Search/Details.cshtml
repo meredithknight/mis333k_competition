@@ -1,0 +1,86 @@
+@model fa18Team22.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+<h2>Details</h2>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UniqueID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UniqueID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PublishDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PublishDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BookDetail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BookDetail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SalesPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Inventory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Inventory)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AvgRating)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AvgRating)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReplenishMinimum)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReplenishMinimum)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="AddToOrder" a asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success">Add to Order</a> |
+    <a asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

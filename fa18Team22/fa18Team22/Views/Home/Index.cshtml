@@ -1,20 +1,22 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Home";
 }
 
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
 
-@{
-    ViewData["Title"] = "Index";
-}
-<h2 align="center">Bevo Books</h2>
+<h1 align="center">Bevo Books</h1>
+
 <p align="center">
     Hello there! Welcome to the best book store at UT.
 </p>
+
 <p align="center">
-    <a asp-controller="Books"
-       asp-action="Index">Shop Books</a>
+    @Html.ActionLink("Shop Books", "Index", "Books", null, new { @class = "btn btn-primary" })
 </p>
 
 
