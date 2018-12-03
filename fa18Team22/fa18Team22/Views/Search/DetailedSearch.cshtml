@@ -24,8 +24,14 @@
 
     @*User Sort Choice*@
     <div class="form-group">
-        <label>Sort by:</label>
-        @Html.DropDownList("SortBy", (SelectList)ViewBag.AllSortObjects, new { @class = "form-control" })
+        <label>Sort Choice:</label>
+
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.DontSort, true) No Special Sort </label>
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.Title) Title </label>
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.MostPopular) Author</label>
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.Newest) Most Popular </label>
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.Oldest) Newest </label>
+        <label class="radio">@Html.RadioButton("SortButton", SortOrderOpt.HighestRating) Highest Rating </label>
     </div>
     
     @*In/Out Stock *@

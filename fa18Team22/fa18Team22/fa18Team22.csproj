@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\ProcurementDetail.cs" />
+    <Compile Remove="Models\SortOrderOption.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_Layout.cshtml" />
