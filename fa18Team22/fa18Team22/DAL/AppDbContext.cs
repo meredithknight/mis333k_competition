@@ -19,6 +19,7 @@ namespace fa18Team22.DAL
         public DbSet<Review> Reviews { get; set; }
 
 
+
         //AppUser is implicitly set
     }
 
