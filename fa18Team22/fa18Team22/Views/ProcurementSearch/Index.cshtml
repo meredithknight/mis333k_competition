@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<fa18Team22.Models.Book>
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Procurement";
 }
 
 <h2>Book Index</h2>
-<form asp-action="Index" asp-controller="Search" method="get">
+<form asp-action="Index" asp-controller="ProcurementSearch" method="get">
     <p class="form-group">
         @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-success" href="/Search/DetailedSearch">Detailed Search</a>
+        <a class="btn btn-success" href="/ProcurementSearch/DetailedSearch">Detailed Search</a>
         @*TODO: Do we need to change href for this danger button the show all?*@
-        <a class="btn btn-danger" href="/Search/Index">Show All</a>
+        <a class="btn btn-danger" href="/ProcurementSearch/Index">Show All</a>
     </p>
 </form>
 
@@ -19,6 +19,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                Include in procurement?
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -43,6 +46,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplenishMinimum)
             </th>
+            <th>
+                Quantity to Order
+            </th>
+            <th>
+                Cost
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -50,6 +59,9 @@
         @foreach (var item in Model)
         {
         <tr>
+            <td>
+                <input type="checkbox" name="IdsToAdd" value="@item.BookID" />
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -73,6 +85,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReplenishMinimum)
+            </td>
+            <td>
+                @Html.TextBox("Quantity", 5, new { @class = "form-control" })
+            </td>
+            <td>
+                @Html.TextBox("Cost", item.BookCost, new { @class = "form-control" })
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
