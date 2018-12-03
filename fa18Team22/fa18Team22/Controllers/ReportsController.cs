@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace fa18Team22.Controllers
 {
     public enum SortReport { MostRecent, ProfitMarginAsc, ProfitMarginDesc, PriceAsc, PriceDesc, MostPopular }
+    public enum ReviewSort {Ascending, Desending}
 
     public class ReportsController : Controller
     {
@@ -42,6 +43,16 @@ namespace fa18Team22.Controllers
         {
             return View();
         }
+
+
+
+
+        //GET Report F (Reviews)
+        public ActionResult ReviewReport()
+        {
+            return View("ReturnResultSort");
+        }
+
 
     }
 }

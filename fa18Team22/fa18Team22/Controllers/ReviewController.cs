@@ -53,7 +53,7 @@ namespace fa18Team22.Controllers
             else
             {
                 var query = from r in _context.Reviews.Include(r => r.Author).Include(r => r.Book) select r;
-                query = query.Where(r => r.ApprovalStatus == false);
+                query = query.Where(r => r.ApprovalStatus == null);
                 List<Review> notapprovedlist = query.ToList();
                 return View("ManagerEmployeeIndex", notapprovedlist);
             }
@@ -138,6 +138,7 @@ namespace fa18Team22.Controllers
                 newreview.Author = currentuser;
                 newreview.Rating = Rating;
                 newreview.ReviewText = ReviewText;
+                newreview.ApprovalStatus = null;
                 book.Reviews.Add(newreview);
                 _context.Update(book);
                 _context.Update(newreview);

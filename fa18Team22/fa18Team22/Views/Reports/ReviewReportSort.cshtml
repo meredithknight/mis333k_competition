@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@using fa18Team22.Controllers
+@using fa18Team22.Models
+
+<h2> Review Report Search Options </h2>
+<form asp-action="ReviewReport" asp-controller="Reports" method="get">
+
+
+    EmployeeID
+    <div class="form-group">
+        <label class="radio">@Html.RadioButton("EmployeeID", ReviewSort.Ascending, true) Ascending </label>
+        <label class="radio">@Html.RadioButton("EmployeeID", ReviewSort.Desending) Decesding </label>
+
+    </div>
+
+    Number of Approved
+    <div class="form-group">
+        <label class="radio">@Html.RadioButton("NumApproved", ReviewSort.Ascending, true) Ascending </label>
+        <label class="radio">@Html.RadioButton("NumApproved", ReviewSort.Desending) Decesding </label>
+
+    </div>
+
+    Number of Rejected
+
+
+
+</form>
+
