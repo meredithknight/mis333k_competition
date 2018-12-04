@@ -215,7 +215,17 @@ namespace fa18Team22.Controllers
             }
             else //return a view of the current shopping cart
             {
-                return View(order);
+
+
+                                if (order.OrderDetails.Count() == 0 )
+                {
+                    return View("EmptyShoppingCart");
+                }
+                else
+                {
+                    return View(order);
+                }
+
             }
 
         }

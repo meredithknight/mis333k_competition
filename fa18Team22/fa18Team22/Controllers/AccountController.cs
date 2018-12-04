@@ -435,7 +435,7 @@ namespace fa18Team22.Controllers
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
 
-                    return RedirectToAction("ModifyCustomerAccounts", "Account"); //this is like the index page
+                    return RedirectToAction("ManageCustomerAccounts", "Account"); //this is like the index page
                 }
                 else
                 {
@@ -674,7 +674,7 @@ namespace fa18Team22.Controllers
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
 
-                    return RedirectToAction("ModifyEmployeeAccounts", "Account"); //this is like the index page
+                    return RedirectToAction("ManageEmployeeAccounts", "Account"); //this is like the index page
                 }
                 else
                 {
