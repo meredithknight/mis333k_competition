@@ -1,0 +1,40 @@
+﻿@model IEnumerable<fa18Team22.Models.Book>
+@{
+    ViewData["Title"] = "Details";
+}
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+<h2>Recommended Books</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Book Name
+            </th>
+            <th>
+                Author
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>

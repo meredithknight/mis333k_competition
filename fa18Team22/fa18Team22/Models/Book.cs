@@ -53,5 +53,6 @@ namespace fa18Team22.Models
         public Genre Genre { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<Review> Reviews { get; set; }
+        //public List<Order> BooksInRecommend { get; set; }
     }
 }

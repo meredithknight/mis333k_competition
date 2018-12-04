@@ -236,7 +236,6 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "Order not found!" });
             }
 
-
             //OrderDetail od = new OrderDetail() { Order = ord };
 
             //ViewBag.AllProducts = GetAllProducts();
@@ -252,7 +251,21 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+
+            List<OrderDetail> allorderdetails = new List<OrderDetail>();
+            var query = _context.OrderDetails.Include(r => r.Book).Include(m => m.Order).ThenInclude(m => m.Customer);
+            allorderdetails = query.ToList();
+
+            foreach (OrderDetail odd in allorderdetails)
+            {
+                if(odd.Order.OrderID == id)
+                {
+                    odd.Book.Inventory -= odd.Quantity;
+                    _context.SaveChanges();
+                }
+            }
+
+            var order = _context.Orders.Include(r => r.OrderDetails).ThenInclude(r => r.Book).Include(r => r.Customer).FirstOrDefault(r =>r.OrderID == id);
 
             if (order == null)
             {
@@ -263,6 +276,7 @@ namespace fa18Team22.Controllers
             order.IsComplete = true;
             order.OrderDate = System.DateTime.Today;
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
+
 
             _context.SaveChanges();
 
@@ -281,8 +295,10 @@ namespace fa18Team22.Controllers
             //find the book being added to the order
             Book book = _context.Books.Find(id);
 
+            book.Inventory = GetBookInventory(book);
+
             //if the book is out of stock, cannot add to order
-            if(book.Inventory == 0)
+            if (book.Inventory == 0)
             {
                 return RedirectToAction("Index", "Book");
                 //this book is out of stock, return user to error page saying it cannot be ordered.
@@ -369,6 +385,13 @@ namespace fa18Team22.Controllers
                 return RedirectToAction("ShoppingCart", "Orders", new {id = od.Book.BookID });
             }
         }
+
+        public int GetBookInventory(Book BookID)
+        {
+            int bookInventory = BookID.Inventory;
+            return bookInventory;
+        }
+
         private void SendEmailConfirmOrder(string ToAddress, string ToName)
         {
             var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
@@ -397,5 +420,6 @@ namespace fa18Team22.Controllers
                 smtp.Send(message);
             }
         }
+
     }
 }

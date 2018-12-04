@@ -37,6 +37,9 @@ namespace fa18Team22.Models
             }
         }
 
+
+
+
         public Boolean IsComplete { get; set; }
 
         //navigational properties
