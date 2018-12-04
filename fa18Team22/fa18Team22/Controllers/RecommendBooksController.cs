@@ -27,7 +27,7 @@ namespace fa18Team22.Controllers
 
         public ActionResult Recommend(int? id)
         {
-            Order order = _context.Orders.Include(r => r.OrderDetails).ThenInclude(OrderDetails => OrderDetails.Book).FirstOrDefault(r => r.OrderID == id);
+            Order order = _context.Orders.Include(r => r.OrderDetails).ThenInclude(OrderDetails => OrderDetails.Book).ThenInclude(Book => Book.Genre).FirstOrDefault(r => r.OrderID == id);
             List<Book> listofrecbooks = RecommendedBooks(order);
             return View("Recommend", listofrecbooks);
         }
@@ -50,7 +50,7 @@ namespace fa18Team22.Controllers
             }
 
             string author = orderDetails.Book.Author;
-            string genre = orderDetails.Book.Author;
+            string genre = orderDetails.Book.Genre.GenreName;
             var query = from r in _context.Books select r;
             query = query.Where(r => r.Author == author && r.Genre.GenreName == genre);
             if (query.ToList().Count() > 1)
