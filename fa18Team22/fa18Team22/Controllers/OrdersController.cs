@@ -264,6 +264,7 @@ namespace fa18Team22.Controllers
             order.OrderDate = System.DateTime.Today;
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
+
             _context.SaveChanges();
 
             //send order confirmation email
@@ -397,5 +398,6 @@ namespace fa18Team22.Controllers
                 smtp.Send(message);
             }
         }
+
     }
 }

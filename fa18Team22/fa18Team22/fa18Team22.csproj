@@ -27,6 +27,7 @@
     <Folder Include="Seeding\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\ProcurementSearch\" />
+    <Folder Include="Views\RecommendBooks\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\SortOrderOption.cs" />
