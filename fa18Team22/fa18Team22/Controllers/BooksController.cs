@@ -160,7 +160,6 @@ namespace fa18Team22.Controllers
                     dbBook.BookDetail = book.BookDetail;
                     dbBook.SalesPrice = book.SalesPrice;
                     dbBook.Inventory = book.Inventory;
-                    dbBook.AvgRating = book.AvgRating;
                     dbBook.ReplenishMinimum = book.ReplenishMinimum;
 
                     _context.Update(dbBook);
