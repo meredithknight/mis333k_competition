@@ -1,0 +1,79 @@
+﻿@model IEnumerable<fa18Team22.Models.Review>
+
+<h2>All Reviews</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovalStatus)
+            </th>
+            <th>
+                Approver First Name
+            </th>
+            <th>
+                Approver Last Name
+            </th>
+            <th>
+                Rejecter First Name
+            </th>
+            <th>
+                Rejecter Last Name
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApprovalStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Approver.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Approver.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rejecter.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rejecter.LastName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

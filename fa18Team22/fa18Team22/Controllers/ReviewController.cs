@@ -189,6 +189,15 @@ namespace fa18Team22.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult AllReviews()
+        {
+            var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author).Include(r => r.Approver).Include(r => r.Rejecter) select r;
+            query = query.Where(r => r.Author != null);
+            List<Review> listofreviews = query.ToList();
+            return View("AllReviews", listofreviews);
+        }
+
+
         // GET: Review/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

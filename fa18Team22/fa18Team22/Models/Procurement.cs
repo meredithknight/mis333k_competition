@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace fa18Team22.Models
 {
-    public enum ProcurementStatus { Ordered, Delivered }
 
     public class Procurement
     {
@@ -21,6 +20,8 @@ namespace fa18Team22.Models
 
         [Display(Name = "Quantity")]
         public Int16 Quantity { get; set; }
+
+        public Boolean? ProcurementStatus { get; set; }
 
         public Book Book { get; set; }
         public AppUser Employee { get; set; }

@@ -11,12 +11,16 @@ using System.Net;
 using fa18Team22.DAL;
 using fa18Team22.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 
 //TODO: Change this namespace to match your project
 namespace fa18Team22.Controllers
 {
+    public enum UserStatusEnum { Active, Inactive}
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -113,6 +117,8 @@ namespace fa18Team22.Controllers
 
 
                 };
+
+                user.UserStatus = "Active";
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -348,7 +354,252 @@ namespace fa18Team22.Controllers
             _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-           
+
+
+        //CUSTOMER ACCOUNT CONTROLLER /// ////////////////////////////////////////////////////////////
+        //Manage Customer accounts (like an index)
+        public async Task<ActionResult> ManageCustomerAccounts()
+        {
+            //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
+            List<AppUser> allCustomers = new List<AppUser>();
+
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users)
+            {
+                var customerList = await _userManager.IsInRoleAsync(user, "Customer") ? members : nonMembers;
+                customerList.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (var customer in re.Members)
+            {
+                allCustomers.Add(customer);
+            }
+
+            //return allCustomers;
+
+            return View(allCustomers);
+        }
+
+        //GET
+        public ActionResult CreateCustomerAccount()
+        {
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateCustomerAccount(RegisterViewModel model, LoginViewModel LoginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+
+                    //TODO: You will need to add all of the properties for your User model here
+                    //Make sure that you have included ALL of the properties and that they match
+                    //the model class EXACTLY!!
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip,
+
+                    //need to do something to make account active??
+
+
+                };
+
+                user.UserStatus = "Active";
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //user.UserStatus = "Active";
+
+                    //TODO: Add user to desired role
+                    //This will not work until you have seeded Identity OR added the "Customer" role 
+                    //by navigating to the RoleAdmin controller and manually added the "Customer" role
+
+
+
+                    await _userManager.AddToRoleAsync(user, "Customer");
+                    SendEmailNewAccount(model.Email, model.FirstName);
+
+                    //Do not want to sign this person in
+                    //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
+
+                    return RedirectToAction("ModifyCustomerAccounts", "Account"); //this is like the index page
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
+
+        }
+
+        //Edit a selected customer account
+        //GET
+        //GET: /Account/Edit
+        public ActionResult EditCustomerAccount(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = _context.Users.FirstOrDefault(c => c.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+            ModifyAccountViewModel mvm = new ModifyAccountViewModel();
+            mvm.Email = account.Email;
+            mvm.FirstName = account.FirstName;
+            mvm.LastName = account.LastName;
+            mvm.Address = account.Address;
+            mvm.City = account.City;
+            mvm.State = account.State;
+            mvm.Zip = account.Zip;
+            mvm.PhoneNumber = account.PhoneNumber;
+            mvm.CreditCard1 = account.CreditCard1;
+            mvm.CreditCard2 = account.CreditCard2;
+            mvm.CreditCard3 = account.CreditCard3;
+            return View(mvm);
+        }
+
+
+
+        //POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditCustomerAccount(ModifyAccountViewModel account)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppUser dbAccount = _context.Users
+                        .FirstOrDefault(c => c.Id == account.Id);
+
+                    dbAccount.FirstName = account.FirstName;
+                    dbAccount.LastName = account.LastName;
+                    dbAccount.Email = account.Email;
+                    dbAccount.UserName = account.Email;
+                    dbAccount.Address = account.Address;
+                    dbAccount.City = account.City;
+                    dbAccount.State = account.State;
+                    dbAccount.Zip = account.Zip;
+                    dbAccount.PhoneNumber = account.PhoneNumber;
+                    dbAccount.CreditCard1 = account.CreditCard1;
+                    dbAccount.CreditCard2 = account.CreditCard2;
+                    dbAccount.CreditCard3 = account.CreditCard3;
+
+                    _context.Update(dbAccount);
+                    _context.SaveChanges();
+
+                    //edit department/course relationships
+
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(account.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(account);
+        }
+
+        //edit a customer or employee user status
+        public ActionResult ChangeUserStatus(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            AppUser account = _context.Users.FirstOrDefault(c => c.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            //want to return a whether UserStatus is "Active" or "Inactive" --> done in view
+
+            return View(account);
+        }
+
+        //POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeUserStatus(string id, UserStatusEnum SelectedUserStatus)
+        {
+            AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
+
+            if (SelectedUserStatus == UserStatusEnum.Active)
+            {
+                currentUser.UserStatus = "Active";
+            }
+            else
+            {
+                currentUser.UserStatus = "Inactive";
+            }
+
+            //figure out if this is right
+            _context.Update(currentUser);
+            _context.SaveChanges();
+
+
+            //repopulate list of all customers
+            List<AppUser> allCustomers = new List<AppUser>();
+
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users)
+            {
+                var customerList = await _userManager.IsInRoleAsync(user, "Customer") ? members : nonMembers;
+                customerList.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (var customer in re.Members)
+            {
+                allCustomers.Add(customer);
+            }
+
+            //return allCustomers;
+
+            return View("ManageCustomerAccounts", allCustomers);
+        }
+
+        //END OF CUSTOMER CONTROLLER /// /////////////////////////////////////////////////////////////////////
+
+        //START OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
+
+
+        //END OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
+
 
         private void AddErrors(IdentityResult result)
         {
@@ -386,6 +637,8 @@ namespace fa18Team22.Controllers
             {
                 smtp.Send(message);
             }
+
+
         }
     }
 }

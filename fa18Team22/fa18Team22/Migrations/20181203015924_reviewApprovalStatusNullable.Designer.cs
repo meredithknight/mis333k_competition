@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fa18Team22.DAL;
 
 namespace fa18Team22.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181203015924_reviewApprovalStatusNullable")]
+    partial class reviewApprovalStatusNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -118,6 +120,8 @@ namespace fa18Team22.Migrations
 
                     b.Property<int>("Inventory");
 
+                    b.Property<int?>("ProcurementID");
+
                     b.Property<DateTime>("PublishDate");
 
                     b.Property<int>("ReplenishMinimum");
@@ -131,6 +135,8 @@ namespace fa18Team22.Migrations
                     b.HasKey("BookID");
 
                     b.HasIndex("GenreID");
+
+                    b.HasIndex("ProcurementID");
 
                     b.ToTable("Books");
                 });
@@ -204,21 +210,15 @@ namespace fa18Team22.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BookID");
-
                     b.Property<string>("EmployeeId");
 
                     b.Property<decimal>("Price");
 
                     b.Property<DateTime>("ProcurementDate");
 
-                    b.Property<bool?>("ProcurementStatus");
-
                     b.Property<short>("Quantity");
 
                     b.HasKey("ProcurementID");
-
-                    b.HasIndex("BookID");
 
                     b.HasIndex("EmployeeId");
 
@@ -261,8 +261,6 @@ namespace fa18Team22.Migrations
 
                     b.Property<decimal>("Rating");
 
-                    b.Property<string>("RejecterId");
-
                     b.Property<string>("ReviewText")
                         .HasMaxLength(100);
 
@@ -273,8 +271,6 @@ namespace fa18Team22.Migrations
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("BookID");
-
-                    b.HasIndex("RejecterId");
 
                     b.ToTable("Reviews");
                 });
@@ -394,6 +390,10 @@ namespace fa18Team22.Migrations
                     b.HasOne("fa18Team22.Models.Genre", "Genre")
                         .WithMany("Books")
                         .HasForeignKey("GenreID");
+
+                    b.HasOne("fa18Team22.Models.Procurement")
+                        .WithMany("Books")
+                        .HasForeignKey("ProcurementID");
                 });
 
             modelBuilder.Entity("fa18Team22.Models.Order", b =>
@@ -420,10 +420,6 @@ namespace fa18Team22.Migrations
 
             modelBuilder.Entity("fa18Team22.Models.Procurement", b =>
                 {
-                    b.HasOne("fa18Team22.Models.Book", "Book")
-                        .WithMany("Procurements")
-                        .HasForeignKey("BookID");
-
                     b.HasOne("fa18Team22.Models.AppUser", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
@@ -442,10 +438,6 @@ namespace fa18Team22.Migrations
                     b.HasOne("fa18Team22.Models.Book", "Book")
                         .WithMany("Reviews")
                         .HasForeignKey("BookID");
-
-                    b.HasOne("fa18Team22.Models.AppUser", "Rejecter")
-                        .WithMany("ReviewsRejected")
-                        .HasForeignKey("RejecterId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
