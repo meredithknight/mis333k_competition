@@ -28,6 +28,8 @@ namespace fa18Team22.Controllers
         // GET: /<Search Controller>/
         public IActionResult Index()
         {
+            ViewBag.OutofStock = "Out of Stock. Check Back Soon!";
+            ViewBag.InStock = "In Stock";
             ViewBag.SelectedBooksCount = _db.Books.Count();
             ViewBag.TotalBooks = _db.Books.Count();
             return View(_db.Books.Include(r => r.Genre).ToList());
@@ -41,6 +43,11 @@ namespace fa18Team22.Controllers
         }
         public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, SortOrderOpt SortButton)
         {
+            List<OrderDetail> OrderDetailList = new List<OrderDetail>();
+            var odquery = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            OrderDetailList = odquery.ToList();
+
+
             List<Book> SelectedBooks = new List<Book>();
 
             var query = from r in _db.Books select r;
@@ -104,32 +111,67 @@ namespace fa18Team22.Controllers
             }
 
             SelectedBooks = query.ToList();
-            ViewBag.SelectedBooksCount = SelectedBooks.Count();
+
+            List<SearchVM> searchVms = new List<SearchVM>();
+
+            //MAKING THE ORDER DETAIL and checking which is most popular
+            foreach(Book book in SelectedBooks)
+            {
+                SearchVM svm = new SearchVM();
+                svm.BookID = book.BookID;
+                svm.Title = book.Title;
+                svm.Author = book.Author;
+                svm.AvgRating = book.AvgRating;
+                svm.SalesPrice = book.SalesPrice;
+                if (book.Inventory > 0) { svm.InStock = true; }
+                if (book.Inventory <= 0) { svm.InStock = false; }
+                svm.UniqueNumber = book.UniqueID;
+                svm.BookDetail = book.BookDetail;
+
+                Int32 intCountOrdered = 0;
+                foreach(OrderDetail od in OrderDetailList)
+                {
+                    if(od.Book.BookID == book.BookID)
+                    {
+                        intCountOrdered += od.Quantity;
+                    }
+                }
+                svm.QuantityOrdered = intCountOrdered;
+                svm.PublishDate = book.PublishDate;
+                searchVms.Add(svm);
+
+            }
+
+            //populate viewbags
+            ViewBag.SelectedBooksCount = searchVms.Count();
             ViewBag.TotalBooks = _db.Books.Count();
+            ViewBag.OutofStock = "Out of Stock. Check Back Soon!";
+            ViewBag.InStock = "In Stock";
 
             switch (SortButton)
             {
                 case SortOrderOpt.DontSort: break;
                 case SortOrderOpt.Title:
-                    return View("Index", SelectedBooks.OrderBy(r => r.Title));
+                    return View("ViewModelIndex", searchVms.OrderBy(r => r.Title));
                 case SortOrderOpt.Author:
-                    return View("Index", SelectedBooks.OrderBy(r => r.Author));
+                    return View("ViewModelIndex", searchVms.OrderBy(r => r.Author));
                 case SortOrderOpt.MostPopular:
-                    return View("Index", SelectedBooks.OrderBy(r => r.BookID));
+                    return View("ViewModelIndex", searchVms.OrderByDescending(r => r.QuantityOrdered));
                 case SortOrderOpt.Newest:
-                    return View("Index", SelectedBooks.OrderByDescending(r => r.PublishDate));
+                    return View("ViewModelIndex", searchVms.OrderByDescending(r => r.PublishDate));
                 case SortOrderOpt.Oldest:
-                    return View("Index", SelectedBooks.OrderBy(r => r.PublishDate));
+                    return View("ViewModelIndex", searchVms.OrderBy(r => r.PublishDate));
                 case SortOrderOpt.HighestRating:
-                    return View("Index", SelectedBooks.OrderByDescending(r => r.AvgRating));
+                    return View("ViewModelIndex", searchVms.OrderByDescending(r => r.AvgRating));
             }
 
-
+            ViewBag.OutofStock = "Out of Stock. Check Back Soon!";
+            ViewBag.InStock = "In Stock";
             SelectedBooks = query.ToList();
-            ViewBag.SelectedBooksCount = SelectedBooks.Count();
+            ViewBag.SelectedBooksCount = searchVms.Count();
             ViewBag.TotalBooks = _db.Books.Count();
             //ViewBag.SelectedBooksSearch = SelectedBooksSearch.Count();
-            return View("Index", SelectedBooks);
+            return View("ViewModelIndex", searchVms);
 
         }
 

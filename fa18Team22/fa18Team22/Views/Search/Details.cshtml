@@ -52,24 +52,32 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.SalesPrice)
+
         </dd>
+        @if (Model.Inventory <= 0)
+        {
         <dt>
-            @Html.DisplayNameFor(model => model.Inventory)
+            Out of Inventory. Check back soon!
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Inventory)
+
         </dd>
+        }
+        @if (Model.Inventory < 3 && Model.Inventory > 0)
+        {
+        <dt>
+            Watch Out! Inventory is Low! Order now to ensure you get a copy!
+        </dt>
+        <dd>
+
+        </dd>
+        }
+
         <dt>
             @Html.DisplayNameFor(model => model.AvgRating)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AvgRating)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ReplenishMinimum)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ReplenishMinimum)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Genre.GenreName)
