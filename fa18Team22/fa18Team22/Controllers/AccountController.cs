@@ -179,19 +179,19 @@ namespace fa18Team22.Controllers
 
             if (ivm.CreditCard1 != null)
             {
-                ViewBag.CreditCard1 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
+                ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
             }
             else { ViewBag.CreditCard1 = "None"; }
 
             if (ivm.CreditCard2 != null)
             {
-                ViewBag.CreditCard2 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
+                ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
             }
             else { ViewBag.CreditCard2 = "None"; }
 
             if (ivm.CreditCard3 != null)
             {
-                ViewBag.CreditCard3 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
+                ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
             }
             else { ViewBag.CreditCard3 = "None"; }
 
@@ -442,7 +442,7 @@ namespace fa18Team22.Controllers
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
 
-                    return RedirectToAction("ModifyCustomerAccounts", "Account"); //this is like the index page
+                    return RedirectToAction("ManageCustomerAccounts", "Account"); //this is like the index page
                 }
                 else
                 {
@@ -683,7 +683,7 @@ namespace fa18Team22.Controllers
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
 
-                    return RedirectToAction("ModifyEmployeeAccounts", "Account"); //this is like the index page
+                    return RedirectToAction("ManageEmployeeAccounts", "Account"); //this is like the index page
                 }
                 else
                 {

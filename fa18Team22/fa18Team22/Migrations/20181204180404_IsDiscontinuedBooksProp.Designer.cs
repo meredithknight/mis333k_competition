@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fa18Team22.DAL;
 
 namespace fa18Team22.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181204180404_IsDiscontinuedBooksProp")]
+    partial class IsDiscontinuedBooksProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -108,6 +110,8 @@ namespace fa18Team22.Migrations
 
                     b.Property<string>("Author");
 
+                    b.Property<decimal>("AvgRating");
+
                     b.Property<decimal>("BookCost");
 
                     b.Property<string>("BookDetail");
@@ -161,9 +165,6 @@ namespace fa18Team22.Migrations
                     b.Property<DateTime>("OrderDate");
 
                     b.Property<int>("OrderNumber");
-
-                    b.Property<string>("Payment")
-                        .HasMaxLength(16);
 
                     b.Property<int?>("PromoID");
 

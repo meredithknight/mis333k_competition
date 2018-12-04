@@ -103,12 +103,23 @@ namespace fa18Team22.Controllers
             {
                 try
                 {
+                    //if the quantity the user orders is higher than the inventory
+                    if (orderDetail.Quantity > DbOrdDet.Book.Inventory)
+                    {
+                        //figure out how to return an error message
+                        ViewBag.QuantityError = "The quantity you entered exceeds our stock.";
+                        orderDetail.Price = DbOrdDet.Price;
+                        return View(orderDetail);
+                    }
+                    else //allow them to make the change
+                    {
+                        DbOrdDet.Quantity = orderDetail.Quantity;
+                        DbOrdDet.Price = DbOrdDet.Price; //price should not change
+                        _context.OrderDetails.Update(DbOrdDet);
+                        //_context.Update(orderDetail);
+                        _context.SaveChanges();
+                    }
 
-                    DbOrdDet.Quantity = orderDetail.Quantity;
-                    DbOrdDet.Price = DbOrdDet.Price; //price should not change
-                    _context.OrderDetails.Update(DbOrdDet);
-                    //_context.Update(orderDetail);
-                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

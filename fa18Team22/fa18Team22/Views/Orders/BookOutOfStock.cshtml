@@ -1,0 +1,19 @@
+﻿@model fa18Team22.Models.Order
+@using fa18Team22.Models
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+<h2>This book is out of stock.</h2>
+<h3>You cannot add this book to your cart at this time.</h3>
+<div>
+    <!--<a asp-action="Checkout">Checkout</a>-->
+    <!--Figure out how to get back to list of books-->
+    <a asp-controller="Books"
+       asp-action="Index" class="btn btn-primary">Keep Shopping</a>
+</div>
