@@ -201,9 +201,6 @@ namespace fa18Team22.Controllers
             Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
 
-            //see if it's a fuzzy id
-
-
             //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
             if (order == null)
             {
@@ -216,13 +213,33 @@ namespace fa18Team22.Controllers
             else //return a view of the current shopping cart
             {
 
-
-                                if (order.OrderDetails.Count() == 0 )
+                if (order.OrderDetails.Count() == 0 )
                 {
                     return View("EmptyShoppingCart");
                 }
                 else
                 {
+                    //check for out of stock books --> show error
+                    //check for discontinued books
+                    foreach(OrderDetail od in order.OrderDetails.ToList())
+                    {
+                        if(od.Book.Inventory == 0)
+                        {
+                            ViewBag.OutOfStock = od.Book.Title + " is currently out of stock. It has been removed from your cart.";
+                            //update the order to remove this order detail
+                            _context.OrderDetails.Remove(od);
+                            _context.SaveChanges();
+                        }
+                        if(od.Book.IsDiscontinued) //if it's true
+                        {
+                            ViewBag.BookDiscontinued = od.Book.Title + " has been discontinued. It has been removed from your cart";
+                            //update the order to remove this order detail
+                            _context.OrderDetails.Remove(od);
+                            _context.SaveChanges();
+
+                        }
+                    }
+
                     return View(order);
                 }
 
@@ -310,7 +327,8 @@ namespace fa18Team22.Controllers
             //if the book is out of stock, cannot add to order
             if (book.Inventory == 0)
             {
-                return RedirectToAction("Index", "Book");
+
+                return View("BookOutOfStock");
                 //this book is out of stock, return user to error page saying it cannot be ordered.
             }
             //when a user adds a book to an order, do they go to a page to choose how many???? (elif)

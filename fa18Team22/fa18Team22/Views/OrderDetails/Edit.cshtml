@@ -39,6 +39,7 @@
                 <label asp-for="Quantity" class="control-label"></label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
+                <p><font color="red">@ViewBag.QuantityError</font></p>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
