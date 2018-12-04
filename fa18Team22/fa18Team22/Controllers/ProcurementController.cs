@@ -79,10 +79,19 @@ namespace fa18Team22.Controllers
             return View("IndexCheck", SelectedBooks);
         }
 
+        public ActionResult IndexCheck()
+        {
+            return View();
+        }
+
+
+        //addwinnineb bid controller
+
+        //view adding winning bid 
 
         //POST: Automatic Order
         [HttpPost]
-        public IActionResult AutomaticOrder(int[] IdsToAdd ,string QuantityToAdd, Decimal Cost) 
+        public IActionResult AutomaticOrder(int[] IdsToAdd ,string[] QuantityToAdd, Decimal Cost) 
         {
             var query = from r in _context.Books select r;
             //change to < r.ReplenishMinimum, exclude books on active procurement
