@@ -32,7 +32,7 @@ namespace fa18Team22.Controllers
             ViewBag.InStock = "In Stock";
             ViewBag.SelectedBooksCount = _db.Books.Count();
             ViewBag.TotalBooks = _db.Books.Count();
-            return View(_db.Books.Include(r => r.Genre).ToList());
+            return View(_db.Books.Include(r => r.Genre).Include(r => r.Reviews).ToList());
         }
 
         public ActionResult DetailedSearch()
@@ -44,7 +44,7 @@ namespace fa18Team22.Controllers
         public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, SortOrderOpt SortButton)
         {
             List<OrderDetail> OrderDetailList = new List<OrderDetail>();
-            var odquery = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            var odquery = _db.OrderDetails.Include(o => o.Book).ThenInclude(o=>o.Reviews).Include(o => o.Order).ThenInclude(o => o.Customer);
             OrderDetailList = odquery.ToList();
 
 
@@ -110,6 +110,7 @@ namespace fa18Team22.Controllers
                     break;
             }
 
+            query = query.Include(r => r.Reviews);
             SelectedBooks = query.ToList();
 
             List<SearchVM> searchVms = new List<SearchVM>();
@@ -117,6 +118,13 @@ namespace fa18Team22.Controllers
             //MAKING THE ORDER DETAIL and checking which is most popular
             foreach(Book book in SelectedBooks)
             {
+                List<Review> reviewslist = new List<Review>();
+
+                var revquery = from r in _db.Reviews select r;
+                revquery = revquery.Where(r => r.ApprovalStatus == true);
+                revquery = revquery.Include(r => r.Book);
+                reviewslist = revquery.ToList();
+
                 SearchVM svm = new SearchVM();
                 svm.BookID = book.BookID;
                 svm.Title = book.Title;
@@ -127,7 +135,8 @@ namespace fa18Team22.Controllers
                 if (book.Inventory <= 0) { svm.InStock = false; }
                 svm.UniqueNumber = book.UniqueID;
                 svm.BookDetail = book.BookDetail;
-
+                svm.AvgRating = book.AvgRating;
+             
                 Int32 intCountOrdered = 0;
                 foreach(OrderDetail od in OrderDetailList)
                 {
