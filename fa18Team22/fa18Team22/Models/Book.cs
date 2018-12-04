@@ -33,14 +33,24 @@ namespace fa18Team22.Models
         [Display(Name = "Inventory")]
         public Int32 Inventory { get; set; }
 
+
         [Display(Name = "Average Rating")]
-        public Decimal AvgRating { get; set; }
+        public Decimal AvgRating
+        { 
+            get { return Reviews.Average(re => re.Rating); }
+        }
 
         [Display(Name = "Replenish Minimum")]
         public Int32 ReplenishMinimum { get; set; }
 
         [Display(Name = "Book Cost")]
         public Decimal BookCost { get; set; }
+
+        [Display(Name = "Average Book Cost")]
+        public Decimal AvgBookCost 
+        {
+            get { return Procurements.Average(p => p.Price); }
+        }
 
         [Display(Name = "Average Sales Price")]
         public Decimal AvgSalesPrice
