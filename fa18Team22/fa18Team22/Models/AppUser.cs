@@ -46,6 +46,7 @@ namespace fa18Team22.Models
         [Display(Name = "Zip")]
         public String Zip { get; set; }
 
+        [Display(Name = "User Status")]
         public String UserStatus { get; set; }
         //Active / Inactive
 

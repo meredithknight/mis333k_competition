@@ -96,9 +96,9 @@
                     @Html.DisplayFor(modelItem => item.Genre.GenreName)
                 </td>*@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    @*<a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.BookID" class="btn btn-danger">Delete</a>*@
+                    <a asp-action="EditCustomerAccount" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="ChangeUserStatus" asp-route-id="@item.Id" class="btn btn-info">Activate/Deactivate Account</a>
+                    @*<a asp-action="Delete" asp-route-id="@item.BookID" class="btn btn-danger">Delete</a>*@
                 </td>
             </tr>
         }

@@ -1,0 +1,40 @@
+﻿@model fa18Team22.Models.AppUser
+@using fa18Team22.Models
+@using fa18Team22.Controllers
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+<h2>Activate/Deactivate Account</h2>
+@using (Html.BeginForm("ChangeUserStatus", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <label asp-for="UserStatus" class="control-label"></label>
+        <br />
+
+        @if ((@Html.ValueFor(modelItem => modelItem.UserStatus)) == "Active")
+        {
+        <label class="radio">@Html.RadioButton("SelectedUserStatus", UserStatusEnum.Active, true) Active    </label>
+        <label class="radio">@Html.RadioButton("SelectedUserStatus", UserStatusEnum.Inactive) Inactive</label>
+        }
+        else
+        {
+        <label class="radio">@Html.RadioButton("SelectedUserStatus", UserStatusEnum.Active) Active    </label>
+        <label class="radio">@Html.RadioButton("SelectedUserStatus", UserStatusEnum.Inactive, true) Inactive</label>
+        }
+
+    </div>
+    <div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change User Status" class="btn btn-warning" />
+        </div>
+    </div>
+}

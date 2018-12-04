@@ -45,6 +45,7 @@
     <Content Remove="Views\CustomerAccount\CreateCustomerAccount.cshtml" />
     <Content Remove="Views\CustomerAccount\Edit.cshtml" />
     <Content Remove="Views\EmployeeAccount\HireEmployee.cshtml" />
+    <Content Remove="Views\Reports\SortSelectionC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Shared\_Layout.cshtml" />
