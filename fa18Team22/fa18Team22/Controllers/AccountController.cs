@@ -478,7 +478,7 @@ namespace fa18Team22.Controllers
         }
 
         //edit a customer or employee user status
-        public ActionResult ChangeUserStatus(string id)
+        public ActionResult ChangeCustomerUserStatus(string id)
         {
             if (id == null)
             {
@@ -499,7 +499,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangeUserStatus(string id, UserStatusEnum SelectedUserStatus)
+        public async Task<ActionResult> ChangeCustomerUserStatus(string id, UserStatusEnum SelectedUserStatus)
         {
             AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
 
@@ -516,7 +516,7 @@ namespace fa18Team22.Controllers
             _context.Update(currentUser);
             _context.SaveChanges();
 
-
+            
             //repopulate list of all customers
             List<AppUser> allCustomers = new List<AppUser>();
 
@@ -543,7 +543,160 @@ namespace fa18Team22.Controllers
         //END OF CUSTOMER CONTROLLER /// /////////////////////////////////////////////////////////////////////
 
         //START OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
+        //manage employee accounts (like an index page)
+        public async Task<ActionResult> ManageEmployeeAccounts()
+        {
+            //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
+            List<AppUser> allEmployees = new List<AppUser>();
 
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users)
+            {
+                var customerList = await _userManager.IsInRoleAsync(user, "Employee") ? members : nonMembers;
+                customerList.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (var employee in re.Members)
+            {
+                allEmployees.Add(employee);
+            }
+
+            //return allCustomers;
+
+            return View(allEmployees);
+        }
+
+        //GET
+        public ActionResult CreateEmployeeAccount()
+        {
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateEmployeeAccount(RegisterViewModel model, LoginViewModel LoginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+
+                    //TODO: You will need to add all of the properties for your User model here
+                    //Make sure that you have included ALL of the properties and that they match
+                    //the model class EXACTLY!!
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip,
+
+                    //need to do something to make account active??
+
+
+                };
+
+                user.UserStatus = "Active";
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //user.UserStatus = "Active";
+
+                    //TODO: Add user to desired role
+                    //This will not work until you have seeded Identity OR added the "Customer" role 
+                    //by navigating to the RoleAdmin controller and manually added the "Customer" role
+
+
+
+                    await _userManager.AddToRoleAsync(user, "Employee");
+                    SendEmailNewAccount(model.Email, model.FirstName);
+
+                    //Do not want to sign this person in
+                    //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
+
+                    return RedirectToAction("ModifyEmployeeAccounts", "Account"); //this is like the index page
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
+
+        }
+
+        //edit a customer or employee user status
+        public ActionResult ChangeEmployeeUserStatus(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            AppUser account = _context.Users.FirstOrDefault(c => c.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            //want to return a whether UserStatus is "Active" or "Inactive" --> done in view
+
+            return View(account);
+        }
+
+        //POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeEmployeeUserStatus(string id, UserStatusEnum SelectedUserStatus)
+        {
+            AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
+
+            if (SelectedUserStatus == UserStatusEnum.Active)
+            {
+                currentUser.UserStatus = "Active";
+            }
+            else
+            {
+                currentUser.UserStatus = "Inactive";
+            }
+
+            //figure out if this is right
+            _context.Update(currentUser);
+            _context.SaveChanges();
+
+
+            //repopulate list of all customers
+            List<AppUser> allEmployees = new List<AppUser>();
+
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users)
+            {
+                var customerList = await _userManager.IsInRoleAsync(user, "Employee") ? members : nonMembers;
+                customerList.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (var employee in re.Members)
+            {
+                allEmployees.Add(employee);
+            }
+
+            //return allCustomers;
+
+            return View("ManageEmployeeAccounts", allEmployees);
+        }
 
         //END OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
 
