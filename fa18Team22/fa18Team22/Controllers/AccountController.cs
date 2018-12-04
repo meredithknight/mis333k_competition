@@ -127,7 +127,9 @@ namespace fa18Team22.Controllers
                     //by navigating to the RoleAdmin controller and manually added the "Customer" role
                 
                     await _userManager.AddToRoleAsync(user, "Customer");
-                    SendEmailNewAccount(model.Email, model.FirstName);
+                    string emailsubject = "Team 22: New Account";
+                    string emailbody = "Congratulations! You just created a new account with Bevo Books!";
+                    SendEmail(model.Email, model.FirstName, emailbody, emailsubject);
 
 
 
@@ -333,7 +335,10 @@ namespace fa18Team22.Controllers
             var result = await _userManager.ChangePasswordAsync(userLoggedIn, model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(userLoggedIn, isPersistent: false); 
+                await _signInManager.SignInAsync(userLoggedIn, isPersistent: false);
+                String emailsubject = "Team 22: Password Changed";
+                String emailbody = "Your password to Bevo Books has been changed.";
+                SendEmail(userLoggedIn.Email, userLoggedIn.FirstName, emailbody, emailsubject);
                 return RedirectToAction("Index", "Home");
             }
             AddErrors(result);
@@ -430,7 +435,9 @@ namespace fa18Team22.Controllers
 
 
                     await _userManager.AddToRoleAsync(user, "Customer");
-                    SendEmailNewAccount(model.Email, model.FirstName);
+                    String emailbody = "Thank you for creating a new account with Bevo Books!";
+                    String emailsubject = "Team 22: New Account";
+                    SendEmail(model.Email, model.FirstName, emailbody, emailsubject);
 
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
@@ -669,7 +676,9 @@ namespace fa18Team22.Controllers
 
 
                     await _userManager.AddToRoleAsync(user, "Employee");
-                    SendEmailNewAccount(model.Email, model.FirstName);
+                    String emailbody = "Congratulations! You are you an employee with Bevo Books!";
+                    String emailsubject = "Team 22: New Account";
+                    SendEmail(model.Email, model.FirstName, emailbody, emailsubject);
 
                     //Do not want to sign this person in
                     //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
@@ -765,13 +774,11 @@ namespace fa18Team22.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-        private void SendEmailNewAccount (string ToAddress, string ToName)
+        public static void SendEmail (string ToAddress, string ToName, string emailBody, string emailSubject)
         {
             var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
             var toAddress = new MailAddress(ToAddress, "To "+ToName);
             const string fromPassword = "fa18team22";
-            const string subject = "Team 22: New Account";
-            const string body = "Welcome to Bevo Books! You just created a new account!";
 
             var smtp = new SmtpClient
             {
@@ -784,8 +791,8 @@ namespace fa18Team22.Controllers
             };
             using (var message = new MailMessage(fromAddress, toAddress)
             {
-                Subject = subject,
-                Body = body
+                Subject = emailSubject,
+                Body = emailBody
             })
             {
                 smtp.Send(message);
@@ -793,5 +800,10 @@ namespace fa18Team22.Controllers
 
 
         }
+
+
+
+
+            
     }
 }

@@ -143,6 +143,7 @@ namespace fa18Team22.Controllers
         {
             if (ModelState.IsValid)
             {
+                Rating = Math.Round(Rating, 1);
                 String userId = User.Identity.Name;
                 AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
                 Review newreview = new Review();
