@@ -45,7 +45,7 @@ namespace fa18Team22.Controllers
         }
 
 
-        public ActionResult AllBooksSold()
+        public ActionResult ReviewReportA(SortReport SelectedSort)
         {
             //initialize booksreport viewmodel
             List<AllBooksReportViewModel> allBooksReports = new List<AllBooksReportViewModel>();
@@ -68,7 +68,79 @@ namespace fa18Team22.Controllers
                 brvm.ProfitMargin = (od.Price - od.Book.BookCost);
                 allBooksReports.Add(brvm);
             }
-            return View(allBooksReports);
+
+            ViewBag.SelectedRecords = allBooksReports.Count();
+
+            switch (SelectedSort)             {
+                case SortReport.MostPopular: return View("ReviewReportA", allBooksReports.OrderByDescending(r => r.Quantity));                 case SortReport.MostRecent: return View("ReviewReportA", allBooksReports.OrderByDescending(r => r.OrderNumber));                 case SortReport.PriceAsc: return View("ReviewReportA", allBooksReports.OrderBy(r => r.SellingPrice));                 case SortReport.PriceDesc: return View("ReviewReportA", allBooksReports.OrderByDescending(r => r.SellingPrice));                 case SortReport.ProfitMarginAsc: return View("ReviewReportA", allBooksReports.OrderBy(r => r.ProfitMargin));                 case SortReport.ProfitMarginDesc: return View("ReviewReportA", allBooksReports.OrderByDescending(r => r.ProfitMargin));              }             return View("ReviewReportA", allBooksReports); 
+
+        }
+
+        public IActionResult SortSelectionB()
+        {
+            return View();
+        }
+
+        public ActionResult ReviewReportB(SortReport SelectedSort)
+        {
+            //initialize booksreport viewmodel
+            List<OrderReportVM> allBooksReports = new List<OrderReportVM>();
+
+            List<OrderDetail> OrdersReport = new List<OrderDetail>();
+            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            OrdersReport = query.ToList();
+
+            List<Order> allOrders = new List<Order>();
+            var orderquery = _db.Orders.Include(o => o.Customer).Include(o => o.OrderDetails).ThenInclude(o => o.Book);
+            allOrders = orderquery.ToList();
+
+            foreach (Order order in allOrders)
+            {
+                OrderReportVM orvm = new OrderReportVM();
+                List<string> ListBookTandQ = new List<string>();
+                decimal OrderProfit = 0;
+                decimal OrderCost = 0;
+                string BookTitle;
+                int BookQ;
+                string TandQ;
+                foreach (OrderDetail od in OrdersReport)
+                {
+                    if (od.Order.OrderID == order.OrderID)
+                    {
+                        OrderProfit += od.ExtendedPrice;
+                        OrderCost += od.Book.BookCost;
+                        BookTitle = od.Book.Title;
+                        BookQ = od.Quantity;
+                        TandQ = BookTitle + " (" + BookQ.ToString() + ") ";
+                        ListBookTandQ.Add(TandQ);
+                        orvm.CustomerName = od.Order.Customer.FirstName + ' ' + od.Order.Customer.LastName;
+                    }
+
+                }
+
+                orvm.OrderNumber = order.OrderNumber;
+                orvm.ProfitMargin = (OrderProfit - OrderCost);
+                orvm.BookTandQ = ListBookTandQ;
+                orvm.OrderTotal = OrderProfit;
+                orvm.OrderCost = OrderCost;
+
+                allBooksReports.Add(orvm);
+
+            }
+
+            ViewBag.SelectedRecords = allBooksReports.Count();
+
+            switch (SelectedSort)
+            {
+                case SortReport.MostRecent: return View("ReviewReportB", allBooksReports.OrderByDescending(r => r.OrderNumber));
+                case SortReport.PriceAsc: return View("ReviewReportB", allBooksReports.OrderBy(r => r.OrderTotal));
+                case SortReport.PriceDesc: return View("ReviewReportB", allBooksReports.OrderByDescending(r => r.OrderTotal));
+                case SortReport.ProfitMarginAsc: return View("ReviewReportB", allBooksReports.OrderBy(r => r.ProfitMargin));
+                case SortReport.ProfitMarginDesc: return View("ReviewReportB", allBooksReports.OrderByDescending(r => r.ProfitMargin));
+
+            }
+            return View("ReviewReportB", allBooksReports);
+
 
         }
 
