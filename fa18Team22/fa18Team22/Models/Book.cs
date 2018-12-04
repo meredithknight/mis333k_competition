@@ -48,6 +48,9 @@ namespace fa18Team22.Models
             get { return OrderDetails.Average(od => od.ExtendedPrice); }
         }
 
+        //set to false if book is being carried in the store
+        public Boolean IsDiscontinued { get; set; }
+
         //navigational properties
         public List<Procurement> Procurements { get; set; }
         public Genre Genre { get; set; }
