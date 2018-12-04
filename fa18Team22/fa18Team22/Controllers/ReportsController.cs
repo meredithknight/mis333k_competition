@@ -144,6 +144,83 @@ namespace fa18Team22.Controllers
 
         }
 
+        public IActionResult SortSelectionC()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> ReviewReportC(SortReport SelectedSort)
+        {
+            List<CustomerReportVM> customerReportVMs = new List<CustomerReportVM>();
+
+            List<OrderDetail> CustomersReports = new List<OrderDetail>();
+            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            CustomersReports = query.ToList();
+
+            List<AppUser> customers = new List<AppUser>();
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users.Include(User => User.ReviewsApproved).Include(User => User.ReviewsRejected))
+            {
+                var cuslist = await _userManager.IsInRoleAsync(user, "Customer") ? members : nonMembers;
+                cuslist.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (AppUser user in members)
+            {
+                
+                CustomerReportVM crvm = new CustomerReportVM();
+                List<string> ListBookTandQ = new List<string>();
+                List<string> ListOrderNumbers = new List<string>();
+                decimal CustomerProfit = 0;
+                decimal CustomerCost = 0;
+                string BookTitle;
+                int BookQ;
+                string TandQ;
+                string strOrderNum;
+
+                foreach(OrderDetail od in CustomersReports)
+                {
+                    if(od.Order.Customer.Id == user.Id)
+                    {
+                        CustomerProfit += od.ExtendedPrice;
+                        CustomerCost += od.Book.BookCost;
+                        strOrderNum = "{" + od.Order.OrderNumber.ToString() + "} ";
+                        BookTitle = od.Book.Title;
+                        BookQ = od.Quantity;
+                        TandQ = BookTitle + " (" + BookQ.ToString() + ") ";
+                        ListBookTandQ.Add(TandQ);
+                        ListOrderNumbers.Add(strOrderNum);
+                        crvm.CustomerName = od.Order.Customer.FirstName + ' ' + od.Order.Customer.LastName;
+                    }
+                }
+                if (CustomerCost > 0 && CustomerProfit > 0)
+                {
+                    crvm.OrderNumbers = ListOrderNumbers;
+                    crvm.ProfitMargin = (CustomerProfit - CustomerCost);
+                    crvm.BookTandQ = ListBookTandQ;
+                    crvm.CustomerTotal = CustomerProfit;
+                    crvm.CustomerBooksCost = CustomerCost;
+
+                    customerReportVMs.Add(crvm);
+                }
+            }
+
+            ViewBag.SelectedRecords = customerReportVMs.Count();
+
+            switch (SelectedSort)
+            {
+                case SortReport.PriceAsc: return View("ReviewReportC", customerReportVMs.OrderBy(r => r.CustomerTotal));
+                case SortReport.PriceDesc: return View("ReviewReportC", customerReportVMs.OrderByDescending(r => r.CustomerTotal));
+                case SortReport.ProfitMarginAsc: return View("ReviewReportC", customerReportVMs.OrderBy(r => r.ProfitMargin));
+                case SortReport.ProfitMarginDesc: return View("ReviewReportC", customerReportVMs.OrderByDescending(r => r.ProfitMargin));
+
+            }
+            return View("ReviewReportC", customerReportVMs);
+        }
+
         //GET:Report D (totals)
         //TODO: Build the View for Report D
         public ActionResult ReviewReportD()

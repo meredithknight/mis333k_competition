@@ -50,4 +50,24 @@ namespace fa18Team22.Models
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
         public IEnumerable<Order> Orders { get; set; }
     }
+
+    public class CustomerReportVM
+    {
+        public String CustomerName { get; set; }
+
+        public List<string> BookTandQ { get; set; }
+
+        public List<string> OrderNumbers { get; set; }
+
+        public Decimal CustomerTotal { get; set; }
+
+        public Decimal CustomerBooksCost { get; set; }
+
+        public Decimal ProfitMargin { get; set; }
+        
+        public IEnumerable<AppUser> Customers { get; set; }
+        public IEnumerable<Book> Books { get; set; }
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
+    }
 }
