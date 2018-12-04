@@ -10,6 +10,11 @@ namespace fa18Team22.Models
         [Display(Name = "Order ID")]
         public Int32 OrderID { get; set; }
 
+        [Display(Name = "Credit Card")]
+        [DataType(DataType.CreditCard)]
+        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        public String Payment { get; set; }
+
         [Display(Name = "Order Number")]
         public Int32 OrderNumber { get; set; }
 
