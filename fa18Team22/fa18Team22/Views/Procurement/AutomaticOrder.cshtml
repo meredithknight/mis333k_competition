@@ -29,6 +29,7 @@
 </style>
 
 <h2>Procurement</h2>
+<form asp-action="AutoOrder1" asp-controller="Procurement" method="get">
 <table class="table">
     <thead>
         <tr>
@@ -58,10 +59,17 @@
                 <td>                         @Html.DisplayFor(modelItem => item.SalesPrice)                 </td>
                 <td>                         @Html.DisplayFor(modelItem => item.Inventory)                 </td>
                 <td>                         @Html.DisplayFor(modelItem => item.ReplenishMinimum)                 </td>
-                <td>                         @Html.TextBox("Quantity", 5, new { @class = "form-control" })                 </td>
+                <td>                         @Html.TextBox("QuantityToAdd", 5, new { @class = "form-control" })                 </td>
                 <td>                         @Html.TextBox("Cost", item.BookCost, new { @class = "form-control" })                 </td>
-                <td>                         @*<a asp-controller="Procurement" asp-action="DeleteFromProcurementQuery" asp-route-id="@item.BookID">Delete From Order</a>*@                         @Html.ActionLink("Delete", "DeleteFromProcurementQuery", "Procurement", new { id = item.BookID }, new { @class = "btn btn-danger"})                 </td>
+
             </tr>
         }
     </tbody>
 </table>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Order Supply" class="btn btn-success" />
+    </div>
+</div>
+</form>
