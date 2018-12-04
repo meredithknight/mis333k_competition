@@ -1,0 +1,104 @@
+﻿@*@model PagedList.IPagedList<fa18Team22.Models.Book>*@
+@model IEnumerable<fa18Team22.Models.Book>
+@using PagedList
+@using PagedList.Mvc
+@{
+    ViewData["Title"] = "Procurement";
+}
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+@*TABLE FORMAT*@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+<h2>Procurement</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Include?
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvgRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inventory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplenishMinimum)
+            </th>
+            <th>
+                Quantity to Order
+            </th>
+            <th>
+                Cost
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" name="IdsToAdd" value="@item.BookID" checked />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Inventory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplenishMinimum)
+                </td>
+                <td>
+                    @Html.TextBox("Quantity", 5, new { @class = "form-control" })
+                </td>
+                <td>
+                    @Html.TextBox("Cost", item.BookCost, new { @class = "form-control" })
+                </td>
+                <td>
+                    @*<a asp-controller="Procurement" asp-action="DeleteFromProcurementQuery" asp-route-id="@item.BookID">Delete From Order</a>*@
+                    <a asp-action="DeleteFromProcurementQuery" asp-route-id="@item.BookID" class="btn btn-warning">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Order Supply" class="btn btn-default" />
+    </div>
+</div>

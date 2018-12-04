@@ -175,6 +175,24 @@ namespace fa18Team22.Controllers
             ivm.CreditCard2 = user.CreditCard2;
             ivm.CreditCard3 = user.CreditCard3;
 
+            if (ivm.CreditCard1 != null)
+            {
+                ViewBag.CreditCard1 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
+            }
+            else { ViewBag.CreditCard1 = "None"; }
+
+            if (ivm.CreditCard2 != null)
+            {
+                ViewBag.CreditCard2 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
+            }
+            else { ViewBag.CreditCard2 = "None"; }
+
+            if (ivm.CreditCard3 != null)
+            {
+                ViewBag.CreditCard3 = String.Format("{0}{1}", "xxxx - xxxx - xxxx - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
+            }
+            else { ViewBag.CreditCard3 = "None"; }
+
             return View(ivm);
         }
 
@@ -257,7 +275,42 @@ namespace fa18Team22.Controllers
             return View(account);
         }
 
+        //public ActionResult AddCreditCard(String id)
+        //{
+        //    AppUser user = _context.Users.Find(id);
+        //    return View(user);
+        //}
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult AddCreditCard(AppUser user)
+        //{
+        //    AppUser AppUser = _context.Users.First(u => u.Email == user.Email);
+
+        //    if (user.CreditCard1 != null)
+        //    {
+        //        AppUser.CreditCard1 = user.CreditCard1;
+        //    }
+
+        //    if (user.CreditCard2 != null)
+        //    {
+        //        AppUser.CreditCard2 = user.CreditCard2;
+        //    }
+
+        //    if (user.CreditCard3 != null)
+        //    {
+        //        AppUser.CreditCard3 = user.CreditCard3;
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Entry(AppUser).State = EntityState.Modified;
+        //        _context.SaveChanges();
+        //        return RedirectToAction("Index", "Accounts");
+        //    }
+        //    return View(user);
+
+        //}
 
         //Logic for change password
         // GET: /Account/ChangePassword

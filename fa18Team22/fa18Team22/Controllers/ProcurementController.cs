@@ -55,20 +55,61 @@ namespace fa18Team22.Controllers
             //change to < r.ReplenishMinimum, exclude books on active procurement
             query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
             List<Book> ProcurementBookSearch = query.ToList();
-            return View("AutomaticOrder", ProcurementBookSearch);
+            return View(ProcurementBookSearch);
 
         }
 
-        public IActionResult DeleteFromProcurementQuery(int id, List<Book> ProcurementBookSearch)
+        public IActionResult AutoOrder1(int[] IdsToAdd)
         {
-            ProcurementBookSearch.RemoveAll(r => r.BookID == id);
-            return View("AutomaticOrder", ProcurementBookSearch);
+            var query = from r in _context.Books select r;
+            //change to < r.ReplenishMinimum, exclude books on active procurement
+            List<Book> allBooks = new List<Book>();
+            allBooks = query.ToList();
+
+            List<Book> SelectedBooks = new List<Book>();
+
+            foreach(Book book in allBooks)
+            {
+                foreach(int id in IdsToAdd)
+                {
+                    if (id == book.BookID) { SelectedBooks.Add(book); }
+                }
+            }
+
+            return View("IndexCheck", SelectedBooks);
         }
+
 
         //POST: Automatic Order
         [HttpPost]
-        public IActionResult AutomaticOrder(int Quantity, Decimal Cost, PagedList.PagedList<Book> ListofBookOrder) 
+        public IActionResult AutomaticOrder(int[] IdsToAdd ,string QuantityToAdd, Decimal Cost) 
         {
+            var query = from r in _context.Books select r;
+            //change to < r.ReplenishMinimum, exclude books on active procurement
+            List<Book> allBooks = new List<Book>();
+            allBooks = query.ToList();
+
+            List<Book> SelectedBooks = new List<Book>();
+
+            foreach (Book book in allBooks)
+            {
+                foreach (int id in IdsToAdd)
+                {
+                    if (id == book.BookID) { SelectedBooks.Add(book); }
+                }
+            }
+
+            Int16 Qt = Convert.ToInt16(QuantityToAdd);
+
+            foreach(Book b in SelectedBooks)
+            {
+                Procurement procurement = new Procurement();
+                procurement.Price = Cost;
+                //procurement.Quantity = Quantity;
+            }
+
+
+
             return View("Index");
         }
 
