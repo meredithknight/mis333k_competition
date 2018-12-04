@@ -1,0 +1,21 @@
+﻿@using fa18Team22.Controllers
+@using fa18Team22.Models
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+<h2>All Customers Report</h2>
+<form asp-action="ReviewReportC" asp-controller="Reports" method="get">
+    @*Sort Options *@
+    <div class="form-group">
+        <label>Sort by Options:</label>
+        <br />
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc) Customer Profit Margin Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Customer Profit Margin Descending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Cusomter Revenue Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Customer Revenue Descending </label>
+    </div>
+    <button type="submit" class="btn btn-success">Generate Report</button>
+</form>
