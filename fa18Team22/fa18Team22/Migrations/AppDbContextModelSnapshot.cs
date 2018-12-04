@@ -274,7 +274,6 @@ namespace fa18Team22.Migrations
 
                     b.HasIndex("RejecterId");
 
->>>>>>> d8ffcee0d0fbc673cb6740241c1a0ef34438babf
                     b.ToTable("Reviews");
                 });
 

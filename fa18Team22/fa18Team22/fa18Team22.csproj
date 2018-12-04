@@ -26,14 +26,12 @@
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Seeding\" />
     <Folder Include="Views\Reports\" />
-    <Folder Include="Views\CustomerAccount\" />
-    <Folder Include="Views\EmployeeAccount\" />
     <Folder Include="Views\ProcurementSearch\" />
->>>>>>> d8ffcee0d0fbc673cb6740241c1a0ef34438babf
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\SortOrderOption.cs" />
     <Compile Remove="Seeding\SeedSortOrderOptions.cs" />
+    <Compile Remove="Controllers\CustomerAccountController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_Layout.cshtml" />
@@ -44,6 +42,9 @@
     <Content Remove="Views\Shared\RoleAdmin\Create.cshtml" />
     <Content Remove="Views\Procurement\DetailedSearch.cshtml" />
     <Content Remove="Views\Procurement\ProcurementSearch\Delete.cshtml" />
+    <Content Remove="Views\CustomerAccount\CreateCustomerAccount.cshtml" />
+    <Content Remove="Views\CustomerAccount\Edit.cshtml" />
+    <Content Remove="Views\EmployeeAccount\HireEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Shared\_Layout.cshtml" />

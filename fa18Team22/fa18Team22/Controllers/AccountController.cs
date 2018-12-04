@@ -11,6 +11,8 @@ using System.Net;
 using fa18Team22.DAL;
 using fa18Team22.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 
@@ -295,7 +297,109 @@ namespace fa18Team22.Controllers
             _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-           
+
+
+        //CUSTOMER ACCOUNT CONTROLLER
+        //GET
+        public ActionResult CreateCustomerAccount()
+        {
+            return View();
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateCustomerAccount(RegisterViewModel model, LoginViewModel LoginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = new AppUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber,
+
+                    //TODO: You will need to add all of the properties for your User model here
+                    //Make sure that you have included ALL of the properties and that they match
+                    //the model class EXACTLY!!
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    Zip = model.Zip,
+
+                    //need to do something to make account active??
+
+
+                };
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //TODO: Add user to desired role
+                    //This will not work until you have seeded Identity OR added the "Customer" role 
+                    //by navigating to the RoleAdmin controller and manually added the "Customer" role
+
+                    await _userManager.AddToRoleAsync(user, "Customer");
+                    SendEmailNewAccount(model.Email, model.FirstName);
+
+
+                    //another example
+                    //await _userManager.AddToRoleAsync(user, "Manager");
+
+                    //Do not want to sign this person in
+                    //Microsoft.AspNetCore.Identity.SignInResult result1 = await _signInManager.PasswordSignInAsync(LoginModel.Email, LoginModel.Password, LoginModel.RememberMe, lockoutOnFailure: false);
+                    return RedirectToAction("Index", "CustomerAccount");
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
+
+        }
+
+        //Manage Customer accounts (like an index)
+        public async Task<ActionResult> ManageCustomerAccounts()
+        {
+            //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
+            List<AppUser> allCustomers = new List<AppUser>();
+
+            List<AppUser> members = new List<AppUser>();
+            List<AppUser> nonMembers = new List<AppUser>();
+            foreach (AppUser user in _userManager.Users)
+            {
+                var customerList = await _userManager.IsInRoleAsync(user, "Customer") ? members : nonMembers;
+                customerList.Add(user);
+            }
+            RoleEditModel re = new RoleEditModel();
+            re.Members = members;
+
+            foreach (var customer in re.Members)
+            {
+                allCustomers.Add(customer);
+            }
+
+            //return allCustomers;
+
+            return View(allCustomers);
+        }
+
+        //GET (view with dropdown of customer accounts, choose active or inactive, select button to modify account
+        //public ActionResult ModifyCustomerAccounts()
+        //{
+        //    ViewBag.AllCustomerAccounts = GetAllCustomerAccounts();
+        //    return View();
+        //}
+
+
+
+
+        //END OF CUSTOMER CONTROLLER
 
         private void AddErrors(IdentityResult result)
         {
@@ -333,6 +437,95 @@ namespace fa18Team22.Controllers
             {
                 smtp.Send(message);
             }
+
+
+            //private SelectList GetAllCustomers()
+            //{
+
+            //    var allUsers = _context.Users.ToList();
+            //    foreach (AppUser user in allUsers)
+            //    {
+            //        if (user.IsInRole("Customer")
+            //            {
+
+            //        }
+            //    }
+
+            //    var roles = _context.Roles.Where(r => r.Name == "Customer");
+            //    if (roles.Any())
+            //    {
+            //        var roleId = roles.First().Id;
+
+            //        var dbCustomers = User.IsInRole("Customer");
+            //        var dbEmployees = from user in _context.Users
+            //                          where user.Roles.Any(r => r.RoleId == roleId)
+            //                          select user;
+            //        List<AppUser> Employees = dbEmployees.ToList();
+
+            //        SelectList allCustomers = new SelectList(Employees.OrderBy(u => u.Id), "Id", "UserName");
+
+            //        return allCustomers;
+
+            //    }
+            //}
+
+            //public async Task<ActionResult> GetAllCustomerAccounts()
+            //{
+            //    List<AppUser> allCustomers = new List<AppUser>;
+
+            //    List<AppUser> members = new List<AppUser>();
+            //    List<AppUser> nonMembers = new List<AppUser>();
+            //    foreach (AppUser user in _userManager.Users)
+            //    {
+            //        var customerList =  await _userManager.IsInRoleAsync(user, "Customers") ? members : nonMembers;
+            //        customerList.Add(user);
+            //    }
+            //    RoleEditModel re = new RoleEditModel();
+            //    re.Members = members;
+
+            //    foreach (var customer in re.Members)
+            //    {
+            //        allCustomers.Add(customer);
+            //    }
+
+
+            //    MultiSelectList supplierList = new MultiSelectList(allSuppliers, "SupplierID", "SupplierName");
+
+            //    return allCustomers;
+            //}
+
+            //public async Task<ActionResult> GetAllCustomerAccounts()
+            //{
+            //    List<AppUser> allCustomers = new List<AppUser>();
+
+            //    List<AppUser> members = new List<AppUser>();
+            //    List<AppUser> nonMembers = new List<AppUser>();
+            //    foreach (AppUser user in _userManager.Users)
+            //    {
+            //        var customerList = await _userManager.IsInRoleAsync(user, "Customers") ? members : nonMembers;
+            //        customerList.Add(user);
+            //    }
+            //    RoleEditModel re = new RoleEditModel();
+            //    re.Members = members;
+
+            //    foreach (var customer in re.Members)
+            //    {
+            //        allCustomers.Add(customer);
+            //    }
+
+            //    //return allCustomers;
+
+            //    RedirectToAction("GetAllCustomers", new { allCustomersList = allCustomers} );
+            //}
+
+            //private SelectList GetAllCustomers(List<AppUser> allCustomerList)
+            //{
+            
+            //    SelectList customerList = new SelectList(allCustomerList, "CustomerId", "Username");
+
+            //    return customerList;
+
+            //}
         }
     }
 }
