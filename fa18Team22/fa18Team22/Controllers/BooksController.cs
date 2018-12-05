@@ -44,7 +44,7 @@ namespace fa18Team22.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.Include(m => m.Genre).ToListAsync());
+            return View(await _context.Books.Include(m => m.Genre).Include(m=>m.Reviews).ToListAsync());
         }
 
         // GET: Books/Details/5

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using fa18Team22.Models;
 using fa18Team22.DAL;
 using Microsoft.EntityFrameworkCore;
+using fa18Team22.Controllers;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,8 +28,21 @@ namespace fa18Team22.Controllers
 
         public ActionResult Recommend(int? id)
         {
-            Order order = _context.Orders.Include(r => r.OrderDetails).ThenInclude(OrderDetails => OrderDetails.Book).ThenInclude(Book => Book.Genre).FirstOrDefault(r => r.OrderID == id);
+            Order order = _context.Orders.Include(r => r.Customer).Include(r => r.OrderDetails).ThenInclude(OrderDetails => OrderDetails.Book).ThenInclude(Book => Book.Genre).FirstOrDefault(r => r.OrderID == id);
             List<Book> listofrecbooks = RecommendedBooks(order);
+
+            AppUser customer = _context.Users.FirstOrDefault(r => r.UserName == order.Customer.UserName);
+
+
+            //send email
+            Book book1 = listofrecbooks[0];
+            Book book2 = listofrecbooks[1];
+            Book book3 = listofrecbooks[2];
+            String emailsubject = "Team 22: Recommended Books";
+            String emailbody = "Thank you for your order with Bevo Books. Here are three other books you should check out!" + "\n" + book1.Title + " by " + book1.Author + "\n" + book2.Title + " by " + book2.Author + "\n" + book3.Title + " by " + book3.Author;
+            AccountController.SendEmail(customer.Email, customer.FirstName, emailbody, emailsubject);
+
+
             return View("Recommend", listofrecbooks);
         }
 

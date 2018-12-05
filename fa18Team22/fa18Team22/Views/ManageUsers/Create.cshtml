@@ -1,0 +1,26 @@
+﻿@model string
+@{
+    ViewBag.Title = "Create Role";
+}
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+<h2>Create Role</h2>
+
+@Html.ValidationSummary(true)
+
+<form> 
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" value="@Model" class="form-control" />
+    </div>
+    
+    <button type="submit" class="btn btn-success">Create</button>
+    
+    <a asp-action="Index" class="btn btn-danger">Cancel</a>
+</form>

@@ -42,6 +42,9 @@
                             <li class="nav-item">
                                 @Html.ActionLink("Reports", "ChooseReport", "Reports", null, new { @class = "nav-link" })
                             </li>
+                            <li class="nav-item">
+                                @Html.ActionLink("Manage Users", "Index", "ManageUsers", null, new { @class = "nav-link" })
+                            </li>
                         }
 
                         if (User.IsInRole("Manager"))
@@ -56,7 +59,7 @@
                                 @Html.ActionLink("Reports", "ChooseReport", "Reports", null, new { @class = "nav-link" })
                             </li>
                             <li class="nav-item">
-                                @Html.ActionLink("Manage Users", "Index", "RoleAdmin", null, new { @class = "nav-link" })
+                                @Html.ActionLink("Manage Users", "Index", "ManageUsers", null, new { @class = "nav-link" })
                             </li>
                             <li class="nav-item">
                                 @Html.ActionLink("Procurement", "Index", "Procurement", null, new { @class = "nav-link" })
