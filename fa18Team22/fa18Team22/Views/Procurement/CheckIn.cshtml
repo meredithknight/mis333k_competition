@@ -1,0 +1,23 @@
+﻿
+<h2>Procurement</h2>
+<div>
+    <p><font color="red">@ViewBag.quantitycheck</font></p>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CheckIn">
+            <div>
+                Incoming Quantity
+            </div>
+
+            <div class="form-group">
+                <input name="IncomingQuantity" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Check In" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>

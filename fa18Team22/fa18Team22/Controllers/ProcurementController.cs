@@ -25,7 +25,7 @@ namespace fa18Team22.Controllers
         //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Procurements.Include(p => p.Book).ToListAsync());
+            return View(await _context.Procurements.Include(p => p.Book).Include(r => r.Employee).Where(r => r.ProcurementStatus == null || r.ProcurementStatus == false).ToListAsync());
         }
 
 
@@ -313,6 +313,72 @@ namespace fa18Team22.Controllers
         private bool ProcurementExists(int id)
         {
             return _context.Procurements.Any(e => e.ProcurementID == id);
+        }
+
+        //GET: check-in 
+        public ActionResult CheckIn(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
+
+        //POST: check-in
+        [HttpPost]
+        public ActionResult CheckIn(int? id, string IncomingQuantity )
+        {
+
+            try
+            {
+                Int16 intIncomingQuantity = Convert.ToInt16(IncomingQuantity);
+                if (intIncomingQuantity < 0)
+                {
+                    ViewBag.quantitycheck = "Quantity must be greater than zero";
+                    return View("CheckIn", ViewBag.quantitycheck);
+                }
+                ViewBag.quantitycheck = "";
+
+
+                Procurement currentprocurement = _context.Procurements.Include(r => r.Book).FirstOrDefault(r => r.ProcurementID == id);
+
+                if (intIncomingQuantity > currentprocurement.Quantity)
+                {
+                    intIncomingQuantity = currentprocurement.Quantity;
+                }
+
+                Book procurementbook = _context.Books.FirstOrDefault(r => r.BookID == currentprocurement.Book.BookID);
+
+                procurementbook.Inventory += intIncomingQuantity;
+
+                if (intIncomingQuantity == currentprocurement.Quantity)
+                {
+                    currentprocurement.ProcurementStatus = true;
+                }
+                else
+                {
+                    currentprocurement.Quantity -= intIncomingQuantity;
+                    currentprocurement.ProcurementStatus = false;
+                }
+
+                _context.Update(procurementbook);
+                _context.Update(currentprocurement);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+
+            }
+            catch (FormatException)
+            {
+                ViewBag.quantitycheck = "Must be an interger";
+                return View("CheckIn", ViewBag.quantitycheck);
+            }
+
+
+
+
         }
     }
 }
