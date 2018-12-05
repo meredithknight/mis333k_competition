@@ -478,7 +478,20 @@ namespace fa18Team22.Controllers
         {
             AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userid);
 
-            List<String> creditcards = new List<string>();
+            if (user.CreditCard1 != null)
+            {
+                user.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
+            }
+            if (user.CreditCard2 != null)
+            {
+                user.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
+            }
+            if (user.CreditCard3 != null)
+            {
+                user.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
+            }
+
+            List <String> creditcards = new List<string>();
 
             if (user.CreditCard1 != null)
             {
