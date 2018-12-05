@@ -129,13 +129,13 @@ namespace fa18Team22.Controllers
                 svm.BookID = book.BookID;
                 svm.Title = book.Title;
                 svm.Author = book.Author;
-                svm.AvgRating = book.AvgRating;
+                svm.AvgRating = (decimal)book.AvgRating;
                 svm.SalesPrice = book.SalesPrice;
                 if (book.Inventory > 0) { svm.InStock = true; }
                 if (book.Inventory <= 0) { svm.InStock = false; }
                 svm.UniqueNumber = book.UniqueID;
                 svm.BookDetail = book.BookDetail;
-                svm.AvgRating = book.AvgRating;
+                svm.AvgRating = (decimal)book.AvgRating;
              
                 Int32 intCountOrdered = 0;
                 foreach(OrderDetail od in OrderDetailList)
