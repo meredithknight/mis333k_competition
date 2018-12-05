@@ -61,9 +61,11 @@
             <tr>
                 <th colspan="2" style="text-align:center">Payment Method</th>
             </tr>
-            <td>
-                @Html.DropDownList("CreditCard", (SelectList)ViewBag.creditcards, new { @class = "form-control"})
-            </td>
+            <tr>
+                <td>
+                    @Html.DropDownList("CreditCard", (SelectList)ViewBag.creditcards, new { @class = "form-control" })
+                </td>
+            </tr>
         </table>
         <br />
         Enter Credit Card Number:<br>
