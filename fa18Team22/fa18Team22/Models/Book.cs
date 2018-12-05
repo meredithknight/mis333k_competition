@@ -37,7 +37,7 @@ namespace fa18Team22.Models
 
 
         [Display(Name = "Average Rating")]
-        public Decimal AvgRating
+        public Decimal? AvgRating
         {
             get
             {
@@ -77,13 +77,13 @@ namespace fa18Team22.Models
         public Decimal BookCost { get; set; }
 
         [Display(Name = "Average Book Cost")]
-        public Decimal AvgBookCost
+        public Decimal? AvgBookCost
         {
             get { return Procurements.Average(p => p.Price); }
         }
 
         [Display(Name = "Average Sales Price")]
-        public Decimal AvgSalesPrice
+        public Decimal? AvgSalesPrice
         {
             get { return OrderDetails.Average(od => od.ExtendedPrice); }
         }

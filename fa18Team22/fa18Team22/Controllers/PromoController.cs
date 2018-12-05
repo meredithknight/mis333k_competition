@@ -54,11 +54,24 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PromoID,PromoCode,DiscountAmount,ShippingWaiver,Status")] Promo promo, CouponType SelectedPromo)
+        public async Task<IActionResult> Create([Bind("PromoID,PromoCode,DiscountAmount,ShippingWaiver,Status,MinimumSpend")] Promo promo, CouponType SelectedPromo)
         {
             if (ModelState.IsValid)
             {
-                switch (SelectedPromo)                 {                     case CouponType.Percent:                         promo.ShippingWaiver = false;                         break;                     case CouponType.FreeShipping:                         promo.ShippingWaiver = true;                         break;                   }                 promo.Status = true; 
+                switch (SelectedPromo)                 {                     case CouponType.Percent:                         promo.ShippingWaiver = false;                         break;                     case CouponType.FreeShipping:                         promo.ShippingWaiver = true;                         break;                   }                 promo.Status = true;
+
+                foreach (Promo pro in _context.Promos)
+                {
+                    if(pro.PromoCode == promo.PromoCode)
+                    {
+                        ViewBag.PromoError = "Promo name already taken, please choose another";
+                        return View("Create");
+                    }
+                }
+
+                ViewBag.PromoError = "";
+
+ 
                 _context.Add(promo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -117,34 +130,34 @@ namespace fa18Team22.Controllers
             return View(promo);
         }
 
-        // GET: Promo/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Promo/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var promo = await _context.Promos
-                .FirstOrDefaultAsync(m => m.PromoID == id);
-            if (promo == null)
-            {
-                return NotFound();
-            }
+        //    var promo = await _context.Promos
+        //        .FirstOrDefaultAsync(m => m.PromoID == id);
+        //    if (promo == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(promo);
-        }
+        //    return View(promo);
+        //}
 
-        // POST: Promo/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var promo = await _context.Promos.FindAsync(id);
-            _context.Promos.Remove(promo);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Promo/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var promo = await _context.Promos.FindAsync(id);
+        //    _context.Promos.Remove(promo);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool PromoExists(int id)
         {
