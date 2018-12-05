@@ -27,14 +27,17 @@
 
 <h2>Procurement</h2>
 <p>
-    @Html.ActionLink("Automatic Reorder", "AutomaticOrder", "Procurement", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Automatic Reorder", "AddProcurements", "Procurement", null, new { @class = "btn btn-primary" })
 
-    @Html.ActionLink("Manual Reorder", "Index", "ProcurementSearch", null, new { @class = "btn btn-secondary" })
+    @Html.ActionLink("Manual Reorder", "ManualProcurement", "ProcurementSearch", null, new { @class = "btn btn-secondary" })
 </p>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Book.Title)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProcurementDate)
             </th>
@@ -44,6 +47,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProcurementStatus)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -51,6 +57,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProcurementDate)
                 </td>
@@ -60,6 +69,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcurementStatus)
+                </td>
+
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ProcurementID" class="btn btn-warning">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.ProcurementID" class="btn btn-info">Details</a>

@@ -1,0 +1,127 @@
+﻿@model IList<fa18Team22.Models.AddProcurementVM>
+
+@{
+    ViewData["Title"] = "Procurement";
+}
+
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+
+@*TABLE FORMAT*@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+</style>
+
+<h2>Manual Procurement</h2>
+<form asp-action="ManualProcurement" asp-controller="ProcurementSearch" method="get">
+    <p class="form-group">
+        @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
+        <a class="btn btn-primary" href="/ProcurementSearch/DetailedSearch">Detailed Search</a>
+        @*TODO: Do we need to change href for this danger button the show all?*@
+        <a class="btn btn-secondary" href="/ProcurementSearch/ManualProcurement">Show All</a>
+    </p>
+</form>
+
+<p>Displaying @ViewBag.SelectedBooksCount out of @ViewBag.TotalBooks Books </p>
+
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <tr>
+            <th>
+                Include?
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Publish Date
+            </th>
+            <th>
+                Average Rating
+            </th>
+            <th>
+                Sales Price
+            </th>
+            <th>
+                Inventory
+            </th>
+            <th>
+                Inventory Minimum
+            </th>
+            <th>
+                Quantity to Order
+            </th>
+            <th>
+                Cost
+            </th>
+            <th></th>
+        </tr>
+
+        @for (int x = 0; x < Model.Count; x++)
+        {
+            <tr>
+                <td class="js-export-checkbox">
+                    @Html.CheckBoxFor(model => model[x].IncludeInProcurement)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].PublishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].AvgRatingProc)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].SellingPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].Inventory)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model[x].InventoryMinimum)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[x].QuantityToOrder)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model[x].Cost)
+                </td>
+                <td>
+                    @Html.HiddenFor(model => model[x].BookID)
+                    @Html.HiddenFor(model => model[x].Title)
+                    @Html.HiddenFor(model => model[x].Author)
+                    @Html.HiddenFor(model => model[x].InventoryMinimum)
+                    @Html.HiddenFor(model => model[x].Inventory)
+                    @Html.HiddenFor(model => model[x].SellingPrice)
+                    @Html.HiddenFor(model => model[x].AvgRatingProc)
+                    @Html.HiddenFor(model => model[x].ProcurementDate)
+                    @Html.HiddenFor(model => model[x].userID)
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Order Procurements" class="btn btn-success" />
+    </div>
+}

@@ -25,7 +25,7 @@ namespace fa18Team22.Controllers
         //[Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Procurements.ToListAsync());
+            return View(await _context.Procurements.Include(p => p.Book).ToListAsync());
         }
 
 
@@ -37,7 +37,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var procurement = await _context.Procurements
+            var procurement = await _context.Procurements.Include(m => m.Book).Include(m => m.Employee)
                 .FirstOrDefaultAsync(m => m.ProcurementID == id);
             if (procurement == null)
             {
@@ -77,6 +77,91 @@ namespace fa18Team22.Controllers
             }
 
             return View("IndexCheck", SelectedBooks);
+        }
+
+        //GET
+        public IActionResult AddProcurements()
+        {
+            var query = from r in _context.Books select r;
+            //change to < r.ReplenishMinimum, exclude books on active procurement
+            List<Book> allBooks = new List<Book>();
+            query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
+            query = query.Include(r => r.Procurements).Include(r => r.Reviews);
+            allBooks = query.ToList();
+
+            List<Procurement> allprocs = new List<Procurement>();
+            var procquery = from p in _context.Procurements select p;
+            procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
+            allprocs = procquery.ToList();
+
+            String strUserId = User.Identity.Name;
+            AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == strUserId);
+
+
+            List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
+            foreach(Book book in allBooks)
+            {
+                    AddProcurementVM apvm = new AddProcurementVM();
+                    apvm.Title = book.Title;
+                    apvm.ProcurementDate = System.DateTime.Today;
+                    apvm.BookID = book.BookID;
+                    apvm.Author = book.Author;
+                    apvm.AvgRatingProc = book.AvgRating;
+                    apvm.Cost = book.BookCost;
+                    apvm.userID = User.Identity.Name;
+                    apvm.Inventory = book.Inventory;
+                    apvm.InventoryMinimum = book.ReplenishMinimum;
+                    apvm.SellingPrice = book.SalesPrice;
+                    apvm.IncludeInProcurement = false;
+                    apvm.QuantityToOrder = 5;
+                    BooksToOrder.Add(apvm);
+
+                foreach (Procurement proc in allprocs)
+                {
+                    if (proc.ProcurementStatus == false)
+                    {
+                        if (book.BookID == proc.Book.BookID)
+                        {
+                            BooksToOrder.Remove(apvm);
+                        }
+                    }
+                }
+
+            }
+
+            return View(BooksToOrder);
+        }
+
+        //POST
+        [HttpPost]
+        public IActionResult AddProcurements(List<AddProcurementVM> procurementVMs)
+        {
+
+            foreach(AddProcurementVM apvm in procurementVMs)
+            {
+                if (apvm.IncludeInProcurement == true)
+                {
+                    Book apvmbook = _context.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
+                    string strID = apvm.userID;
+                    AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == apvm.userID);
+
+
+                    Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser};
+                    procurement.Price = apvm.Cost;
+                    procurement.ProcurementDate = apvm.ProcurementDate;
+                    procurement.ProcurementStatus = false;
+                    procurement.Quantity = apvm.QuantityToOrder;
+
+                    String userId = User.Identity.Name;
+                    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
+                    procurement.Employee = user;
+
+                    _context.Procurements.Add(procurement);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult IndexCheck()

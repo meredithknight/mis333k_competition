@@ -1,0 +1,88 @@
+﻿@model IList<fa18Team22.Models.AddProcurementVM>
+@{
+    ViewBag.Title = "Auto Procurement";
+}
+
+<h2>Auto Procurement</h2>
+@using (Html.BeginForm())
+{
+<table class="table">
+    <tr>
+        <th>
+            Include?
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Author
+        </th>
+        <th>
+            Average Rating
+        </th>
+        <th>
+            Sales Price
+        </th>
+        <th>
+            Inventory
+        </th>
+        <th>
+            Inventory Minimum
+        </th>
+        <th>
+            Quantity to Order
+        </th>
+        <th>
+            Cost
+        </th>
+        <th></th>
+    </tr>
+
+    @for (int x = 0; x < Model.Count; x++)
+    {
+        <tr>
+            <td class="js-export-checkbox">
+                @Html.CheckBoxFor(model => model[x].IncludeInProcurement)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].Title)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].Author)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].AvgRatingProc)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].Inventory)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].InventoryMinimum)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].Inventory)
+            </td>
+            <td>
+                @Html.EditorFor(model => model[x].QuantityToOrder)
+            </td>
+            <td>
+                @Html.EditorFor(model => model[x].Cost)
+            </td>
+            <td>
+                @Html.HiddenFor(model => model[x].BookID)
+                @Html.HiddenFor(model => model[x].Title)
+                @Html.HiddenFor(model => model[x].Author)
+                @Html.HiddenFor(model => model[x].InventoryMinimum)
+                @Html.HiddenFor(model => model[x].Inventory)
+                @Html.HiddenFor(model => model[x].SellingPrice)
+                @Html.HiddenFor(model => model[x].AvgRatingProc)
+                @Html.HiddenFor(model => model[x].ProcurementDate)
+                @Html.HiddenFor(model => model[x].userID)
+            </td>
+        </tr>
+    }
+</table>
+<div class="form-group">
+    <input type="submit" value="Order Procurements" class="btn btn-success" />
+</div>
+}
