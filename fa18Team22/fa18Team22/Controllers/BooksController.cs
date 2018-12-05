@@ -55,7 +55,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(m => m.Genre)
+            var book = await _context.Books.Include(m => m.Genre).Include(m => m.Reviews)
                 .FirstOrDefaultAsync(m => m.BookID == id);
             if (book == null)
             {

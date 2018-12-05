@@ -7,6 +7,8 @@ namespace fa18Team22.Models
 {
     public class Book
     {
+
+
         [Display(Name = "Book ID")]
         [Key]
         public Int32 BookID { get; set; }
@@ -41,27 +43,28 @@ namespace fa18Team22.Models
             {
                 if (Reviews.Count() == 0)
                 {
-                    return 0;
+                    return 0.0m;
                 }
                 else
                 {
                     List<Review> ApprovedReviews = new List<Review>();
                     foreach (Review item in Reviews)
                     {
-                        if (item.ApprovalStatus == true)
+                        if (item.ApprovalStatus == true && item.ReviewText != null)
                         {
                             ApprovedReviews.Add(item);
                         }
                     }
                     if (ApprovedReviews.Count() == 0)
                     {
-                        return 0;
+                        return 0.0m;
                     }
                     else
                     {
-                        Double avgrat = ApprovedReviews.Average(m => (int)m.Rating);
-                        Decimal decAvgrat = Convert.ToDecimal(avgrat);
-                        return decAvgrat;
+                        Decimal avgrat = ApprovedReviews.Average(m => m.Rating);
+                        //Decimal decAvgrat = Convert.ToDecimal(avgrat);
+                        avgrat = Math.Round(avgrat, 1);
+                        return avgrat;
                     }
                 }
             }

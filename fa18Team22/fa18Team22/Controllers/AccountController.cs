@@ -70,6 +70,13 @@ namespace fa18Team22.Controllers
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                String username = model.Email;
+                AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == username);
+                if(currentuser.UserStatus == "Inactive")
+                {
+                    await _signInManager.SignOutAsync();
+                    return View("Error", new string[] { "Account is Disabled." });
+                }
                 return Redirect(returnUrl ?? "/");
             }
             else
