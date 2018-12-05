@@ -76,9 +76,13 @@
 </div>
 <div>
     <!-- FORM to enter coupon code-->
-    <form action="enterCoupon">
+    <form asp-action="EnterPromo">
+        <div class="form-group">
+            <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
+        </div>
+        <p><font color="red">@ViewBag.PromoError</font></p>
         Enter Coupon Code:<br>
-        <input type="text" name="couponCode">
+        <input type="text" name="promoCode">
         <br>
         <input type="submit" value="Apply Code">
     </form>

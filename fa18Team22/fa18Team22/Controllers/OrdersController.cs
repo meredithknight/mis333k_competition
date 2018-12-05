@@ -37,7 +37,7 @@ namespace fa18Team22.Controllers
             }
             else //for employees and managers to see all completed orders
             {
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderBy(c =>c.OrderNumber).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderByDescending(c =>c.OrderDate).OrderByDescending(c => c.OrderNumber).ToList();
             }
             return View(Orders);
             //return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
@@ -239,6 +239,17 @@ namespace fa18Team22.Controllers
                         }
                         if(od.Book.IsDiscontinued) //if it's true
                         {
+                            Order orderWithCustomer = _context.Orders.Include(c => c.Customer).FirstOrDefault(c => c.OrderID == order.OrderID);
+
+                            //send email//send email
+                            String bookTitle = od.Book.Title;
+                            String bookAuthor = od.Book.Author;
+                            AppUser customer = orderWithCustomer.Customer;
+                            String emailsubject = "Team 22: Item in Cart is Discontinued";
+                            String emailbody = "We apologize for the inconvenience, but the following book you have in your cart has been discontinued." + "\nBook: " + bookTitle + "\nAuthor: " + bookAuthor;
+
+                            OrdersController.SendEmail(customer.Email, customer.FirstName, emailbody, emailsubject);
+
                             ViewBag.BookDiscontinued = od.Book.Title + " has been discontinued. It has been removed from your cart";
                             //update the order to remove this order detail
                             _context.OrderDetails.Remove(od);
@@ -277,16 +288,25 @@ namespace fa18Team22.Controllers
             return View("Checkout", order);
         }
 
+        //order
+        //[HttpPost]
+
         //GET
         [Authorize]
-        public IActionResult PlacedOrder(int? id)
+        public IActionResult PlacedOrder(int? id) //this is an orderID
         {
             if (id == null)
             {
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
+            //logic to change shopping cart to completed order
 
+                //add payment card
+                //add promo code (if there is one)
+                //change IsComplete to True
+
+            //decrease the inventory for books that are ordered
             List<OrderDetail> allorderdetails = new List<OrderDetail>();
             var query = _context.OrderDetails.Include(r => r.Book).Include(m => m.Order).ThenInclude(m => m.Customer);
             allorderdetails = query.ToList();
@@ -300,7 +320,7 @@ namespace fa18Team22.Controllers
                 }
             }
 
-            var order = _context.Orders.Include(r => r.OrderDetails).ThenInclude(r => r.Book).Include(r => r.Customer).FirstOrDefault(r =>r.OrderID == id);
+            var order = _context.Orders.Include(r => r.Promo).Include(r => r.OrderDetails).ThenInclude(r => r.Book).Include(r => r.Customer).FirstOrDefault(r =>r.OrderID == id);
 
             if (order == null)
             {
@@ -311,8 +331,8 @@ namespace fa18Team22.Controllers
             order.IsComplete = true;
             order.OrderDate = System.DateTime.Today;
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
-
-
+            
+            //does this save all changes made to "order"?????
             _context.SaveChanges();
 
             //send order confirmation email
@@ -439,7 +459,74 @@ namespace fa18Team22.Controllers
             }
         }
 
-        public int GetBookInventory(Book BookID)
+        [HttpPost]
+        public IActionResult EnterPromo(string promoCode, int orderId) //get the coupon code that the customer enters
+        {
+
+            //getting the order that this promo is being applied to
+            Order order = _context.Orders.Include(c => c.OrderDetails).FirstOrDefault(c => c.OrderID == orderId);
+
+            String userid = User.Identity.Name;
+            ViewBag.creditcards = GetAllCreditCards(userid);
+
+            var promos = _context.Promos.ToList();
+            //REMINDER: figure out error if no promos exist
+            foreach(Promo item in promos)
+            { 
+                if(item.PromoCode == promoCode) //if the promoCode exists
+                {
+                    if (item.Status) //if the status is True for enabled
+                    {
+                        if (order.OrderSubtotal > item.MinimumSpend) //if the customer spent enough to use this promo
+                        {
+                            if (item.ShippingWaiver) //promo applies to shippingCost
+                            {
+                                //set shipping cost to 0
+                                order.ShippingCost = 0m;
+                                order.Promo = item;
+                                return View("Checkout", order);
+                            }
+                            else //should be a discount coupon
+                            {
+                                //apply percentage discount to each individual book price
+                                foreach (OrderDetail od in order.OrderDetails)
+                                {
+                                    od.Price = od.Price * (item.DiscountAmount / 100);
+                                    //do I need to attach this updated orderDetail to this order??/save it
+                                }
+                                order.Promo = item;
+                                return View("Checkout", order);
+                            }
+                        }
+                        else //if they didnt meet the minimum spending amount
+                        {
+                            ViewBag.PromoError = "You did not meet the minimum spending requirement to use this coupon.";
+                            return View("Checkout", order);
+                        }
+
+                    }
+                    else //if coupon is not enabled
+                    {
+                        ViewBag.PromoError = "This coupon is not available for use at this time.";
+                        return View("Checkout", order);
+                    }
+
+                }
+                //else //coupon code doesn't exist
+                //{
+                //    ViewBag.PromoError = "Invalid coupon code.";
+                //    return RedirectToAction("ShoppingCart", order);
+                //}
+            }
+            //gets to end of list and no promos match
+            ViewBag.PromoError = "Invalid coupon code.";
+            return View("Checkout", order);
+
+
+        }
+
+
+            public int GetBookInventory(Book BookID)
         {
             int bookInventory = BookID.Inventory;
             return bookInventory;
@@ -507,6 +594,32 @@ namespace fa18Team22.Controllers
             }
             SelectList allCreditCards = new SelectList(creditcards, "CreditCards");
             return allCreditCards;
+        }
+
+        public static void SendEmail(string ToAddress, string ToName, string emailBody, string emailSubject)
+        {
+            var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
+            var toAddress = new MailAddress(ToAddress, "To " + ToName);
+            const string fromPassword = "fa18team22";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                Timeout = 20000
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = emailSubject,
+                Body = emailBody
+            })
+            {
+                smtp.Send(message);
+            }
+
         }
 
 
