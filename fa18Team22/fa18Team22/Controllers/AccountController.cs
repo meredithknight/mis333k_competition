@@ -71,8 +71,10 @@ namespace fa18Team22.Controllers
             if (result.Succeeded)
             {
                 String username = model.Email;
-                AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == username);
-                if(currentuser.UserStatus == "Inactive")
+                AppUser currentUser = _context.Users.FirstOrDefault(r => r.UserName == username);
+                //String userId = User.Identity.Name;
+                //AppUser currentUser = _context.Users.FirstOrDefault(u => u.UserName == userId);
+                if (currentUser.UserStatus == "Inactive")
                 {
                     await _signInManager.SignOutAsync();
                     return View("Error", new string[] { "Account is Disabled." });
@@ -646,7 +648,7 @@ namespace fa18Team22.Controllers
 
 
                     await _userManager.AddToRoleAsync(user, "Employee");
-                    String emailbody = "Congratulations! You are you an employee with Bevo Books!";
+                    String emailbody = "Congratulations! You are now an employee with Bevo Books!";
                     String emailsubject = "Team 22: New Account";
                     SendEmail(model.Email, model.FirstName, emailbody, emailsubject);
 
@@ -728,6 +730,85 @@ namespace fa18Team22.Controllers
             //return allCustomers;
 
             return View("ManageEmployeeAccounts", allEmployees);
+        }
+
+        //GET: /Account/Edit
+        public ActionResult EditEmployeeAccount(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var account = _context.Users.FirstOrDefault(c => c.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+            ModifyAccountViewModel mvm = new ModifyAccountViewModel();
+            mvm.Email = account.Email;
+            mvm.FirstName = account.FirstName;
+            mvm.LastName = account.LastName;
+            mvm.Address = account.Address;
+            mvm.City = account.City;
+            mvm.State = account.State;
+            mvm.Zip = account.Zip;
+            mvm.PhoneNumber = account.PhoneNumber;
+            mvm.CreditCard1 = account.CreditCard1;
+            mvm.CreditCard2 = account.CreditCard2;
+            mvm.CreditCard3 = account.CreditCard3;
+            return View(mvm);
+        }
+
+
+
+        //POST: /Account/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditEmployeeAccount(ModifyAccountViewModel account)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    AppUser dbAccount = _context.Users
+                        .FirstOrDefault(c => c.Id == account.Id);
+
+                    dbAccount.FirstName = account.FirstName;
+                    dbAccount.LastName = account.LastName;
+                    dbAccount.Email = account.Email;
+                    dbAccount.UserName = account.Email;
+                    dbAccount.Address = account.Address;
+                    dbAccount.City = account.City;
+                    dbAccount.State = account.State;
+                    dbAccount.Zip = account.Zip;
+                    dbAccount.PhoneNumber = account.PhoneNumber;
+                    dbAccount.CreditCard1 = account.CreditCard1;
+                    dbAccount.CreditCard2 = account.CreditCard2;
+                    dbAccount.CreditCard3 = account.CreditCard3;
+
+                    _context.Update(dbAccount);
+                    _context.SaveChanges();
+
+                    //edit department/course relationships
+
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(account.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(account);
         }
 
         //END OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////

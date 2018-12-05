@@ -16,10 +16,9 @@
 
 @Html.ActionLink("Modify account details", "ModifyAccount", "Account", new { id = Model.Id }, new { @class = "btn btn-warning" })
 @if (Model.HasPassword)
-    {
-        @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.Id }, new { @class = "btn btn-danger" })
-    }
-
+{
+    @Html.ActionLink("Change your password", "ChangePassword", new { id = Model.Id }, new { @class = "btn btn-danger" })
+}
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -50,14 +49,18 @@
         <dt>Phone Number:</dt>
         <dd>@Model.PhoneNumber</dd>
 
-        <dt>Credit Card 1:</dt>
-        <dd>@Html.Raw(ViewBag.CreditCard1)</dd>
+        @if (User.IsInRole("Customer"))
+        {
 
-        <dt>Credit Card 2:</dt>
-        <dd>@Html.Raw(ViewBag.CreditCard2)</dd>
+            <dt>Credit Card 1:</dt>
+            <dd>@Html.Raw(ViewBag.CreditCard1)</dd>
 
-        <dt>Credit Card 3:</dt>
-        <dd>@Html.Raw(ViewBag.CreditCard3)</dd>
+            <dt>Credit Card 2:</dt>
+            <dd>@Html.Raw(ViewBag.CreditCard2)</dd>
+
+            <dt>Credit Card 3:</dt>
+            <dd>@Html.Raw(ViewBag.CreditCard3)</dd>
+        }
     </dl>
 
 
