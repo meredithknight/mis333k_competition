@@ -24,6 +24,9 @@
             Sales Price
         </th>
         <th>
+            Profit Margin
+        </th>
+        <th>
             Inventory
         </th>
         <th>
@@ -54,13 +57,16 @@
                 @Html.DisplayFor(model => model[x].AvgRatingProc)
             </td>
             <td>
+                @Html.DisplayFor(model => model[x].SellingPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model[x].ProfitMargin)
+            </td>
+            <td>
                 @Html.DisplayFor(model => model[x].Inventory)
             </td>
             <td>
                 @Html.DisplayFor(model => model[x].InventoryMinimum)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model[x].Inventory)
             </td>
             <td>
                 @Html.EditorFor(model => model[x].QuantityToOrder)

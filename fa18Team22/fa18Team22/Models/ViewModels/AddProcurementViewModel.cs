@@ -15,9 +15,8 @@ namespace fa18Team22.Models
 
         public String BookDetail { get; set; }
 
-        [Required(ErrorMessage = "Quantity is required")]
-        [Display(Name = "Quantity")]
-        [Range(1, 10000000000, ErrorMessage = "Number of products cannot be negative")]
+        [Range(1, 1000,
+            ErrorMessage = "Must Order a Positive Number of Products.")]
         public Int16 QuantityToOrder { get; set; }
 
 

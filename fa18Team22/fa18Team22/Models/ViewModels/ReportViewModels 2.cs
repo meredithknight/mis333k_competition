@@ -72,4 +72,35 @@ namespace fa18Team22.Models
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
         public IEnumerable<Order> Orders { get; set; }
     }
+
+    public class ReportDVM
+    {
+
+        public Decimal TR { get; set; }
+
+        public Decimal TC { get; set; }
+
+        public Decimal TP { get; set; }
+
+        public IEnumerable<AppUser> Customers { get; set; }
+        public IEnumerable<Book> Books { get; set; }
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
+    }
+
+    public class InventoryReportVM
+    {
+
+        public String Title { get; set; }
+
+        public Int32 BooksInInventory { get; set; }
+
+        public Decimal WeightedAvgCost { get; set; }
+
+
+        public IEnumerable<AppUser> Customers { get; set; }
+        public IEnumerable<Book> Books { get; set; }
+        public IEnumerable<OrderDetail> OrderDetails { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
+    }
 }

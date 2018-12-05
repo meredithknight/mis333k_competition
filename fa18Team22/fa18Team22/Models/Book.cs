@@ -91,19 +91,19 @@ namespace fa18Team22.Models
             { 
                 if(Procurements.Count() == 0)
                 {
-                    return InitialCost;
+                    return BookCost;
                 }
                 else
                 {
                     decimal decAvgCost;
                     int allQuantity = InitialInventory;
-                    decimal decCost = InitialCost;
+                    decimal decCost = InitialCost*InitialInventory;
 
                     foreach (Procurement pr in Procurements)
                     {
                         if (pr.Book.BookID == BookID)
                         {
-                            decCost += pr.Price;
+                            decCost += (pr.Price*pr.Quantity);
                             allQuantity += pr.Quantity;
                         }
                     }
@@ -122,7 +122,7 @@ namespace fa18Team22.Models
             {
                 if (OrderDetails.Count() == 0)
                 {
-                    return InitialSalesPrice;
+                    return SalesPrice;
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace fa18Team22.Models
                     {
                         if (od.Book.BookID == BookID)
                         {
-                            decPrice += od.Price;
+                            decPrice += (od.Price*od.Quantity);
                             allQuantity += od.Quantity;
                         }
                     }
