@@ -35,6 +35,14 @@ namespace fa18Team22.Models
         [Display(Name = "Inventory")]
         public Int32 Inventory { get; set; }
 
+        [Display(Name = "Sales Price")]
+        public Decimal InitialSalesPrice { get; set; }
+
+        [Display(Name = "Sales Price")]
+        public Decimal InitialCost { get; set; }
+
+        [Display(Name = "Inventory")]
+        public Int32 InitialInventory { get; set; }
 
         [Display(Name = "Average Rating")]
         public Decimal? AvgRating
@@ -79,7 +87,35 @@ namespace fa18Team22.Models
         [Display(Name = "Average Book Cost")]
         public Decimal? AvgBookCost
         {
-            get { return Procurements.Average(p => p.Price); }
+            get
+            { 
+                if(Procurements.Count() == 0)
+                {
+                    return BookCost;
+                }
+                else
+                {
+                    List<Procurement> CheckedInProcurements = new List<Procurement>();
+                    foreach (Procurement item in Procurements)
+                    {
+                        if (item.ProcurementStatus == true)
+                        {
+                            CheckedInProcurements.Add(item);
+                        }
+                    }
+                    if (CheckedInProcurements.Count() == 0)
+                    {
+                        return BookCost;
+                    }
+                    else
+                    {
+                        decimal decAvgCost = Procurements.Average(p => p.Price);
+                        decAvgCost = Math.Round(decAvgCost, 2);
+                        return decAvgCost;
+                    }
+                }
+                 
+            }
         }
 
         [Display(Name = "Average Sales Price")]

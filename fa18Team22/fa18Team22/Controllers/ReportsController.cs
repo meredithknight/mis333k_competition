@@ -66,6 +66,7 @@ namespace fa18Team22.Controllers
                 //TODO: YOU NEED to add to books model class weghted
                 brvm.WeightedAvgCost = od.Book.BookCost;
                 brvm.ProfitMargin = (od.Price - od.Book.BookCost);
+                brvm.OrderDate = od.Order.OrderDate;
                 allBooksReports.Add(brvm);
             }
 
@@ -118,6 +119,7 @@ namespace fa18Team22.Controllers
 
                 }
 
+                orvm.Payment = order.Payment;
                 orvm.OrderNumber = order.OrderNumber;
                 orvm.ProfitMargin = (OrderProfit - OrderCost);
                 orvm.BookTandQ = ListBookTandQ;
