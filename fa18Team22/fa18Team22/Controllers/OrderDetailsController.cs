@@ -113,6 +113,29 @@ namespace fa18Team22.Controllers
                     }
                     else //allow them to make the change
                     {
+                        //fix shipping costs for the order
+                        Order order = _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == DbOrdDet.Order.OrderID);
+
+                        int orderDetailCount = order.OrderDetails.Count();
+
+                        //check if there's another book in the order already
+                        if (orderDetailCount > 1) ////there is another order detail connected to the existing open order
+                        {
+                            //if there is already other book(s) in the order
+                            decimal oldShippingCost = order.ShippingCost;
+
+                            decimal additionalShippingCost = oldShippingCost - (DbOrdDet.Quantity * 1.50m);
+                                //use the old quantity and subtract that old cost
+
+                            order.ShippingCost = orderDetail.Quantity * 1.50m + additionalShippingCost;
+                        }
+                        else
+                        {
+                            //if this is the only book in the order
+                            order.ShippingCost = 3.50m + ((orderDetail.Quantity - 1) * 1.50m);
+                        }
+
+                        //update orderdetail
                         DbOrdDet.Quantity = orderDetail.Quantity;
                         DbOrdDet.Price = DbOrdDet.Price; //price should not change
                         _context.OrderDetails.Update(DbOrdDet);
@@ -163,7 +186,36 @@ namespace fa18Team22.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             var orderDetail = await _context.OrderDetails.FindAsync(id);
+
+            //before you remove from order detail, remove the shipping cost associated with it
+            //fix shipping costs for the order
+
+            OrderDetail od = _context.OrderDetails.Include(c => c.Order).FirstOrDefault(c => c.OrderDetailID == id);
+            Order order = _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == od.Order.OrderID);
+
+            int orderDetailCount = order.OrderDetails.Count();
+
+            //check if there's another book in the order already
+            if (orderDetailCount > 1) ////there is another order detail connected to the existing open order
+            {
+                //if there is already other book(s) in the order
+                decimal oldShippingCost = order.ShippingCost;
+
+                decimal leftoverShippingCost = oldShippingCost - (od.Quantity * 1.50m);
+                //use the old quantity and subtract that old cost
+
+                order.ShippingCost = leftoverShippingCost;
+            }
+            else
+            {
+                //if this is the only book in the order
+                order.ShippingCost = 0m; //3.50m + ((orderDetail.Quantity - 1) * 1.50m);
+            }
+
+
+            //remove orderDetail from the database and save
             _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
             return RedirectToAction("ShoppingCart", "Orders");

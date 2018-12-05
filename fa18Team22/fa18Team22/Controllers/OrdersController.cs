@@ -219,11 +219,18 @@ namespace fa18Team22.Controllers
                 }
                 else
                 {
+                
                     //check for out of stock books --> show error
                     //check for discontinued books
                     foreach(OrderDetail od in order.OrderDetails.ToList())
                     {
-                        if(od.Book.Inventory == 0)
+                        od.Price = od.Book.SalesPrice;
+
+                        //this actually saves all the data just entered, into the actual database
+                        _context.OrderDetails.Update(od);
+                        _context.SaveChanges();
+
+                        if (od.Book.Inventory == 0)
                         {
                             ViewBag.OutOfStock = od.Book.Title + " is currently out of stock. It has been removed from your cart.";
                             //update the order to remove this order detail
@@ -351,30 +358,36 @@ namespace fa18Team22.Controllers
                 //WORKS UP TO HERE
 
                 //connect to the shopping cart order
-                od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+                //od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+                Order ShoppingCartOrder = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+
 
                 //if a shopping cart doesn't exist, 
-                if (od.Order == null) //no current shopping cart --> add all the fields that need to be put in to create an order
+                if (ShoppingCartOrder == null) //no current shopping cart --> add all the fields that need to be put in to create an order
                 {
-                    Order newOrder = od.Order;
 
-                    od.Order = new Order { };
+                    ShoppingCartOrder = new Order { };
 
-                    od.Order.OrderDate = System.DateTime.Today;
+                    ShoppingCartOrder.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
-                    od.Order.ShippingCost = 3.50m; //because this is the first book being added to order
+                    ShoppingCartOrder.OrderDate = System.DateTime.Today;
 
-                    od.Order.IsComplete = false; //makes this the shopping cart
+                    ShoppingCartOrder.ShippingCost = 3.50m; //because this is the first book being added to order
+
+                    ShoppingCartOrder.IsComplete = false; //makes this the shopping cart
 
                     //od.Order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
+                    od.Order = ShoppingCartOrder;
+                    //ShoppingCartOrder.OrderDetails.Add(od);
 
+                    //how to add customer to an order
                     String userId = User.Identity.Name;
                     AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
-                    od.Order.Customer = user; //THIS IS THROWING ERROR WITH IDENTITY_INSERT
+                    ShoppingCartOrder.Customer = user; //THIS IS THROWING ERROR WITH IDENTITY_INSERT
 
                     //adds this shopping cart ORDER to the orders table in database
-                    _context.Orders.Add(od.Order);
+                    _context.Orders.Add(ShoppingCartOrder);
                     _context.SaveChanges();
 
                 }
@@ -385,18 +398,29 @@ namespace fa18Team22.Controllers
                     //_context.Orders.Add(od.Order);
                     _context.SaveChanges();
 
-                    Order existingCart = od.Order;
+                    //Order existingCart = od.Order;
 
-                    od.Order.OrderDate = System.DateTime.Today;
-                    existingCart.OrderDetails.Count();
+                    ShoppingCartOrder.OrderDate = System.DateTime.Today;
+
+                    //int orderDetailCount = 0;
+                    ////the count is not increasing!!!!
+                    //foreach(OrderDetail ordDet in existingCart.OrderDetails.ToList())
+                    //{
+                    //    orderDetailCount = 1 + orderDetailCount;
+                    //}
+                    //od.Order = ShoppingCartOrder;
+                    ShoppingCartOrder.OrderDetails.Add(od);
+
+                    int orderDetailCount = ShoppingCartOrder.OrderDetails.Count();
                     //check if there's another book in the order already
-                    if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
+                    //if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
+                    if (orderDetailCount > 1)
                     {
-                        od.Order.ShippingCost = 1.50m + od.Order.ShippingCost;
+                        ShoppingCartOrder.ShippingCost = 1.50m + ShoppingCartOrder.ShippingCost;
                     }
                     else 
                     {
-                        od.Order.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                        ShoppingCartOrder.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
                     }
 
                     _context.SaveChanges();

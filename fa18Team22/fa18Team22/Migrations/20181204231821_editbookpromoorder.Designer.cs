@@ -10,14 +10,14 @@ using fa18Team22.DAL;
 namespace fa18Team22.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20181204194206_MigrationsAvgRating")]
-    partial class MigrationsAvgRating
+    [Migration("20181204231821_editbookpromoorder")]
+    partial class editbookpromoorder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -237,6 +237,8 @@ namespace fa18Team22.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<decimal>("DiscountAmount");
+
+                    b.Property<decimal>("MinimumSpend");
 
                     b.Property<string>("PromoCode")
                         .HasMaxLength(20);

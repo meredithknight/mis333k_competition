@@ -21,6 +21,9 @@ namespace fa18Team22.Models
         [Display(Name = "Enabled?")]
         public Boolean Status { get; set; }
 
+        [Display(Name = "Minimum Spend")]
+        public Decimal MinimumSpend { get; set; }
+
     	//navigational properties
     	public List<Order> Orders { get; set; }
 

@@ -11,6 +11,7 @@ namespace fa18Team22.Models
 
         [Display(Name = "Rating")]
         [Range(1, 5, ErrorMessage = "Betweeen 1 to 5 stars")]
+        [DisplayFormat(DataFormatString = "{0:#.#}")]
         public Decimal Rating { get; set; }
 
         [Display(Name = "Review")]

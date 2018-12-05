@@ -36,6 +36,13 @@
             @Html.DisplayFor(model => model.Author)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Genre.GenreName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Genre.GenreName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.PublishDate)
         </dt>
         <dd>
@@ -54,12 +61,6 @@
             @Html.DisplayFor(model => model.SalesPrice)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Inventory)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Inventory)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.AvgRating)
         </dt>
         <dd>
@@ -72,11 +73,12 @@
             @Html.DisplayFor(model => model.ReplenishMinimum)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Genre.GenreName)
+            @Html.DisplayNameFor(model => model.Inventory)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Genre.GenreName)
+            @Html.DisplayFor(model => model.Inventory)
         </dd>
+
     </dl>
 </div>
 <div>
