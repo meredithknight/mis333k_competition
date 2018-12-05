@@ -277,43 +277,6 @@ namespace fa18Team22.Controllers
             return View(account);
         }
 
-        //public ActionResult AddCreditCard(String id)
-        //{
-        //    AppUser user = _context.Users.Find(id);
-        //    return View(user);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult AddCreditCard(AppUser user)
-        //{
-        //    AppUser AppUser = _context.Users.First(u => u.Email == user.Email);
-
-        //    if (user.CreditCard1 != null)
-        //    {
-        //        AppUser.CreditCard1 = user.CreditCard1;
-        //    }
-
-        //    if (user.CreditCard2 != null)
-        //    {
-        //        AppUser.CreditCard2 = user.CreditCard2;
-        //    }
-
-        //    if (user.CreditCard3 != null)
-        //    {
-        //        AppUser.CreditCard3 = user.CreditCard3;
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Entry(AppUser).State = EntityState.Modified;
-        //        _context.SaveChanges();
-        //        return RedirectToAction("Index", "Accounts");
-        //    }
-        //    return View(user);
-
-        //}
-
         //Logic for change password
         // GET: /Account/ChangePassword
         public ActionResult ChangePassword()
