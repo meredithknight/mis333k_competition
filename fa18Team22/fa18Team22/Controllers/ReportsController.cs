@@ -119,6 +119,7 @@ namespace fa18Team22.Controllers
 
                 }
 
+                orvm.Payment = order.Payment;
                 orvm.OrderNumber = order.OrderNumber;
                 orvm.ProfitMargin = (OrderProfit - OrderCost);
                 orvm.BookTandQ = ListBookTandQ;

@@ -45,6 +45,8 @@ namespace fa18Team22.Models
 
         public DateTime OrderDate { get; set; }
 
+        public String Payment { get; set; }
+
         public IEnumerable<AppUser> Customers { get; set; }
         public IEnumerable<Book> Books { get; set; }
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
