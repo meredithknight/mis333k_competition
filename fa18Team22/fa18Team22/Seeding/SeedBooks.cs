@@ -10,7 +10,7 @@ namespace fa18Team22.Seeding
 	{
 		public static void SeedAllBooks(AppDbContext db)
 		{
-			if (db.Repositories.Count() == 300)
+			if (db.Books.Count() == 300)
 			{
 				throw new NotSupportedException("The database already contains all 300 Books!");
 			}
@@ -5146,8 +5146,8 @@ namespace fa18Team22.Seeding
 						dbbk.SalesPrice = bk.SalesPrice;
 						dbbk.Inventory = bk.Inventory;
 						dbbk.InitialInventory = bk.InitialInventory;
-						dbbk.IntialCost = bk.InitialCost;
-						dbbk.IntialSalesPrice = bk.InitialSalesPrice;
+						dbbk.InitialCost = bk.InitialCost;
+						dbbk.InitialSalesPrice = bk.InitialSalesPrice;
 						dbbk.BookCost = bk.BookCost;
 						dbbk.ReplenishMinimum = bk.ReplenishMinimum;
 						dbbk.IsDiscontinued = bk.IsDiscontinued;
