@@ -42,6 +42,9 @@
                 @Html.DisplayNameFor(model => model.ProcurementDate)
             </th>
             <th>
+                Employee
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
             <th>
@@ -64,6 +67,10 @@
                     @Html.DisplayFor(modelItem => item.ProcurementDate)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Employee.Email)
+                </td>
+
+                <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
@@ -77,6 +84,8 @@
                     <a asp-action="Edit" asp-route-id="@item.ProcurementID" class="btn btn-warning">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.ProcurementID" class="btn btn-info">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.ProcurementID" class="btn btn-danger">Delete</a>
+                    <a asp-action="CheckIn" asp-route-id="@item.ProcurementID" class="btn btn-danger">Check In</a>
+
                 </td>
             </tr>
         }
