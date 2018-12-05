@@ -28,6 +28,7 @@
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\ProcurementSearch\" />
     <Folder Include="Views\RecommendBooks\" />
+    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\SortOrderOption.cs" />

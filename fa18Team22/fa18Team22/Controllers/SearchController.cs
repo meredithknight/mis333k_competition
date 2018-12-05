@@ -192,7 +192,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _db.Books.Include(m => m.Genre)
+            var book = await _db.Books.Include(m => m.Genre).Include(r=>r.Reviews)
                 .FirstOrDefaultAsync(m => m.BookID == id);
             if (book == null)
             {
