@@ -35,6 +35,14 @@ namespace fa18Team22.Models
         [Display(Name = "Inventory")]
         public Int32 Inventory { get; set; }
 
+        [Display(Name = "Sales Price")]
+        public Decimal InitialSalesPrice { get; set; }
+
+        [Display(Name = "Sales Price")]
+        public Decimal InitialCost { get; set; }
+
+        [Display(Name = "Inventory")]
+        public Int32 InitialInventory { get; set; }
 
         [Display(Name = "Average Rating")]
         public Decimal? AvgRating
