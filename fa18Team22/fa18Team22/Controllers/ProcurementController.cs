@@ -106,7 +106,7 @@ namespace fa18Team22.Controllers
                     apvm.ProcurementDate = System.DateTime.Today;
                     apvm.BookID = book.BookID;
                     apvm.Author = book.Author;
-                    apvm.AvgRatingProc = book.AvgRating;
+                    apvm.AvgRatingProc = (decimal)book.AvgRating;
                     apvm.Cost = book.BookCost;
                     apvm.userID = User.Identity.Name;
                     apvm.Inventory = book.Inventory;
