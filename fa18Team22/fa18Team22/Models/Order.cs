@@ -12,7 +12,7 @@ namespace fa18Team22.Models
 
         [Display(Name = "Credit Card")]
         [DataType(DataType.CreditCard)]
-        [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
+        [StringLength(16, ErrorMessage = "Pick a valid payment method")]
         public String Payment { get; set; }
 
         [Display(Name = "Order Number")]

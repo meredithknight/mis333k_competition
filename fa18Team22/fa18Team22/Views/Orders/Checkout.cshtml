@@ -10,7 +10,31 @@
         font-family: Georgia;
     }
 </style>
+<div>
+    <h4>Order Details</h4>
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Book Price</th>
+                <th>Quantity</th>
+                <th>Extended Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OrderDetail rd in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => rd.Book.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Price)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => rd.ExtendedPrice)</td>
+                </tr>
 
+            }
+        </tbody>
+    </table>
+</div>
 <div>
     <table class="table table-sm table-bordered" style="width:30%">
         <tr>
@@ -31,19 +55,16 @@
     </table>
 </div>
 <div>
-    <!-- FORM to enter coupon code-->
-    <form action="enterCoupon">
-        Enter Coupon Code:<br>
-        <input type="text" name="couponCode">
-        <br>
-        <input type="submit" value="Apply Code">
-    </form>
-</div>
-<div>
     <!-- enter payment information-->
     <form action="paymentInformation">
-        Select Credit Card: 
-        <!-- drop down to select credit card on file-->
+        <table class="table table-sm table-bordered" style="width: 30%">
+            <tr>
+                <th colspan="2" style="text-align:center">Payment Method</th>
+            </tr>
+            <td>
+                @Html.DropDownList("CreditCard", (SelectList)ViewBag.creditcards, new { @class = "form-control"})
+            </td>
+        </table>
         <br />
         Enter Credit Card Number:<br>
         <input type="text" name="creditCard">
@@ -54,7 +75,18 @@
 
 </div>
 <div>
-    <!-- place order-->
+    <!-- FORM to enter coupon code-->
+    <form action="enterCoupon">
+        Enter Coupon Code:<br>
+        <input type="text" name="couponCode">
+        <br>
+        <input type="submit" value="Apply Code">
+    </form>
+</div>
+<div>
+    <p>
+        <!-- place order-->
     <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>
+    </p>
 </div>
 

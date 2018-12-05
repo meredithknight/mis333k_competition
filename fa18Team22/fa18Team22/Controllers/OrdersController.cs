@@ -270,9 +270,10 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "Order not found!" });
             }
 
-            //OrderDetail od = new OrderDetail() { Order = ord };
+            String userid = User.Identity.Name;
 
-            //ViewBag.AllProducts = GetAllProducts();
+            ViewBag.creditcards = GetAllCreditCards(userid);
+
             return View("Checkout", order);
         }
 
@@ -470,8 +471,32 @@ namespace fa18Team22.Controllers
             })
             {
                 smtp.Send(message);
-            }
+          }
         }
+
+        private SelectList GetAllCreditCards(string userid)
+        {
+            AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userid);
+
+            List<String> creditcards = new List<string>();
+
+            if (user.CreditCard1 != null)
+            {
+                creditcards.Add(user.CreditCard1);
+            }
+            if (user.CreditCard2 != null)
+            {
+                creditcards.Add(user.CreditCard2);
+            }
+            if (user.CreditCard3 != null)
+            {
+                creditcards.Add(user.CreditCard3);
+            }
+            SelectList allCreditCards = new SelectList(creditcards, "CreditCards");
+            return allCreditCards;
+        }
+
+
 
     }
 }
