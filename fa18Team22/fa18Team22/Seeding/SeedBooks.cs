@@ -10,7 +10,7 @@ namespace fa18Team22.Seeding
 	{
 		public static void SeedAllBooks(AppDbContext db)
 		{
-			if (db.Books.Count() == 300)
+			if (db.Repositories.Count() == 300)
 			{
 				throw new NotSupportedException("The database already contains all 300 Books!");
 			}
@@ -21,7 +21,7 @@ namespace fa18Team22.Seeding
 
 			try
 			{
-                Book b1 = new Book();
+				Book b1 = new Book();
 				b1.Title = "The Art Of Racing In The Rain";
 				b1.UniqueID = 789001;
 				b1.Author = "Garth Stein";
@@ -30,6 +30,7 @@ namespace fa18Team22.Seeding
 				b1.Inventory = 2;
 				b1.BookCost = 10.3m;
 				b1.ReplenishMinimum = 1;
+				b1.IsDiscontinued = false;
 				b1.PublishDate = new DateTime(2008, 5, 24);
 				b1.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b1);
@@ -43,6 +44,7 @@ namespace fa18Team22.Seeding
 				b2.Inventory = 8;
 				b2.BookCost = 13.25m;
 				b2.ReplenishMinimum = 7;
+				b2.IsDiscontinued = false;
 				b2.PublishDate = new DateTime(2008, 5, 24);
 				b2.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b2);
@@ -56,6 +58,7 @@ namespace fa18Team22.Seeding
 				b3.Inventory = 10;
 				b3.BookCost = 9.08m;
 				b3.ReplenishMinimum = 7;
+				b3.IsDiscontinued = false;
 				b3.PublishDate = new DateTime(2008, 7, 5);
 				b3.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b3);
@@ -69,6 +72,7 @@ namespace fa18Team22.Seeding
 				b4.Inventory = 5;
 				b4.BookCost = 11.25m;
 				b4.ReplenishMinimum = 2;
+				b4.IsDiscontinued = false;
 				b4.PublishDate = new DateTime(2008, 7, 19);
 				b4.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b4);
@@ -82,6 +86,7 @@ namespace fa18Team22.Seeding
 				b5.Inventory = 5;
 				b5.BookCost = 16.09m;
 				b5.ReplenishMinimum = 3;
+				b5.IsDiscontinued = false;
 				b5.PublishDate = new DateTime(2008, 8, 9);
 				b5.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b5);
@@ -95,6 +100,7 @@ namespace fa18Team22.Seeding
 				b6.Inventory = 11;
 				b6.BookCost = 24.65m;
 				b6.ReplenishMinimum = 6;
+				b6.IsDiscontinued = false;
 				b6.PublishDate = new DateTime(2008, 8, 9);
 				b6.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b6);
@@ -108,6 +114,7 @@ namespace fa18Team22.Seeding
 				b7.Inventory = 2;
 				b7.BookCost = 13.72m;
 				b7.ReplenishMinimum = 2;
+				b7.IsDiscontinued = false;
 				b7.PublishDate = new DateTime(2008, 8, 9);
 				b7.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b7);
@@ -121,6 +128,7 @@ namespace fa18Team22.Seeding
 				b8.Inventory = 9;
 				b8.BookCost = 21.8m;
 				b8.ReplenishMinimum = 5;
+				b8.IsDiscontinued = false;
 				b8.PublishDate = new DateTime(2008, 8, 23);
 				b8.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b8);
@@ -134,6 +142,7 @@ namespace fa18Team22.Seeding
 				b9.Inventory = 8;
 				b9.BookCost = 5.45m;
 				b9.ReplenishMinimum = 8;
+				b9.IsDiscontinued = false;
 				b9.PublishDate = new DateTime(2008, 8, 30);
 				b9.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b9);
@@ -147,6 +156,7 @@ namespace fa18Team22.Seeding
 				b10.Inventory = 6;
 				b10.BookCost = 6.75m;
 				b10.ReplenishMinimum = 6;
+				b10.IsDiscontinued = false;
 				b10.PublishDate = new DateTime(2008, 8, 30);
 				b10.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b10);
@@ -160,6 +170,7 @@ namespace fa18Team22.Seeding
 				b11.Inventory = 8;
 				b11.BookCost = 23.61m;
 				b11.ReplenishMinimum = 3;
+				b11.IsDiscontinued = false;
 				b11.PublishDate = new DateTime(2008, 9, 20);
 				b11.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b11);
@@ -173,6 +184,7 @@ namespace fa18Team22.Seeding
 				b12.Inventory = 2;
 				b12.BookCost = 17.65m;
 				b12.ReplenishMinimum = 1;
+				b12.IsDiscontinued = false;
 				b12.PublishDate = new DateTime(2008, 9, 27);
 				b12.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b12);
@@ -186,6 +198,7 @@ namespace fa18Team22.Seeding
 				b13.Inventory = 11;
 				b13.BookCost = 6.99m;
 				b13.ReplenishMinimum = 6;
+				b13.IsDiscontinued = false;
 				b13.PublishDate = new DateTime(2008, 9, 27);
 				b13.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b13);
@@ -199,6 +212,7 @@ namespace fa18Team22.Seeding
 				b14.Inventory = 6;
 				b14.BookCost = 4.75m;
 				b14.ReplenishMinimum = 4;
+				b14.IsDiscontinued = false;
 				b14.PublishDate = new DateTime(2008, 10, 4);
 				b14.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b14);
@@ -212,6 +226,7 @@ namespace fa18Team22.Seeding
 				b15.Inventory = 6;
 				b15.BookCost = 14.25m;
 				b15.ReplenishMinimum = 5;
+				b15.IsDiscontinued = false;
 				b15.PublishDate = new DateTime(2008, 10, 11);
 				b15.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b15);
@@ -225,6 +240,7 @@ namespace fa18Team22.Seeding
 				b16.Inventory = 7;
 				b16.BookCost = 14.85m;
 				b16.ReplenishMinimum = 2;
+				b16.IsDiscontinued = false;
 				b16.PublishDate = new DateTime(2008, 10, 25);
 				b16.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b16);
@@ -238,6 +254,7 @@ namespace fa18Team22.Seeding
 				b17.Inventory = 10;
 				b17.BookCost = 20.75m;
 				b17.ReplenishMinimum = 8;
+				b17.IsDiscontinued = false;
 				b17.PublishDate = new DateTime(2008, 10, 25);
 				b17.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b17);
@@ -251,6 +268,7 @@ namespace fa18Team22.Seeding
 				b18.Inventory = 4;
 				b18.BookCost = 15.09m;
 				b18.ReplenishMinimum = 2;
+				b18.IsDiscontinued = false;
 				b18.PublishDate = new DateTime(2008, 10, 25);
 				b18.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b18);
@@ -264,6 +282,7 @@ namespace fa18Team22.Seeding
 				b19.Inventory = 6;
 				b19.BookCost = 10.53m;
 				b19.ReplenishMinimum = 1;
+				b19.IsDiscontinued = false;
 				b19.PublishDate = new DateTime(2008, 11, 1);
 				b19.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b19);
@@ -277,6 +296,7 @@ namespace fa18Team22.Seeding
 				b20.Inventory = 8;
 				b20.BookCost = 21.29m;
 				b20.ReplenishMinimum = 3;
+				b20.IsDiscontinued = false;
 				b20.PublishDate = new DateTime(2008, 11, 8);
 				b20.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b20);
@@ -290,6 +310,7 @@ namespace fa18Team22.Seeding
 				b21.Inventory = 9;
 				b21.BookCost = 13.14m;
 				b21.ReplenishMinimum = 4;
+				b21.IsDiscontinued = false;
 				b21.PublishDate = new DateTime(2008, 12, 6);
 				b21.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b21);
@@ -303,6 +324,7 @@ namespace fa18Team22.Seeding
 				b22.Inventory = 11;
 				b22.BookCost = 11.86m;
 				b22.ReplenishMinimum = 7;
+				b22.IsDiscontinued = false;
 				b22.PublishDate = new DateTime(2009, 1, 31);
 				b22.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b22);
@@ -316,6 +338,7 @@ namespace fa18Team22.Seeding
 				b23.Inventory = 5;
 				b23.BookCost = 22.09m;
 				b23.ReplenishMinimum = 1;
+				b23.IsDiscontinued = false;
 				b23.PublishDate = new DateTime(2009, 4, 11);
 				b23.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b23);
@@ -329,6 +352,7 @@ namespace fa18Team22.Seeding
 				b24.Inventory = 6;
 				b24.BookCost = 9.34m;
 				b24.ReplenishMinimum = 3;
+				b24.IsDiscontinued = false;
 				b24.PublishDate = new DateTime(2009, 4, 11);
 				b24.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b24);
@@ -342,6 +366,7 @@ namespace fa18Team22.Seeding
 				b25.Inventory = 8;
 				b25.BookCost = 3.11m;
 				b25.ReplenishMinimum = 3;
+				b25.IsDiscontinued = false;
 				b25.PublishDate = new DateTime(2009, 4, 11);
 				b25.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b25);
@@ -355,6 +380,7 @@ namespace fa18Team22.Seeding
 				b26.Inventory = 7;
 				b26.BookCost = 7.24m;
 				b26.ReplenishMinimum = 2;
+				b26.IsDiscontinued = false;
 				b26.PublishDate = new DateTime(2009, 5, 2);
 				b26.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b26);
@@ -368,6 +394,7 @@ namespace fa18Team22.Seeding
 				b27.Inventory = 10;
 				b27.BookCost = 24.65m;
 				b27.ReplenishMinimum = 5;
+				b27.IsDiscontinued = false;
 				b27.PublishDate = new DateTime(2009, 5, 9);
 				b27.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b27);
@@ -381,6 +408,7 @@ namespace fa18Team22.Seeding
 				b28.Inventory = 1;
 				b28.BookCost = 3.6m;
 				b28.ReplenishMinimum = 1;
+				b28.IsDiscontinued = false;
 				b28.PublishDate = new DateTime(2009, 5, 9);
 				b28.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b28);
@@ -394,6 +422,7 @@ namespace fa18Team22.Seeding
 				b29.Inventory = 5;
 				b29.BookCost = 15.72m;
 				b29.ReplenishMinimum = 2;
+				b29.IsDiscontinued = false;
 				b29.PublishDate = new DateTime(2009, 5, 16);
 				b29.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b29);
@@ -407,6 +436,7 @@ namespace fa18Team22.Seeding
 				b30.Inventory = 4;
 				b30.BookCost = 21.46m;
 				b30.ReplenishMinimum = 4;
+				b30.IsDiscontinued = false;
 				b30.PublishDate = new DateTime(2009, 5, 30);
 				b30.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b30);
@@ -420,6 +450,7 @@ namespace fa18Team22.Seeding
 				b31.Inventory = 4;
 				b31.BookCost = 2.5m;
 				b31.ReplenishMinimum = 4;
+				b31.IsDiscontinued = false;
 				b31.PublishDate = new DateTime(2009, 5, 30);
 				b31.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b31);
@@ -433,6 +464,7 @@ namespace fa18Team22.Seeding
 				b32.Inventory = 9;
 				b32.BookCost = 2.7m;
 				b32.ReplenishMinimum = 8;
+				b32.IsDiscontinued = false;
 				b32.PublishDate = new DateTime(2009, 6, 6);
 				b32.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b32);
@@ -446,6 +478,7 @@ namespace fa18Team22.Seeding
 				b33.Inventory = 13;
 				b33.BookCost = 7.82m;
 				b33.ReplenishMinimum = 8;
+				b33.IsDiscontinued = false;
 				b33.PublishDate = new DateTime(2009, 6, 13);
 				b33.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b33);
@@ -459,6 +492,7 @@ namespace fa18Team22.Seeding
 				b34.Inventory = 7;
 				b34.BookCost = 3.63m;
 				b34.ReplenishMinimum = 4;
+				b34.IsDiscontinued = false;
 				b34.PublishDate = new DateTime(2009, 6, 27);
 				b34.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b34);
@@ -472,6 +506,7 @@ namespace fa18Team22.Seeding
 				b35.Inventory = 13;
 				b35.BookCost = 13.25m;
 				b35.ReplenishMinimum = 8;
+				b35.IsDiscontinued = false;
 				b35.PublishDate = new DateTime(2009, 7, 4);
 				b35.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b35);
@@ -485,6 +520,7 @@ namespace fa18Team22.Seeding
 				b36.Inventory = 7;
 				b36.BookCost = 16.99m;
 				b36.ReplenishMinimum = 2;
+				b36.IsDiscontinued = false;
 				b36.PublishDate = new DateTime(2009, 7, 11);
 				b36.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b36);
@@ -498,6 +534,7 @@ namespace fa18Team22.Seeding
 				b37.Inventory = 6;
 				b37.BookCost = 21.05m;
 				b37.ReplenishMinimum = 2;
+				b37.IsDiscontinued = false;
 				b37.PublishDate = new DateTime(2009, 7, 18);
 				b37.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b37);
@@ -511,6 +548,7 @@ namespace fa18Team22.Seeding
 				b38.Inventory = 4;
 				b38.BookCost = 7.28m;
 				b38.ReplenishMinimum = 2;
+				b38.IsDiscontinued = false;
 				b38.PublishDate = new DateTime(2009, 7, 18);
 				b38.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b38);
@@ -524,6 +562,7 @@ namespace fa18Team22.Seeding
 				b39.Inventory = 6;
 				b39.BookCost = 18.62m;
 				b39.ReplenishMinimum = 2;
+				b39.IsDiscontinued = false;
 				b39.PublishDate = new DateTime(2009, 7, 18);
 				b39.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b39);
@@ -537,6 +576,7 @@ namespace fa18Team22.Seeding
 				b40.Inventory = 10;
 				b40.BookCost = 21.06m;
 				b40.ReplenishMinimum = 6;
+				b40.IsDiscontinued = false;
 				b40.PublishDate = new DateTime(2009, 8, 22);
 				b40.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b40);
@@ -550,6 +590,7 @@ namespace fa18Team22.Seeding
 				b41.Inventory = 3;
 				b41.BookCost = 14.55m;
 				b41.ReplenishMinimum = 3;
+				b41.IsDiscontinued = false;
 				b41.PublishDate = new DateTime(2009, 8, 29);
 				b41.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b41);
@@ -563,6 +604,7 @@ namespace fa18Team22.Seeding
 				b42.Inventory = 13;
 				b42.BookCost = 2.75m;
 				b42.ReplenishMinimum = 9;
+				b42.IsDiscontinued = false;
 				b42.PublishDate = new DateTime(2009, 9, 12);
 				b42.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b42);
@@ -576,6 +618,7 @@ namespace fa18Team22.Seeding
 				b43.Inventory = 9;
 				b43.BookCost = 7.01m;
 				b43.ReplenishMinimum = 8;
+				b43.IsDiscontinued = false;
 				b43.PublishDate = new DateTime(2009, 10, 10);
 				b43.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b43);
@@ -589,6 +632,7 @@ namespace fa18Team22.Seeding
 				b44.Inventory = 14;
 				b44.BookCost = 3.12m;
 				b44.ReplenishMinimum = 9;
+				b44.IsDiscontinued = false;
 				b44.PublishDate = new DateTime(2009, 10, 10);
 				b44.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b44);
@@ -602,6 +646,7 @@ namespace fa18Team22.Seeding
 				b45.Inventory = 4;
 				b45.BookCost = 5.04m;
 				b45.ReplenishMinimum = 4;
+				b45.IsDiscontinued = false;
 				b45.PublishDate = new DateTime(2009, 10, 17);
 				b45.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b45);
@@ -615,6 +660,7 @@ namespace fa18Team22.Seeding
 				b46.Inventory = 3;
 				b46.BookCost = 20.72m;
 				b46.ReplenishMinimum = 1;
+				b46.IsDiscontinued = false;
 				b46.PublishDate = new DateTime(2009, 11, 7);
 				b46.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b46);
@@ -628,6 +674,7 @@ namespace fa18Team22.Seeding
 				b47.Inventory = 12;
 				b47.BookCost = 14.88m;
 				b47.ReplenishMinimum = 10;
+				b47.IsDiscontinued = false;
 				b47.PublishDate = new DateTime(2009, 11, 7);
 				b47.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b47);
@@ -641,6 +688,7 @@ namespace fa18Team22.Seeding
 				b48.Inventory = 3;
 				b48.BookCost = 13.95m;
 				b48.ReplenishMinimum = 3;
+				b48.IsDiscontinued = false;
 				b48.PublishDate = new DateTime(2009, 11, 14);
 				b48.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Humor");
 				Books.Add(b48);
@@ -654,6 +702,7 @@ namespace fa18Team22.Seeding
 				b49.Inventory = 4;
 				b49.BookCost = 13.23m;
 				b49.ReplenishMinimum = 1;
+				b49.IsDiscontinued = false;
 				b49.PublishDate = new DateTime(2009, 11, 28);
 				b49.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b49);
@@ -667,6 +716,7 @@ namespace fa18Team22.Seeding
 				b50.Inventory = 1;
 				b50.BookCost = 25.75m;
 				b50.ReplenishMinimum = 1;
+				b50.IsDiscontinued = false;
 				b50.PublishDate = new DateTime(2010, 1, 2);
 				b50.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b50);
@@ -680,6 +730,7 @@ namespace fa18Team22.Seeding
 				b51.Inventory = 9;
 				b51.BookCost = 9.7m;
 				b51.ReplenishMinimum = 4;
+				b51.IsDiscontinued = false;
 				b51.PublishDate = new DateTime(2010, 1, 2);
 				b51.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b51);
@@ -693,6 +744,7 @@ namespace fa18Team22.Seeding
 				b52.Inventory = 12;
 				b52.BookCost = 20.99m;
 				b52.ReplenishMinimum = 8;
+				b52.IsDiscontinued = false;
 				b52.PublishDate = new DateTime(2010, 1, 16);
 				b52.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b52);
@@ -706,6 +758,7 @@ namespace fa18Team22.Seeding
 				b53.Inventory = 7;
 				b53.BookCost = 5.2m;
 				b53.ReplenishMinimum = 7;
+				b53.IsDiscontinued = false;
 				b53.PublishDate = new DateTime(2010, 1, 30);
 				b53.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b53);
@@ -719,6 +772,7 @@ namespace fa18Team22.Seeding
 				b54.Inventory = 5;
 				b54.BookCost = 3.11m;
 				b54.ReplenishMinimum = 5;
+				b54.IsDiscontinued = false;
 				b54.PublishDate = new DateTime(2010, 2, 13);
 				b54.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b54);
@@ -732,6 +786,7 @@ namespace fa18Team22.Seeding
 				b55.Inventory = 1;
 				b55.BookCost = 17.54m;
 				b55.ReplenishMinimum = 1;
+				b55.IsDiscontinued = false;
 				b55.PublishDate = new DateTime(2010, 2, 13);
 				b55.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b55);
@@ -745,6 +800,7 @@ namespace fa18Team22.Seeding
 				b56.Inventory = 5;
 				b56.BookCost = 5.45m;
 				b56.ReplenishMinimum = 1;
+				b56.IsDiscontinued = false;
 				b56.PublishDate = new DateTime(2010, 3, 13);
 				b56.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b56);
@@ -758,6 +814,7 @@ namespace fa18Team22.Seeding
 				b57.Inventory = 10;
 				b57.BookCost = 21.86m;
 				b57.ReplenishMinimum = 6;
+				b57.IsDiscontinued = false;
 				b57.PublishDate = new DateTime(2010, 3, 20);
 				b57.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b57);
@@ -771,6 +828,7 @@ namespace fa18Team22.Seeding
 				b58.Inventory = 6;
 				b58.BookCost = 11.25m;
 				b58.ReplenishMinimum = 3;
+				b58.IsDiscontinued = false;
 				b58.PublishDate = new DateTime(2010, 3, 20);
 				b58.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b58);
@@ -784,6 +842,7 @@ namespace fa18Team22.Seeding
 				b59.Inventory = 6;
 				b59.BookCost = 4.25m;
 				b59.ReplenishMinimum = 3;
+				b59.IsDiscontinued = false;
 				b59.PublishDate = new DateTime(2010, 4, 3);
 				b59.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b59);
@@ -797,6 +856,7 @@ namespace fa18Team22.Seeding
 				b60.Inventory = 11;
 				b60.BookCost = 18m;
 				b60.ReplenishMinimum = 8;
+				b60.IsDiscontinued = false;
 				b60.PublishDate = new DateTime(2010, 4, 17);
 				b60.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b60);
@@ -810,6 +870,7 @@ namespace fa18Team22.Seeding
 				b61.Inventory = 11;
 				b61.BookCost = 9.46m;
 				b61.ReplenishMinimum = 8;
+				b61.IsDiscontinued = false;
 				b61.PublishDate = new DateTime(2010, 5, 1);
 				b61.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b61);
@@ -823,6 +884,7 @@ namespace fa18Team22.Seeding
 				b62.Inventory = 7;
 				b62.BookCost = 22.64m;
 				b62.ReplenishMinimum = 7;
+				b62.IsDiscontinued = false;
 				b62.PublishDate = new DateTime(2010, 5, 15);
 				b62.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b62);
@@ -836,6 +898,7 @@ namespace fa18Team22.Seeding
 				b63.Inventory = 7;
 				b63.BookCost = 6.21m;
 				b63.ReplenishMinimum = 3;
+				b63.IsDiscontinued = false;
 				b63.PublishDate = new DateTime(2010, 5, 15);
 				b63.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b63);
@@ -849,6 +912,7 @@ namespace fa18Team22.Seeding
 				b64.Inventory = 9;
 				b64.BookCost = 18.25m;
 				b64.ReplenishMinimum = 9;
+				b64.IsDiscontinued = false;
 				b64.PublishDate = new DateTime(2010, 6, 19);
 				b64.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b64);
@@ -862,6 +926,7 @@ namespace fa18Team22.Seeding
 				b65.Inventory = 3;
 				b65.BookCost = 6.75m;
 				b65.ReplenishMinimum = 1;
+				b65.IsDiscontinued = false;
 				b65.PublishDate = new DateTime(2010, 6, 26);
 				b65.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b65);
@@ -875,6 +940,7 @@ namespace fa18Team22.Seeding
 				b66.Inventory = 2;
 				b66.BookCost = 12.32m;
 				b66.ReplenishMinimum = 1;
+				b66.IsDiscontinued = false;
 				b66.PublishDate = new DateTime(2010, 6, 26);
 				b66.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b66);
@@ -888,6 +954,7 @@ namespace fa18Team22.Seeding
 				b67.Inventory = 15;
 				b67.BookCost = 9.62m;
 				b67.ReplenishMinimum = 10;
+				b67.IsDiscontinued = false;
 				b67.PublishDate = new DateTime(2010, 7, 3);
 				b67.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b67);
@@ -901,6 +968,7 @@ namespace fa18Team22.Seeding
 				b68.Inventory = 9;
 				b68.BookCost = 8.62m;
 				b68.ReplenishMinimum = 4;
+				b68.IsDiscontinued = false;
 				b68.PublishDate = new DateTime(2010, 7, 10);
 				b68.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b68);
@@ -914,6 +982,7 @@ namespace fa18Team22.Seeding
 				b69.Inventory = 6;
 				b69.BookCost = 5.98m;
 				b69.ReplenishMinimum = 1;
+				b69.IsDiscontinued = false;
 				b69.PublishDate = new DateTime(2010, 8, 14);
 				b69.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b69);
@@ -927,6 +996,7 @@ namespace fa18Team22.Seeding
 				b70.Inventory = 12;
 				b70.BookCost = 5.25m;
 				b70.ReplenishMinimum = 10;
+				b70.IsDiscontinued = false;
 				b70.PublishDate = new DateTime(2010, 9, 11);
 				b70.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b70);
@@ -940,6 +1010,7 @@ namespace fa18Team22.Seeding
 				b71.Inventory = 7;
 				b71.BookCost = 13.23m;
 				b71.ReplenishMinimum = 7;
+				b71.IsDiscontinued = false;
 				b71.PublishDate = new DateTime(2010, 9, 25);
 				b71.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b71);
@@ -953,6 +1024,7 @@ namespace fa18Team22.Seeding
 				b72.Inventory = 3;
 				b72.BookCost = 6.44m;
 				b72.ReplenishMinimum = 1;
+				b72.IsDiscontinued = false;
 				b72.PublishDate = new DateTime(2010, 10, 2);
 				b72.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b72);
@@ -966,6 +1038,7 @@ namespace fa18Team22.Seeding
 				b73.Inventory = 6;
 				b73.BookCost = 8.31m;
 				b73.ReplenishMinimum = 4;
+				b73.IsDiscontinued = false;
 				b73.PublishDate = new DateTime(2010, 10, 2);
 				b73.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b73);
@@ -979,6 +1052,7 @@ namespace fa18Team22.Seeding
 				b74.Inventory = 2;
 				b74.BookCost = 10.79m;
 				b74.ReplenishMinimum = 1;
+				b74.IsDiscontinued = false;
 				b74.PublishDate = new DateTime(2010, 10, 9);
 				b74.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b74);
@@ -992,6 +1066,7 @@ namespace fa18Team22.Seeding
 				b75.Inventory = 5;
 				b75.BookCost = 20.12m;
 				b75.ReplenishMinimum = 4;
+				b75.IsDiscontinued = false;
 				b75.PublishDate = new DateTime(2010, 11, 20);
 				b75.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Adventure");
 				Books.Add(b75);
@@ -1005,6 +1080,7 @@ namespace fa18Team22.Seeding
 				b76.Inventory = 6;
 				b76.BookCost = 8.91m;
 				b76.ReplenishMinimum = 6;
+				b76.IsDiscontinued = false;
 				b76.PublishDate = new DateTime(2010, 11, 27);
 				b76.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b76);
@@ -1018,6 +1094,7 @@ namespace fa18Team22.Seeding
 				b77.Inventory = 8;
 				b77.BookCost = 24.03m;
 				b77.ReplenishMinimum = 8;
+				b77.IsDiscontinued = false;
 				b77.PublishDate = new DateTime(2010, 12, 11);
 				b77.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b77);
@@ -1031,6 +1108,7 @@ namespace fa18Team22.Seeding
 				b78.Inventory = 8;
 				b78.BookCost = 24.26m;
 				b78.ReplenishMinimum = 7;
+				b78.IsDiscontinued = false;
 				b78.PublishDate = new DateTime(2011, 1, 8);
 				b78.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b78);
@@ -1044,6 +1122,7 @@ namespace fa18Team22.Seeding
 				b79.Inventory = 11;
 				b79.BookCost = 11.61m;
 				b79.ReplenishMinimum = 8;
+				b79.IsDiscontinued = false;
 				b79.PublishDate = new DateTime(2011, 1, 15);
 				b79.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b79);
@@ -1057,6 +1136,7 @@ namespace fa18Team22.Seeding
 				b80.Inventory = 13;
 				b80.BookCost = 13.78m;
 				b80.ReplenishMinimum = 9;
+				b80.IsDiscontinued = false;
 				b80.PublishDate = new DateTime(2011, 1, 22);
 				b80.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b80);
@@ -1070,6 +1150,7 @@ namespace fa18Team22.Seeding
 				b81.Inventory = 4;
 				b81.BookCost = 11.44m;
 				b81.ReplenishMinimum = 3;
+				b81.IsDiscontinued = false;
 				b81.PublishDate = new DateTime(2011, 1, 22);
 				b81.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b81);
@@ -1083,6 +1164,7 @@ namespace fa18Team22.Seeding
 				b82.Inventory = 8;
 				b82.BookCost = 3.76m;
 				b82.ReplenishMinimum = 7;
+				b82.IsDiscontinued = false;
 				b82.PublishDate = new DateTime(2011, 2, 12);
 				b82.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b82);
@@ -1096,6 +1178,7 @@ namespace fa18Team22.Seeding
 				b83.Inventory = 11;
 				b83.BookCost = 19.7m;
 				b83.ReplenishMinimum = 9;
+				b83.IsDiscontinued = false;
 				b83.PublishDate = new DateTime(2011, 2, 26);
 				b83.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b83);
@@ -1109,6 +1192,7 @@ namespace fa18Team22.Seeding
 				b84.Inventory = 8;
 				b84.BookCost = 5.93m;
 				b84.ReplenishMinimum = 5;
+				b84.IsDiscontinued = false;
 				b84.PublishDate = new DateTime(2011, 2, 26);
 				b84.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b84);
@@ -1122,6 +1206,7 @@ namespace fa18Team22.Seeding
 				b85.Inventory = 9;
 				b85.BookCost = 13.98m;
 				b85.ReplenishMinimum = 6;
+				b85.IsDiscontinued = false;
 				b85.PublishDate = new DateTime(2011, 3, 26);
 				b85.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b85);
@@ -1135,6 +1220,7 @@ namespace fa18Team22.Seeding
 				b86.Inventory = 7;
 				b86.BookCost = 12.22m;
 				b86.ReplenishMinimum = 7;
+				b86.IsDiscontinued = false;
 				b86.PublishDate = new DateTime(2011, 3, 26);
 				b86.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b86);
@@ -1148,6 +1234,7 @@ namespace fa18Team22.Seeding
 				b87.Inventory = 4;
 				b87.BookCost = 3.78m;
 				b87.ReplenishMinimum = 2;
+				b87.IsDiscontinued = false;
 				b87.PublishDate = new DateTime(2011, 4, 9);
 				b87.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b87);
@@ -1161,6 +1248,7 @@ namespace fa18Team22.Seeding
 				b88.Inventory = 14;
 				b88.BookCost = 3.9m;
 				b88.ReplenishMinimum = 9;
+				b88.IsDiscontinued = false;
 				b88.PublishDate = new DateTime(2011, 4, 9);
 				b88.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b88);
@@ -1174,6 +1262,7 @@ namespace fa18Team22.Seeding
 				b89.Inventory = 4;
 				b89.BookCost = 6.16m;
 				b89.ReplenishMinimum = 4;
+				b89.IsDiscontinued = false;
 				b89.PublishDate = new DateTime(2011, 4, 9);
 				b89.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b89);
@@ -1187,6 +1276,7 @@ namespace fa18Team22.Seeding
 				b90.Inventory = 10;
 				b90.BookCost = 11.2m;
 				b90.ReplenishMinimum = 6;
+				b90.IsDiscontinued = false;
 				b90.PublishDate = new DateTime(2011, 4, 16);
 				b90.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b90);
@@ -1200,6 +1290,7 @@ namespace fa18Team22.Seeding
 				b91.Inventory = 9;
 				b91.BookCost = 23.1m;
 				b91.ReplenishMinimum = 6;
+				b91.IsDiscontinued = false;
 				b91.PublishDate = new DateTime(2011, 4, 23);
 				b91.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b91);
@@ -1213,6 +1304,7 @@ namespace fa18Team22.Seeding
 				b92.Inventory = 5;
 				b92.BookCost = 20.15m;
 				b92.ReplenishMinimum = 4;
+				b92.IsDiscontinued = false;
 				b92.PublishDate = new DateTime(2011, 4, 23);
 				b92.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b92);
@@ -1226,6 +1318,7 @@ namespace fa18Team22.Seeding
 				b93.Inventory = 10;
 				b93.BookCost = 16.23m;
 				b93.ReplenishMinimum = 8;
+				b93.IsDiscontinued = false;
 				b93.PublishDate = new DateTime(2011, 5, 14);
 				b93.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b93);
@@ -1239,6 +1332,7 @@ namespace fa18Team22.Seeding
 				b94.Inventory = 11;
 				b94.BookCost = 18.2m;
 				b94.ReplenishMinimum = 8;
+				b94.IsDiscontinued = false;
 				b94.PublishDate = new DateTime(2011, 5, 21);
 				b94.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b94);
@@ -1252,6 +1346,7 @@ namespace fa18Team22.Seeding
 				b95.Inventory = 11;
 				b95.BookCost = 9.62m;
 				b95.ReplenishMinimum = 9;
+				b95.IsDiscontinued = false;
 				b95.PublishDate = new DateTime(2011, 6, 11);
 				b95.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b95);
@@ -1265,6 +1360,7 @@ namespace fa18Team22.Seeding
 				b96.Inventory = 4;
 				b96.BookCost = 20.01m;
 				b96.ReplenishMinimum = 2;
+				b96.IsDiscontinued = false;
 				b96.PublishDate = new DateTime(2011, 6, 18);
 				b96.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b96);
@@ -1278,6 +1374,7 @@ namespace fa18Team22.Seeding
 				b97.Inventory = 5;
 				b97.BookCost = 6m;
 				b97.ReplenishMinimum = 1;
+				b97.IsDiscontinued = false;
 				b97.PublishDate = new DateTime(2011, 6, 18);
 				b97.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b97);
@@ -1291,6 +1388,7 @@ namespace fa18Team22.Seeding
 				b98.Inventory = 2;
 				b98.BookCost = 8.4m;
 				b98.ReplenishMinimum = 1;
+				b98.IsDiscontinued = false;
 				b98.PublishDate = new DateTime(2011, 7, 2);
 				b98.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b98);
@@ -1304,6 +1402,7 @@ namespace fa18Team22.Seeding
 				b99.Inventory = 8;
 				b99.BookCost = 5.67m;
 				b99.ReplenishMinimum = 4;
+				b99.IsDiscontinued = false;
 				b99.PublishDate = new DateTime(2011, 7, 30);
 				b99.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b99);
@@ -1317,6 +1416,7 @@ namespace fa18Team22.Seeding
 				b100.Inventory = 13;
 				b100.BookCost = 12.02m;
 				b100.ReplenishMinimum = 9;
+				b100.IsDiscontinued = false;
 				b100.PublishDate = new DateTime(2011, 7, 30);
 				b100.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b100);
@@ -1330,6 +1430,7 @@ namespace fa18Team22.Seeding
 				b101.Inventory = 9;
 				b101.BookCost = 24.69m;
 				b101.ReplenishMinimum = 4;
+				b101.IsDiscontinued = false;
 				b101.PublishDate = new DateTime(2011, 8, 6);
 				b101.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b101);
@@ -1343,6 +1444,7 @@ namespace fa18Team22.Seeding
 				b102.Inventory = 12;
 				b102.BookCost = 17.69m;
 				b102.ReplenishMinimum = 7;
+				b102.IsDiscontinued = false;
 				b102.PublishDate = new DateTime(2011, 8, 20);
 				b102.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b102);
@@ -1356,6 +1458,7 @@ namespace fa18Team22.Seeding
 				b103.Inventory = 7;
 				b103.BookCost = 15.39m;
 				b103.ReplenishMinimum = 4;
+				b103.IsDiscontinued = false;
 				b103.PublishDate = new DateTime(2011, 8, 27);
 				b103.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b103);
@@ -1369,6 +1472,7 @@ namespace fa18Team22.Seeding
 				b104.Inventory = 12;
 				b104.BookCost = 23.79m;
 				b104.ReplenishMinimum = 7;
+				b104.IsDiscontinued = false;
 				b104.PublishDate = new DateTime(2011, 9, 17);
 				b104.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b104);
@@ -1382,6 +1486,7 @@ namespace fa18Team22.Seeding
 				b105.Inventory = 12;
 				b105.BookCost = 14.7m;
 				b105.ReplenishMinimum = 10;
+				b105.IsDiscontinued = false;
 				b105.PublishDate = new DateTime(2011, 9, 24);
 				b105.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b105);
@@ -1395,6 +1500,7 @@ namespace fa18Team22.Seeding
 				b106.Inventory = 11;
 				b106.BookCost = 10.92m;
 				b106.ReplenishMinimum = 6;
+				b106.IsDiscontinued = false;
 				b106.PublishDate = new DateTime(2011, 10, 1);
 				b106.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b106);
@@ -1408,6 +1514,7 @@ namespace fa18Team22.Seeding
 				b107.Inventory = 11;
 				b107.BookCost = 8.68m;
 				b107.ReplenishMinimum = 6;
+				b107.IsDiscontinued = false;
 				b107.PublishDate = new DateTime(2011, 10, 1);
 				b107.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b107);
@@ -1421,6 +1528,7 @@ namespace fa18Team22.Seeding
 				b108.Inventory = 10;
 				b108.BookCost = 15.96m;
 				b108.ReplenishMinimum = 5;
+				b108.IsDiscontinued = false;
 				b108.PublishDate = new DateTime(2011, 10, 1);
 				b108.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b108);
@@ -1434,6 +1542,7 @@ namespace fa18Team22.Seeding
 				b109.Inventory = 13;
 				b109.BookCost = 24.07m;
 				b109.ReplenishMinimum = 9;
+				b109.IsDiscontinued = false;
 				b109.PublishDate = new DateTime(2011, 10, 22);
 				b109.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b109);
@@ -1447,6 +1556,7 @@ namespace fa18Team22.Seeding
 				b110.Inventory = 3;
 				b110.BookCost = 23.65m;
 				b110.ReplenishMinimum = 2;
+				b110.IsDiscontinued = false;
 				b110.PublishDate = new DateTime(2011, 10, 22);
 				b110.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b110);
@@ -1460,6 +1570,7 @@ namespace fa18Team22.Seeding
 				b111.Inventory = 12;
 				b111.BookCost = 18.47m;
 				b111.ReplenishMinimum = 9;
+				b111.IsDiscontinued = false;
 				b111.PublishDate = new DateTime(2011, 11, 5);
 				b111.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b111);
@@ -1473,6 +1584,7 @@ namespace fa18Team22.Seeding
 				b112.Inventory = 6;
 				b112.BookCost = 24.92m;
 				b112.ReplenishMinimum = 2;
+				b112.IsDiscontinued = false;
 				b112.PublishDate = new DateTime(2011, 12, 3);
 				b112.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b112);
@@ -1486,6 +1598,7 @@ namespace fa18Team22.Seeding
 				b113.Inventory = 6;
 				b113.BookCost = 14.56m;
 				b113.ReplenishMinimum = 5;
+				b113.IsDiscontinued = false;
 				b113.PublishDate = new DateTime(2011, 12, 31);
 				b113.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Horror");
 				Books.Add(b113);
@@ -1499,6 +1612,7 @@ namespace fa18Team22.Seeding
 				b114.Inventory = 3;
 				b114.BookCost = 22.95m;
 				b114.ReplenishMinimum = 3;
+				b114.IsDiscontinued = false;
 				b114.PublishDate = new DateTime(2012, 1, 7);
 				b114.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b114);
@@ -1512,6 +1626,7 @@ namespace fa18Team22.Seeding
 				b115.Inventory = 7;
 				b115.BookCost = 5.66m;
 				b115.ReplenishMinimum = 6;
+				b115.IsDiscontinued = false;
 				b115.PublishDate = new DateTime(2012, 1, 7);
 				b115.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b115);
@@ -1525,6 +1640,7 @@ namespace fa18Team22.Seeding
 				b116.Inventory = 5;
 				b116.BookCost = 16.09m;
 				b116.ReplenishMinimum = 5;
+				b116.IsDiscontinued = false;
 				b116.PublishDate = new DateTime(2012, 1, 14);
 				b116.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b116);
@@ -1538,6 +1654,7 @@ namespace fa18Team22.Seeding
 				b117.Inventory = 13;
 				b117.BookCost = 20.01m;
 				b117.ReplenishMinimum = 10;
+				b117.IsDiscontinued = false;
 				b117.PublishDate = new DateTime(2012, 2, 11);
 				b117.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b117);
@@ -1551,6 +1668,7 @@ namespace fa18Team22.Seeding
 				b118.Inventory = 13;
 				b118.BookCost = 7.28m;
 				b118.ReplenishMinimum = 9;
+				b118.IsDiscontinued = false;
 				b118.PublishDate = new DateTime(2012, 2, 18);
 				b118.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b118);
@@ -1564,6 +1682,7 @@ namespace fa18Team22.Seeding
 				b119.Inventory = 5;
 				b119.BookCost = 16.52m;
 				b119.ReplenishMinimum = 1;
+				b119.IsDiscontinued = false;
 				b119.PublishDate = new DateTime(2012, 3, 3);
 				b119.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b119);
@@ -1577,6 +1696,7 @@ namespace fa18Team22.Seeding
 				b120.Inventory = 8;
 				b120.BookCost = 20.27m;
 				b120.ReplenishMinimum = 4;
+				b120.IsDiscontinued = false;
 				b120.PublishDate = new DateTime(2012, 3, 17);
 				b120.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b120);
@@ -1590,6 +1710,7 @@ namespace fa18Team22.Seeding
 				b121.Inventory = 8;
 				b121.BookCost = 16.71m;
 				b121.ReplenishMinimum = 6;
+				b121.IsDiscontinued = false;
 				b121.PublishDate = new DateTime(2012, 4, 21);
 				b121.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b121);
@@ -1603,6 +1724,7 @@ namespace fa18Team22.Seeding
 				b122.Inventory = 11;
 				b122.BookCost = 19.17m;
 				b122.ReplenishMinimum = 8;
+				b122.IsDiscontinued = false;
 				b122.PublishDate = new DateTime(2012, 6, 16);
 				b122.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b122);
@@ -1616,6 +1738,7 @@ namespace fa18Team22.Seeding
 				b123.Inventory = 15;
 				b123.BookCost = 21.13m;
 				b123.ReplenishMinimum = 10;
+				b123.IsDiscontinued = false;
 				b123.PublishDate = new DateTime(2012, 7, 14);
 				b123.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b123);
@@ -1629,6 +1752,7 @@ namespace fa18Team22.Seeding
 				b124.Inventory = 7;
 				b124.BookCost = 8.12m;
 				b124.ReplenishMinimum = 3;
+				b124.IsDiscontinued = false;
 				b124.PublishDate = new DateTime(2012, 7, 28);
 				b124.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b124);
@@ -1642,6 +1766,7 @@ namespace fa18Team22.Seeding
 				b125.Inventory = 11;
 				b125.BookCost = 8.84m;
 				b125.ReplenishMinimum = 10;
+				b125.IsDiscontinued = false;
 				b125.PublishDate = new DateTime(2012, 7, 28);
 				b125.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b125);
@@ -1655,6 +1780,7 @@ namespace fa18Team22.Seeding
 				b126.Inventory = 4;
 				b126.BookCost = 24.04m;
 				b126.ReplenishMinimum = 4;
+				b126.IsDiscontinued = false;
 				b126.PublishDate = new DateTime(2012, 7, 28);
 				b126.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b126);
@@ -1668,6 +1794,7 @@ namespace fa18Team22.Seeding
 				b127.Inventory = 1;
 				b127.BookCost = 14.28m;
 				b127.ReplenishMinimum = 1;
+				b127.IsDiscontinued = false;
 				b127.PublishDate = new DateTime(2012, 8, 4);
 				b127.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Horror");
 				Books.Add(b127);
@@ -1681,6 +1808,7 @@ namespace fa18Team22.Seeding
 				b128.Inventory = 3;
 				b128.BookCost = 14.82m;
 				b128.ReplenishMinimum = 1;
+				b128.IsDiscontinued = false;
 				b128.PublishDate = new DateTime(2012, 8, 4);
 				b128.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b128);
@@ -1694,6 +1822,7 @@ namespace fa18Team22.Seeding
 				b129.Inventory = 8;
 				b129.BookCost = 24.18m;
 				b129.ReplenishMinimum = 5;
+				b129.IsDiscontinued = false;
 				b129.PublishDate = new DateTime(2012, 8, 18);
 				b129.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b129);
@@ -1707,6 +1836,7 @@ namespace fa18Team22.Seeding
 				b130.Inventory = 5;
 				b130.BookCost = 4.2m;
 				b130.ReplenishMinimum = 1;
+				b130.IsDiscontinued = false;
 				b130.PublishDate = new DateTime(2012, 8, 25);
 				b130.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b130);
@@ -1720,6 +1850,7 @@ namespace fa18Team22.Seeding
 				b131.Inventory = 2;
 				b131.BookCost = 22.62m;
 				b131.ReplenishMinimum = 2;
+				b131.IsDiscontinued = false;
 				b131.PublishDate = new DateTime(2012, 9, 1);
 				b131.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b131);
@@ -1733,6 +1864,7 @@ namespace fa18Team22.Seeding
 				b132.Inventory = 6;
 				b132.BookCost = 9.99m;
 				b132.ReplenishMinimum = 5;
+				b132.IsDiscontinued = false;
 				b132.PublishDate = new DateTime(2012, 9, 1);
 				b132.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b132);
@@ -1746,6 +1878,7 @@ namespace fa18Team22.Seeding
 				b133.Inventory = 13;
 				b133.BookCost = 11.2m;
 				b133.ReplenishMinimum = 10;
+				b133.IsDiscontinued = false;
 				b133.PublishDate = new DateTime(2012, 9, 15);
 				b133.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b133);
@@ -1759,6 +1892,7 @@ namespace fa18Team22.Seeding
 				b134.Inventory = 8;
 				b134.BookCost = 10.08m;
 				b134.ReplenishMinimum = 8;
+				b134.IsDiscontinued = false;
 				b134.PublishDate = new DateTime(2012, 9, 22);
 				b134.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b134);
@@ -1772,6 +1906,7 @@ namespace fa18Team22.Seeding
 				b135.Inventory = 4;
 				b135.BookCost = 4.48m;
 				b135.ReplenishMinimum = 3;
+				b135.IsDiscontinued = false;
 				b135.PublishDate = new DateTime(2012, 10, 20);
 				b135.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b135);
@@ -1785,6 +1920,7 @@ namespace fa18Team22.Seeding
 				b136.Inventory = 8;
 				b136.BookCost = 16.17m;
 				b136.ReplenishMinimum = 4;
+				b136.IsDiscontinued = false;
 				b136.PublishDate = new DateTime(2012, 11, 17);
 				b136.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b136);
@@ -1798,6 +1934,7 @@ namespace fa18Team22.Seeding
 				b137.Inventory = 10;
 				b137.BookCost = 8.99m;
 				b137.ReplenishMinimum = 7;
+				b137.IsDiscontinued = false;
 				b137.PublishDate = new DateTime(2012, 11, 17);
 				b137.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b137);
@@ -1811,6 +1948,7 @@ namespace fa18Team22.Seeding
 				b138.Inventory = 12;
 				b138.BookCost = 10.71m;
 				b138.ReplenishMinimum = 9;
+				b138.IsDiscontinued = false;
 				b138.PublishDate = new DateTime(2012, 12, 8);
 				b138.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b138);
@@ -1824,6 +1962,7 @@ namespace fa18Team22.Seeding
 				b139.Inventory = 9;
 				b139.BookCost = 13.23m;
 				b139.ReplenishMinimum = 4;
+				b139.IsDiscontinued = false;
 				b139.PublishDate = new DateTime(2012, 12, 15);
 				b139.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b139);
@@ -1837,6 +1976,7 @@ namespace fa18Team22.Seeding
 				b140.Inventory = 11;
 				b140.BookCost = 23.51m;
 				b140.ReplenishMinimum = 9;
+				b140.IsDiscontinued = false;
 				b140.PublishDate = new DateTime(2013, 1, 12);
 				b140.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b140);
@@ -1850,6 +1990,7 @@ namespace fa18Team22.Seeding
 				b141.Inventory = 15;
 				b141.BookCost = 19.4m;
 				b141.ReplenishMinimum = 10;
+				b141.IsDiscontinued = false;
 				b141.PublishDate = new DateTime(2013, 1, 12);
 				b141.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b141);
@@ -1863,6 +2004,7 @@ namespace fa18Team22.Seeding
 				b142.Inventory = 10;
 				b142.BookCost = 25.43m;
 				b142.ReplenishMinimum = 7;
+				b142.IsDiscontinued = false;
 				b142.PublishDate = new DateTime(2013, 1, 12);
 				b142.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b142);
@@ -1876,6 +2018,7 @@ namespace fa18Team22.Seeding
 				b143.Inventory = 6;
 				b143.BookCost = 15.11m;
 				b143.ReplenishMinimum = 3;
+				b143.IsDiscontinued = false;
 				b143.PublishDate = new DateTime(2013, 1, 19);
 				b143.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b143);
@@ -1889,6 +2032,7 @@ namespace fa18Team22.Seeding
 				b144.Inventory = 4;
 				b144.BookCost = 6.71m;
 				b144.ReplenishMinimum = 3;
+				b144.IsDiscontinued = false;
 				b144.PublishDate = new DateTime(2013, 2, 16);
 				b144.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b144);
@@ -1902,6 +2046,7 @@ namespace fa18Team22.Seeding
 				b145.Inventory = 10;
 				b145.BookCost = 13.92m;
 				b145.ReplenishMinimum = 8;
+				b145.IsDiscontinued = false;
 				b145.PublishDate = new DateTime(2013, 3, 9);
 				b145.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b145);
@@ -1915,6 +2060,7 @@ namespace fa18Team22.Seeding
 				b146.Inventory = 15;
 				b146.BookCost = 2.8m;
 				b146.ReplenishMinimum = 10;
+				b146.IsDiscontinued = false;
 				b146.PublishDate = new DateTime(2013, 3, 9);
 				b146.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b146);
@@ -1928,6 +2074,7 @@ namespace fa18Team22.Seeding
 				b147.Inventory = 11;
 				b147.BookCost = 7.49m;
 				b147.ReplenishMinimum = 10;
+				b147.IsDiscontinued = false;
 				b147.PublishDate = new DateTime(2013, 3, 16);
 				b147.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Humor");
 				Books.Add(b147);
@@ -1941,6 +2088,7 @@ namespace fa18Team22.Seeding
 				b148.Inventory = 12;
 				b148.BookCost = 12.86m;
 				b148.ReplenishMinimum = 7;
+				b148.IsDiscontinued = false;
 				b148.PublishDate = new DateTime(2013, 3, 30);
 				b148.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b148);
@@ -1954,6 +2102,7 @@ namespace fa18Team22.Seeding
 				b149.Inventory = 14;
 				b149.BookCost = 2.97m;
 				b149.ReplenishMinimum = 10;
+				b149.IsDiscontinued = false;
 				b149.PublishDate = new DateTime(2013, 3, 30);
 				b149.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b149);
@@ -1967,6 +2116,7 @@ namespace fa18Team22.Seeding
 				b150.Inventory = 10;
 				b150.BookCost = 14.01m;
 				b150.ReplenishMinimum = 6;
+				b150.IsDiscontinued = false;
 				b150.PublishDate = new DateTime(2013, 4, 6);
 				b150.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b150);
@@ -1980,6 +2130,7 @@ namespace fa18Team22.Seeding
 				b151.Inventory = 10;
 				b151.BookCost = 11.32m;
 				b151.ReplenishMinimum = 8;
+				b151.IsDiscontinued = false;
 				b151.PublishDate = new DateTime(2013, 4, 13);
 				b151.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b151);
@@ -1993,6 +2144,7 @@ namespace fa18Team22.Seeding
 				b152.Inventory = 14;
 				b152.BookCost = 28.56m;
 				b152.ReplenishMinimum = 9;
+				b152.IsDiscontinued = false;
 				b152.PublishDate = new DateTime(2013, 5, 4);
 				b152.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b152);
@@ -2006,6 +2158,7 @@ namespace fa18Team22.Seeding
 				b153.Inventory = 9;
 				b153.BookCost = 25.19m;
 				b153.ReplenishMinimum = 4;
+				b153.IsDiscontinued = false;
 				b153.PublishDate = new DateTime(2013, 6, 1);
 				b153.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b153);
@@ -2019,6 +2172,7 @@ namespace fa18Team22.Seeding
 				b154.Inventory = 3;
 				b154.BookCost = 19.58m;
 				b154.ReplenishMinimum = 1;
+				b154.IsDiscontinued = false;
 				b154.PublishDate = new DateTime(2013, 6, 1);
 				b154.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b154);
@@ -2032,6 +2186,7 @@ namespace fa18Team22.Seeding
 				b155.Inventory = 9;
 				b155.BookCost = 11.59m;
 				b155.ReplenishMinimum = 4;
+				b155.IsDiscontinued = false;
 				b155.PublishDate = new DateTime(2013, 6, 8);
 				b155.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b155);
@@ -2045,6 +2200,7 @@ namespace fa18Team22.Seeding
 				b156.Inventory = 12;
 				b156.BookCost = 8.38m;
 				b156.ReplenishMinimum = 8;
+				b156.IsDiscontinued = false;
 				b156.PublishDate = new DateTime(2013, 6, 15);
 				b156.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b156);
@@ -2058,6 +2214,7 @@ namespace fa18Team22.Seeding
 				b157.Inventory = 10;
 				b157.BookCost = 20.71m;
 				b157.ReplenishMinimum = 10;
+				b157.IsDiscontinued = false;
 				b157.PublishDate = new DateTime(2013, 6, 29);
 				b157.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b157);
@@ -2071,6 +2228,7 @@ namespace fa18Team22.Seeding
 				b158.Inventory = 1;
 				b158.BookCost = 2.33m;
 				b158.ReplenishMinimum = 1;
+				b158.IsDiscontinued = false;
 				b158.PublishDate = new DateTime(2013, 7, 20);
 				b158.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b158);
@@ -2084,6 +2242,7 @@ namespace fa18Team22.Seeding
 				b159.Inventory = 5;
 				b159.BookCost = 28.07m;
 				b159.ReplenishMinimum = 3;
+				b159.IsDiscontinued = false;
 				b159.PublishDate = new DateTime(2013, 7, 20);
 				b159.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b159);
@@ -2097,6 +2256,7 @@ namespace fa18Team22.Seeding
 				b160.Inventory = 7;
 				b160.BookCost = 10.88m;
 				b160.ReplenishMinimum = 5;
+				b160.IsDiscontinued = false;
 				b160.PublishDate = new DateTime(2013, 7, 27);
 				b160.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b160);
@@ -2110,6 +2270,7 @@ namespace fa18Team22.Seeding
 				b161.Inventory = 7;
 				b161.BookCost = 10.78m;
 				b161.ReplenishMinimum = 2;
+				b161.IsDiscontinued = false;
 				b161.PublishDate = new DateTime(2013, 8, 24);
 				b161.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b161);
@@ -2123,6 +2284,7 @@ namespace fa18Team22.Seeding
 				b162.Inventory = 10;
 				b162.BookCost = 6.3m;
 				b162.ReplenishMinimum = 9;
+				b162.IsDiscontinued = false;
 				b162.PublishDate = new DateTime(2013, 9, 14);
 				b162.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b162);
@@ -2136,6 +2298,7 @@ namespace fa18Team22.Seeding
 				b163.Inventory = 8;
 				b163.BookCost = 7.04m;
 				b163.ReplenishMinimum = 3;
+				b163.IsDiscontinued = false;
 				b163.PublishDate = new DateTime(2013, 9, 14);
 				b163.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b163);
@@ -2149,6 +2312,7 @@ namespace fa18Team22.Seeding
 				b164.Inventory = 2;
 				b164.BookCost = 3.36m;
 				b164.ReplenishMinimum = 1;
+				b164.IsDiscontinued = false;
 				b164.PublishDate = new DateTime(2013, 9, 21);
 				b164.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b164);
@@ -2162,6 +2326,7 @@ namespace fa18Team22.Seeding
 				b165.Inventory = 7;
 				b165.BookCost = 4.48m;
 				b165.ReplenishMinimum = 6;
+				b165.IsDiscontinued = false;
 				b165.PublishDate = new DateTime(2013, 9, 28);
 				b165.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b165);
@@ -2175,6 +2340,7 @@ namespace fa18Team22.Seeding
 				b166.Inventory = 11;
 				b166.BookCost = 7.03m;
 				b166.ReplenishMinimum = 6;
+				b166.IsDiscontinued = false;
 				b166.PublishDate = new DateTime(2013, 10, 5);
 				b166.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b166);
@@ -2188,6 +2354,7 @@ namespace fa18Team22.Seeding
 				b167.Inventory = 15;
 				b167.BookCost = 17.96m;
 				b167.ReplenishMinimum = 10;
+				b167.IsDiscontinued = false;
 				b167.PublishDate = new DateTime(2013, 10, 12);
 				b167.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b167);
@@ -2201,6 +2368,7 @@ namespace fa18Team22.Seeding
 				b168.Inventory = 6;
 				b168.BookCost = 18.57m;
 				b168.ReplenishMinimum = 1;
+				b168.IsDiscontinued = false;
 				b168.PublishDate = new DateTime(2013, 10, 19);
 				b168.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b168);
@@ -2214,6 +2382,7 @@ namespace fa18Team22.Seeding
 				b169.Inventory = 7;
 				b169.BookCost = 10.88m;
 				b169.ReplenishMinimum = 3;
+				b169.IsDiscontinued = false;
 				b169.PublishDate = new DateTime(2013, 10, 19);
 				b169.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b169);
@@ -2227,6 +2396,7 @@ namespace fa18Team22.Seeding
 				b170.Inventory = 11;
 				b170.BookCost = 25.41m;
 				b170.ReplenishMinimum = 7;
+				b170.IsDiscontinued = false;
 				b170.PublishDate = new DateTime(2013, 10, 26);
 				b170.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Poetry");
 				Books.Add(b170);
@@ -2240,6 +2410,7 @@ namespace fa18Team22.Seeding
 				b171.Inventory = 2;
 				b171.BookCost = 18.68m;
 				b171.ReplenishMinimum = 2;
+				b171.IsDiscontinued = false;
 				b171.PublishDate = new DateTime(2013, 11, 16);
 				b171.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b171);
@@ -2253,6 +2424,7 @@ namespace fa18Team22.Seeding
 				b172.Inventory = 4;
 				b172.BookCost = 18.23m;
 				b172.ReplenishMinimum = 4;
+				b172.IsDiscontinued = false;
 				b172.PublishDate = new DateTime(2013, 11, 16);
 				b172.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b172);
@@ -2266,6 +2438,7 @@ namespace fa18Team22.Seeding
 				b173.Inventory = 6;
 				b173.BookCost = 7m;
 				b173.ReplenishMinimum = 4;
+				b173.IsDiscontinued = false;
 				b173.PublishDate = new DateTime(2013, 11, 30);
 				b173.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b173);
@@ -2279,6 +2452,7 @@ namespace fa18Team22.Seeding
 				b174.Inventory = 7;
 				b174.BookCost = 13.44m;
 				b174.ReplenishMinimum = 3;
+				b174.IsDiscontinued = false;
 				b174.PublishDate = new DateTime(2013, 12, 14);
 				b174.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Horror");
 				Books.Add(b174);
@@ -2292,6 +2466,7 @@ namespace fa18Team22.Seeding
 				b175.Inventory = 7;
 				b175.BookCost = 18.47m;
 				b175.ReplenishMinimum = 4;
+				b175.IsDiscontinued = false;
 				b175.PublishDate = new DateTime(2014, 1, 25);
 				b175.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b175);
@@ -2305,6 +2480,7 @@ namespace fa18Team22.Seeding
 				b176.Inventory = 10;
 				b176.BookCost = 17.95m;
 				b176.ReplenishMinimum = 10;
+				b176.IsDiscontinued = false;
 				b176.PublishDate = new DateTime(2014, 2, 8);
 				b176.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b176);
@@ -2318,6 +2494,7 @@ namespace fa18Team22.Seeding
 				b177.Inventory = 8;
 				b177.BookCost = 9.68m;
 				b177.ReplenishMinimum = 8;
+				b177.IsDiscontinued = false;
 				b177.PublishDate = new DateTime(2014, 2, 15);
 				b177.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b177);
@@ -2331,6 +2508,7 @@ namespace fa18Team22.Seeding
 				b178.Inventory = 7;
 				b178.BookCost = 17.6m;
 				b178.ReplenishMinimum = 3;
+				b178.IsDiscontinued = false;
 				b178.PublishDate = new DateTime(2014, 2, 22);
 				b178.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b178);
@@ -2344,6 +2522,7 @@ namespace fa18Team22.Seeding
 				b179.Inventory = 5;
 				b179.BookCost = 8.06m;
 				b179.ReplenishMinimum = 4;
+				b179.IsDiscontinued = false;
 				b179.PublishDate = new DateTime(2014, 4, 5);
 				b179.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b179);
@@ -2357,6 +2536,7 @@ namespace fa18Team22.Seeding
 				b180.Inventory = 10;
 				b180.BookCost = 4.92m;
 				b180.ReplenishMinimum = 5;
+				b180.IsDiscontinued = false;
 				b180.PublishDate = new DateTime(2014, 4, 5);
 				b180.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b180);
@@ -2370,6 +2550,7 @@ namespace fa18Team22.Seeding
 				b181.Inventory = 5;
 				b181.BookCost = 3.52m;
 				b181.ReplenishMinimum = 3;
+				b181.IsDiscontinued = false;
 				b181.PublishDate = new DateTime(2014, 4, 5);
 				b181.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b181);
@@ -2383,6 +2564,7 @@ namespace fa18Team22.Seeding
 				b182.Inventory = 12;
 				b182.BookCost = 5.44m;
 				b182.ReplenishMinimum = 8;
+				b182.IsDiscontinued = false;
 				b182.PublishDate = new DateTime(2014, 4, 5);
 				b182.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b182);
@@ -2396,6 +2578,7 @@ namespace fa18Team22.Seeding
 				b183.Inventory = 9;
 				b183.BookCost = 6.46m;
 				b183.ReplenishMinimum = 5;
+				b183.IsDiscontinued = false;
 				b183.PublishDate = new DateTime(2014, 5, 3);
 				b183.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b183);
@@ -2409,6 +2592,7 @@ namespace fa18Team22.Seeding
 				b184.Inventory = 8;
 				b184.BookCost = 10.3m;
 				b184.ReplenishMinimum = 6;
+				b184.IsDiscontinued = false;
 				b184.PublishDate = new DateTime(2014, 5, 10);
 				b184.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b184);
@@ -2422,6 +2606,7 @@ namespace fa18Team22.Seeding
 				b185.Inventory = 14;
 				b185.BookCost = 28m;
 				b185.ReplenishMinimum = 10;
+				b185.IsDiscontinued = false;
 				b185.PublishDate = new DateTime(2014, 5, 17);
 				b185.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b185);
@@ -2435,6 +2620,7 @@ namespace fa18Team22.Seeding
 				b186.Inventory = 14;
 				b186.BookCost = 5.94m;
 				b186.ReplenishMinimum = 10;
+				b186.IsDiscontinued = false;
 				b186.PublishDate = new DateTime(2014, 5, 31);
 				b186.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b186);
@@ -2448,6 +2634,7 @@ namespace fa18Team22.Seeding
 				b187.Inventory = 5;
 				b187.BookCost = 9.6m;
 				b187.ReplenishMinimum = 4;
+				b187.IsDiscontinued = false;
 				b187.PublishDate = new DateTime(2014, 6, 7);
 				b187.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b187);
@@ -2461,6 +2648,7 @@ namespace fa18Team22.Seeding
 				b188.Inventory = 4;
 				b188.BookCost = 11m;
 				b188.ReplenishMinimum = 4;
+				b188.IsDiscontinued = false;
 				b188.PublishDate = new DateTime(2014, 6, 14);
 				b188.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b188);
@@ -2474,6 +2662,7 @@ namespace fa18Team22.Seeding
 				b189.Inventory = 12;
 				b189.BookCost = 16.48m;
 				b189.ReplenishMinimum = 8;
+				b189.IsDiscontinued = false;
 				b189.PublishDate = new DateTime(2014, 6, 21);
 				b189.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b189);
@@ -2487,6 +2676,7 @@ namespace fa18Team22.Seeding
 				b190.Inventory = 13;
 				b190.BookCost = 5.8m;
 				b190.ReplenishMinimum = 8;
+				b190.IsDiscontinued = false;
 				b190.PublishDate = new DateTime(2014, 7, 12);
 				b190.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b190);
@@ -2500,6 +2690,7 @@ namespace fa18Team22.Seeding
 				b191.Inventory = 9;
 				b191.BookCost = 8.66m;
 				b191.ReplenishMinimum = 9;
+				b191.IsDiscontinued = false;
 				b191.PublishDate = new DateTime(2014, 7, 19);
 				b191.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b191);
@@ -2513,6 +2704,7 @@ namespace fa18Team22.Seeding
 				b192.Inventory = 4;
 				b192.BookCost = 16.96m;
 				b192.ReplenishMinimum = 2;
+				b192.IsDiscontinued = false;
 				b192.PublishDate = new DateTime(2014, 8, 2);
 				b192.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b192);
@@ -2526,6 +2718,7 @@ namespace fa18Team22.Seeding
 				b193.Inventory = 11;
 				b193.BookCost = 5.1m;
 				b193.ReplenishMinimum = 7;
+				b193.IsDiscontinued = false;
 				b193.PublishDate = new DateTime(2014, 8, 2);
 				b193.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b193);
@@ -2539,6 +2732,7 @@ namespace fa18Team22.Seeding
 				b194.Inventory = 4;
 				b194.BookCost = 4m;
 				b194.ReplenishMinimum = 4;
+				b194.IsDiscontinued = false;
 				b194.PublishDate = new DateTime(2014, 8, 9);
 				b194.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b194);
@@ -2552,6 +2746,7 @@ namespace fa18Team22.Seeding
 				b195.Inventory = 9;
 				b195.BookCost = 5.5m;
 				b195.ReplenishMinimum = 6;
+				b195.IsDiscontinued = false;
 				b195.PublishDate = new DateTime(2014, 8, 9);
 				b195.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b195);
@@ -2565,6 +2760,7 @@ namespace fa18Team22.Seeding
 				b196.Inventory = 11;
 				b196.BookCost = 26.66m;
 				b196.ReplenishMinimum = 8;
+				b196.IsDiscontinued = false;
 				b196.PublishDate = new DateTime(2014, 8, 23);
 				b196.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b196);
@@ -2578,6 +2774,7 @@ namespace fa18Team22.Seeding
 				b197.Inventory = 14;
 				b197.BookCost = 3.99m;
 				b197.ReplenishMinimum = 10;
+				b197.IsDiscontinued = false;
 				b197.PublishDate = new DateTime(2014, 9, 13);
 				b197.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b197);
@@ -2591,6 +2788,7 @@ namespace fa18Team22.Seeding
 				b198.Inventory = 12;
 				b198.BookCost = 9.42m;
 				b198.ReplenishMinimum = 10;
+				b198.IsDiscontinued = false;
 				b198.PublishDate = new DateTime(2014, 9, 27);
 				b198.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b198);
@@ -2604,6 +2802,7 @@ namespace fa18Team22.Seeding
 				b199.Inventory = 3;
 				b199.BookCost = 4.65m;
 				b199.ReplenishMinimum = 2;
+				b199.IsDiscontinued = false;
 				b199.PublishDate = new DateTime(2014, 10, 11);
 				b199.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b199);
@@ -2617,6 +2816,7 @@ namespace fa18Team22.Seeding
 				b200.Inventory = 9;
 				b200.BookCost = 2.3m;
 				b200.ReplenishMinimum = 6;
+				b200.IsDiscontinued = false;
 				b200.PublishDate = new DateTime(2014, 10, 18);
 				b200.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b200);
@@ -2630,6 +2830,7 @@ namespace fa18Team22.Seeding
 				b201.Inventory = 9;
 				b201.BookCost = 20.74m;
 				b201.ReplenishMinimum = 6;
+				b201.IsDiscontinued = false;
 				b201.PublishDate = new DateTime(2014, 10, 18);
 				b201.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b201);
@@ -2643,6 +2844,7 @@ namespace fa18Team22.Seeding
 				b202.Inventory = 6;
 				b202.BookCost = 17.91m;
 				b202.ReplenishMinimum = 3;
+				b202.IsDiscontinued = false;
 				b202.PublishDate = new DateTime(2014, 11, 1);
 				b202.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b202);
@@ -2656,6 +2858,7 @@ namespace fa18Team22.Seeding
 				b203.Inventory = 9;
 				b203.BookCost = 17.39m;
 				b203.ReplenishMinimum = 7;
+				b203.IsDiscontinued = false;
 				b203.PublishDate = new DateTime(2014, 11, 8);
 				b203.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b203);
@@ -2669,6 +2872,7 @@ namespace fa18Team22.Seeding
 				b204.Inventory = 14;
 				b204.BookCost = 20.27m;
 				b204.ReplenishMinimum = 10;
+				b204.IsDiscontinued = false;
 				b204.PublishDate = new DateTime(2014, 11, 22);
 				b204.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b204);
@@ -2682,6 +2886,7 @@ namespace fa18Team22.Seeding
 				b205.Inventory = 4;
 				b205.BookCost = 5.97m;
 				b205.ReplenishMinimum = 1;
+				b205.IsDiscontinued = false;
 				b205.PublishDate = new DateTime(2014, 11, 22);
 				b205.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b205);
@@ -2695,6 +2900,7 @@ namespace fa18Team22.Seeding
 				b206.Inventory = 11;
 				b206.BookCost = 12.23m;
 				b206.ReplenishMinimum = 10;
+				b206.IsDiscontinued = false;
 				b206.PublishDate = new DateTime(2014, 11, 22);
 				b206.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b206);
@@ -2708,6 +2914,7 @@ namespace fa18Team22.Seeding
 				b207.Inventory = 12;
 				b207.BookCost = 3.51m;
 				b207.ReplenishMinimum = 7;
+				b207.IsDiscontinued = false;
 				b207.PublishDate = new DateTime(2014, 11, 29);
 				b207.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b207);
@@ -2721,6 +2928,7 @@ namespace fa18Team22.Seeding
 				b208.Inventory = 10;
 				b208.BookCost = 12.39m;
 				b208.ReplenishMinimum = 9;
+				b208.IsDiscontinued = false;
 				b208.PublishDate = new DateTime(2015, 1, 10);
 				b208.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b208);
@@ -2734,6 +2942,7 @@ namespace fa18Team22.Seeding
 				b209.Inventory = 11;
 				b209.BookCost = 25.92m;
 				b209.ReplenishMinimum = 8;
+				b209.IsDiscontinued = false;
 				b209.PublishDate = new DateTime(2015, 1, 31);
 				b209.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b209);
@@ -2747,6 +2956,7 @@ namespace fa18Team22.Seeding
 				b210.Inventory = 5;
 				b210.BookCost = 10.41m;
 				b210.ReplenishMinimum = 4;
+				b210.IsDiscontinued = false;
 				b210.PublishDate = new DateTime(2015, 2, 7);
 				b210.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Poetry");
 				Books.Add(b210);
@@ -2760,6 +2970,7 @@ namespace fa18Team22.Seeding
 				b211.Inventory = 9;
 				b211.BookCost = 18.5m;
 				b211.ReplenishMinimum = 8;
+				b211.IsDiscontinued = false;
 				b211.PublishDate = new DateTime(2015, 2, 14);
 				b211.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b211);
@@ -2773,6 +2984,7 @@ namespace fa18Team22.Seeding
 				b212.Inventory = 10;
 				b212.BookCost = 1.75m;
 				b212.ReplenishMinimum = 10;
+				b212.IsDiscontinued = false;
 				b212.PublishDate = new DateTime(2015, 2, 14);
 				b212.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b212);
@@ -2786,6 +2998,7 @@ namespace fa18Team22.Seeding
 				b213.Inventory = 6;
 				b213.BookCost = 11.79m;
 				b213.ReplenishMinimum = 5;
+				b213.IsDiscontinued = false;
 				b213.PublishDate = new DateTime(2015, 2, 14);
 				b213.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Humor");
 				Books.Add(b213);
@@ -2799,6 +3012,7 @@ namespace fa18Team22.Seeding
 				b214.Inventory = 3;
 				b214.BookCost = 9.1m;
 				b214.ReplenishMinimum = 2;
+				b214.IsDiscontinued = false;
 				b214.PublishDate = new DateTime(2015, 2, 28);
 				b214.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b214);
@@ -2812,6 +3026,7 @@ namespace fa18Team22.Seeding
 				b215.Inventory = 5;
 				b215.BookCost = 15.6m;
 				b215.ReplenishMinimum = 5;
+				b215.IsDiscontinued = false;
 				b215.PublishDate = new DateTime(2015, 3, 14);
 				b215.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b215);
@@ -2825,6 +3040,7 @@ namespace fa18Team22.Seeding
 				b216.Inventory = 9;
 				b216.BookCost = 19.27m;
 				b216.ReplenishMinimum = 6;
+				b216.IsDiscontinued = false;
 				b216.PublishDate = new DateTime(2015, 4, 11);
 				b216.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b216);
@@ -2838,6 +3054,7 @@ namespace fa18Team22.Seeding
 				b217.Inventory = 9;
 				b217.BookCost = 6.25m;
 				b217.ReplenishMinimum = 4;
+				b217.IsDiscontinued = false;
 				b217.PublishDate = new DateTime(2015, 5, 9);
 				b217.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b217);
@@ -2851,6 +3068,7 @@ namespace fa18Team22.Seeding
 				b218.Inventory = 13;
 				b218.BookCost = 5.5m;
 				b218.ReplenishMinimum = 8;
+				b218.IsDiscontinued = false;
 				b218.PublishDate = new DateTime(2015, 6, 6);
 				b218.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b218);
@@ -2864,6 +3082,7 @@ namespace fa18Team22.Seeding
 				b219.Inventory = 12;
 				b219.BookCost = 16.87m;
 				b219.ReplenishMinimum = 9;
+				b219.IsDiscontinued = false;
 				b219.PublishDate = new DateTime(2015, 6, 6);
 				b219.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b219);
@@ -2877,6 +3096,7 @@ namespace fa18Team22.Seeding
 				b220.Inventory = 11;
 				b220.BookCost = 5.78m;
 				b220.ReplenishMinimum = 6;
+				b220.IsDiscontinued = false;
 				b220.PublishDate = new DateTime(2015, 7, 4);
 				b220.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b220);
@@ -2890,6 +3110,7 @@ namespace fa18Team22.Seeding
 				b221.Inventory = 8;
 				b221.BookCost = 2.85m;
 				b221.ReplenishMinimum = 7;
+				b221.IsDiscontinued = false;
 				b221.PublishDate = new DateTime(2015, 8, 22);
 				b221.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b221);
@@ -2903,6 +3124,7 @@ namespace fa18Team22.Seeding
 				b222.Inventory = 11;
 				b222.BookCost = 18.06m;
 				b222.ReplenishMinimum = 9;
+				b222.IsDiscontinued = false;
 				b222.PublishDate = new DateTime(2015, 9, 5);
 				b222.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b222);
@@ -2916,6 +3138,7 @@ namespace fa18Team22.Seeding
 				b223.Inventory = 10;
 				b223.BookCost = 3.59m;
 				b223.ReplenishMinimum = 6;
+				b223.IsDiscontinued = false;
 				b223.PublishDate = new DateTime(2015, 9, 19);
 				b223.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b223);
@@ -2929,6 +3152,7 @@ namespace fa18Team22.Seeding
 				b224.Inventory = 6;
 				b224.BookCost = 17.72m;
 				b224.ReplenishMinimum = 6;
+				b224.IsDiscontinued = false;
 				b224.PublishDate = new DateTime(2015, 10, 3);
 				b224.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b224);
@@ -2942,6 +3166,7 @@ namespace fa18Team22.Seeding
 				b225.Inventory = 4;
 				b225.BookCost = 19.94m;
 				b225.ReplenishMinimum = 2;
+				b225.IsDiscontinued = false;
 				b225.PublishDate = new DateTime(2015, 10, 17);
 				b225.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b225);
@@ -2955,6 +3180,7 @@ namespace fa18Team22.Seeding
 				b226.Inventory = 12;
 				b226.BookCost = 10.17m;
 				b226.ReplenishMinimum = 8;
+				b226.IsDiscontinued = false;
 				b226.PublishDate = new DateTime(2015, 10, 24);
 				b226.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b226);
@@ -2968,6 +3194,7 @@ namespace fa18Team22.Seeding
 				b227.Inventory = 7;
 				b227.BookCost = 8.16m;
 				b227.ReplenishMinimum = 3;
+				b227.IsDiscontinued = false;
 				b227.PublishDate = new DateTime(2015, 11, 7);
 				b227.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b227);
@@ -2981,6 +3208,7 @@ namespace fa18Team22.Seeding
 				b228.Inventory = 9;
 				b228.BookCost = 18.73m;
 				b228.ReplenishMinimum = 8;
+				b228.IsDiscontinued = false;
 				b228.PublishDate = new DateTime(2015, 11, 14);
 				b228.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b228);
@@ -2994,6 +3222,7 @@ namespace fa18Team22.Seeding
 				b229.Inventory = 3;
 				b229.BookCost = 12.46m;
 				b229.ReplenishMinimum = 2;
+				b229.IsDiscontinued = false;
 				b229.PublishDate = new DateTime(2015, 11, 21);
 				b229.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b229);
@@ -3007,6 +3236,7 @@ namespace fa18Team22.Seeding
 				b230.Inventory = 3;
 				b230.BookCost = 17.16m;
 				b230.ReplenishMinimum = 3;
+				b230.IsDiscontinued = false;
 				b230.PublishDate = new DateTime(2015, 11, 21);
 				b230.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b230);
@@ -3020,6 +3250,7 @@ namespace fa18Team22.Seeding
 				b231.Inventory = 10;
 				b231.BookCost = 11.09m;
 				b231.ReplenishMinimum = 10;
+				b231.IsDiscontinued = false;
 				b231.PublishDate = new DateTime(2015, 11, 21);
 				b231.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b231);
@@ -3033,6 +3264,7 @@ namespace fa18Team22.Seeding
 				b232.Inventory = 4;
 				b232.BookCost = 10.71m;
 				b232.ReplenishMinimum = 4;
+				b232.IsDiscontinued = false;
 				b232.PublishDate = new DateTime(2016, 2, 13);
 				b232.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b232);
@@ -3046,6 +3278,7 @@ namespace fa18Team22.Seeding
 				b233.Inventory = 14;
 				b233.BookCost = 17.72m;
 				b233.ReplenishMinimum = 10;
+				b233.IsDiscontinued = false;
 				b233.PublishDate = new DateTime(2016, 2, 27);
 				b233.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b233);
@@ -3059,6 +3292,7 @@ namespace fa18Team22.Seeding
 				b234.Inventory = 13;
 				b234.BookCost = 7.12m;
 				b234.ReplenishMinimum = 8;
+				b234.IsDiscontinued = false;
 				b234.PublishDate = new DateTime(2016, 3, 5);
 				b234.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b234);
@@ -3072,6 +3306,7 @@ namespace fa18Team22.Seeding
 				b235.Inventory = 11;
 				b235.BookCost = 12.72m;
 				b235.ReplenishMinimum = 10;
+				b235.IsDiscontinued = false;
 				b235.PublishDate = new DateTime(2016, 3, 26);
 				b235.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b235);
@@ -3085,6 +3320,7 @@ namespace fa18Team22.Seeding
 				b236.Inventory = 2;
 				b236.BookCost = 10.58m;
 				b236.ReplenishMinimum = 1;
+				b236.IsDiscontinued = false;
 				b236.PublishDate = new DateTime(2016, 5, 7);
 				b236.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b236);
@@ -3098,6 +3334,7 @@ namespace fa18Team22.Seeding
 				b237.Inventory = 6;
 				b237.BookCost = 15.2m;
 				b237.ReplenishMinimum = 4;
+				b237.IsDiscontinued = false;
 				b237.PublishDate = new DateTime(2016, 5, 7);
 				b237.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b237);
@@ -3111,6 +3348,7 @@ namespace fa18Team22.Seeding
 				b238.Inventory = 5;
 				b238.BookCost = 3.2m;
 				b238.ReplenishMinimum = 2;
+				b238.IsDiscontinued = false;
 				b238.PublishDate = new DateTime(2016, 5, 21);
 				b238.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b238);
@@ -3124,6 +3362,7 @@ namespace fa18Team22.Seeding
 				b239.Inventory = 13;
 				b239.BookCost = 12.78m;
 				b239.ReplenishMinimum = 9;
+				b239.IsDiscontinued = false;
 				b239.PublishDate = new DateTime(2016, 5, 21);
 				b239.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b239);
@@ -3137,6 +3376,7 @@ namespace fa18Team22.Seeding
 				b240.Inventory = 3;
 				b240.BookCost = 20.43m;
 				b240.ReplenishMinimum = 1;
+				b240.IsDiscontinued = false;
 				b240.PublishDate = new DateTime(2016, 6, 4);
 				b240.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b240);
@@ -3150,6 +3390,7 @@ namespace fa18Team22.Seeding
 				b241.Inventory = 8;
 				b241.BookCost = 2.7m;
 				b241.ReplenishMinimum = 4;
+				b241.IsDiscontinued = false;
 				b241.PublishDate = new DateTime(2016, 6, 11);
 				b241.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b241);
@@ -3163,6 +3404,7 @@ namespace fa18Team22.Seeding
 				b242.Inventory = 13;
 				b242.BookCost = 8.62m;
 				b242.ReplenishMinimum = 9;
+				b242.IsDiscontinued = false;
 				b242.PublishDate = new DateTime(2016, 6, 18);
 				b242.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b242);
@@ -3176,6 +3418,7 @@ namespace fa18Team22.Seeding
 				b243.Inventory = 8;
 				b243.BookCost = 18.45m;
 				b243.ReplenishMinimum = 5;
+				b243.IsDiscontinued = false;
 				b243.PublishDate = new DateTime(2016, 6, 25);
 				b243.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b243);
@@ -3189,6 +3432,7 @@ namespace fa18Team22.Seeding
 				b244.Inventory = 10;
 				b244.BookCost = 6.72m;
 				b244.ReplenishMinimum = 9;
+				b244.IsDiscontinued = false;
 				b244.PublishDate = new DateTime(2016, 7, 16);
 				b244.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b244);
@@ -3202,6 +3446,7 @@ namespace fa18Team22.Seeding
 				b245.Inventory = 9;
 				b245.BookCost = 3.52m;
 				b245.ReplenishMinimum = 7;
+				b245.IsDiscontinued = false;
 				b245.PublishDate = new DateTime(2016, 7, 23);
 				b245.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b245);
@@ -3215,6 +3460,7 @@ namespace fa18Team22.Seeding
 				b246.Inventory = 10;
 				b246.BookCost = 10.04m;
 				b246.ReplenishMinimum = 6;
+				b246.IsDiscontinued = false;
 				b246.PublishDate = new DateTime(2016, 7, 30);
 				b246.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b246);
@@ -3228,6 +3474,7 @@ namespace fa18Team22.Seeding
 				b247.Inventory = 12;
 				b247.BookCost = 3.2m;
 				b247.ReplenishMinimum = 10;
+				b247.IsDiscontinued = false;
 				b247.PublishDate = new DateTime(2016, 8, 6);
 				b247.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b247);
@@ -3241,6 +3488,7 @@ namespace fa18Team22.Seeding
 				b248.Inventory = 10;
 				b248.BookCost = 3.29m;
 				b248.ReplenishMinimum = 7;
+				b248.IsDiscontinued = false;
 				b248.PublishDate = new DateTime(2016, 8, 6);
 				b248.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b248);
@@ -3254,6 +3502,7 @@ namespace fa18Team22.Seeding
 				b249.Inventory = 12;
 				b249.BookCost = 9.72m;
 				b249.ReplenishMinimum = 10;
+				b249.IsDiscontinued = false;
 				b249.PublishDate = new DateTime(2016, 8, 13);
 				b249.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b249);
@@ -3267,6 +3516,7 @@ namespace fa18Team22.Seeding
 				b250.Inventory = 9;
 				b250.BookCost = 8.91m;
 				b250.ReplenishMinimum = 4;
+				b250.IsDiscontinued = false;
 				b250.PublishDate = new DateTime(2016, 8, 20);
 				b250.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b250);
@@ -3280,6 +3530,7 @@ namespace fa18Team22.Seeding
 				b251.Inventory = 2;
 				b251.BookCost = 15.26m;
 				b251.ReplenishMinimum = 2;
+				b251.IsDiscontinued = false;
 				b251.PublishDate = new DateTime(2016, 9, 24);
 				b251.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b251);
@@ -3293,6 +3544,7 @@ namespace fa18Team22.Seeding
 				b252.Inventory = 11;
 				b252.BookCost = 23.13m;
 				b252.ReplenishMinimum = 10;
+				b252.IsDiscontinued = false;
 				b252.PublishDate = new DateTime(2016, 10, 8);
 				b252.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b252);
@@ -3306,6 +3558,7 @@ namespace fa18Team22.Seeding
 				b253.Inventory = 7;
 				b253.BookCost = 24.94m;
 				b253.ReplenishMinimum = 4;
+				b253.IsDiscontinued = false;
 				b253.PublishDate = new DateTime(2016, 10, 8);
 				b253.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b253);
@@ -3319,6 +3572,7 @@ namespace fa18Team22.Seeding
 				b254.Inventory = 9;
 				b254.BookCost = 13.73m;
 				b254.ReplenishMinimum = 8;
+				b254.IsDiscontinued = false;
 				b254.PublishDate = new DateTime(2016, 10, 15);
 				b254.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b254);
@@ -3332,6 +3586,7 @@ namespace fa18Team22.Seeding
 				b255.Inventory = 14;
 				b255.BookCost = 7.65m;
 				b255.ReplenishMinimum = 10;
+				b255.IsDiscontinued = false;
 				b255.PublishDate = new DateTime(2016, 10, 15);
 				b255.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b255);
@@ -3345,6 +3600,7 @@ namespace fa18Team22.Seeding
 				b256.Inventory = 13;
 				b256.BookCost = 3.57m;
 				b256.ReplenishMinimum = 10;
+				b256.IsDiscontinued = false;
 				b256.PublishDate = new DateTime(2016, 10, 22);
 				b256.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b256);
@@ -3358,6 +3614,7 @@ namespace fa18Team22.Seeding
 				b257.Inventory = 5;
 				b257.BookCost = 7.19m;
 				b257.ReplenishMinimum = 4;
+				b257.IsDiscontinued = false;
 				b257.PublishDate = new DateTime(2016, 10, 22);
 				b257.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b257);
@@ -3371,6 +3628,7 @@ namespace fa18Team22.Seeding
 				b258.Inventory = 13;
 				b258.BookCost = 13.48m;
 				b258.ReplenishMinimum = 8;
+				b258.IsDiscontinued = false;
 				b258.PublishDate = new DateTime(2016, 10, 29);
 				b258.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b258);
@@ -3384,6 +3642,7 @@ namespace fa18Team22.Seeding
 				b259.Inventory = 2;
 				b259.BookCost = 21.11m;
 				b259.ReplenishMinimum = 1;
+				b259.IsDiscontinued = false;
 				b259.PublishDate = new DateTime(2016, 12, 3);
 				b259.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b259);
@@ -3397,6 +3656,7 @@ namespace fa18Team22.Seeding
 				b260.Inventory = 7;
 				b260.BookCost = 23.77m;
 				b260.ReplenishMinimum = 6;
+				b260.IsDiscontinued = false;
 				b260.PublishDate = new DateTime(2016, 12, 24);
 				b260.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b260);
@@ -3410,6 +3670,7 @@ namespace fa18Team22.Seeding
 				b261.Inventory = 8;
 				b261.BookCost = 15.52m;
 				b261.ReplenishMinimum = 4;
+				b261.IsDiscontinued = false;
 				b261.PublishDate = new DateTime(2017, 1, 7);
 				b261.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b261);
@@ -3423,6 +3684,7 @@ namespace fa18Team22.Seeding
 				b262.Inventory = 6;
 				b262.BookCost = 19.58m;
 				b262.ReplenishMinimum = 4;
+				b262.IsDiscontinued = false;
 				b262.PublishDate = new DateTime(2017, 1, 14);
 				b262.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b262);
@@ -3436,6 +3698,7 @@ namespace fa18Team22.Seeding
 				b263.Inventory = 8;
 				b263.BookCost = 12m;
 				b263.ReplenishMinimum = 7;
+				b263.IsDiscontinued = false;
 				b263.PublishDate = new DateTime(2017, 1, 28);
 				b263.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b263);
@@ -3449,6 +3712,7 @@ namespace fa18Team22.Seeding
 				b264.Inventory = 9;
 				b264.BookCost = 5.87m;
 				b264.ReplenishMinimum = 8;
+				b264.IsDiscontinued = false;
 				b264.PublishDate = new DateTime(2017, 2, 4);
 				b264.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b264);
@@ -3462,6 +3726,7 @@ namespace fa18Team22.Seeding
 				b265.Inventory = 13;
 				b265.BookCost = 16.24m;
 				b265.ReplenishMinimum = 8;
+				b265.IsDiscontinued = false;
 				b265.PublishDate = new DateTime(2017, 2, 18);
 				b265.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b265);
@@ -3475,6 +3740,7 @@ namespace fa18Team22.Seeding
 				b266.Inventory = 7;
 				b266.BookCost = 14.41m;
 				b266.ReplenishMinimum = 5;
+				b266.IsDiscontinued = false;
 				b266.PublishDate = new DateTime(2017, 3, 4);
 				b266.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b266);
@@ -3488,6 +3754,7 @@ namespace fa18Team22.Seeding
 				b267.Inventory = 7;
 				b267.BookCost = 10.08m;
 				b267.ReplenishMinimum = 7;
+				b267.IsDiscontinued = false;
 				b267.PublishDate = new DateTime(2017, 3, 11);
 				b267.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b267);
@@ -3501,6 +3768,7 @@ namespace fa18Team22.Seeding
 				b268.Inventory = 11;
 				b268.BookCost = 12.02m;
 				b268.ReplenishMinimum = 7;
+				b268.IsDiscontinued = false;
 				b268.PublishDate = new DateTime(2017, 3, 18);
 				b268.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b268);
@@ -3514,6 +3782,7 @@ namespace fa18Team22.Seeding
 				b269.Inventory = 8;
 				b269.BookCost = 24.63m;
 				b269.ReplenishMinimum = 6;
+				b269.IsDiscontinued = false;
 				b269.PublishDate = new DateTime(2017, 4, 15);
 				b269.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b269);
@@ -3527,6 +3796,7 @@ namespace fa18Team22.Seeding
 				b270.Inventory = 5;
 				b270.BookCost = 1.6m;
 				b270.ReplenishMinimum = 5;
+				b270.IsDiscontinued = false;
 				b270.PublishDate = new DateTime(2017, 4, 15);
 				b270.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b270);
@@ -3540,6 +3810,7 @@ namespace fa18Team22.Seeding
 				b271.Inventory = 6;
 				b271.BookCost = 21.6m;
 				b271.ReplenishMinimum = 1;
+				b271.IsDiscontinued = false;
 				b271.PublishDate = new DateTime(2017, 6, 3);
 				b271.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b271);
@@ -3553,6 +3824,7 @@ namespace fa18Team22.Seeding
 				b272.Inventory = 14;
 				b272.BookCost = 4.41m;
 				b272.ReplenishMinimum = 10;
+				b272.IsDiscontinued = false;
 				b272.PublishDate = new DateTime(2017, 6, 17);
 				b272.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b272);
@@ -3566,6 +3838,7 @@ namespace fa18Team22.Seeding
 				b273.Inventory = 6;
 				b273.BookCost = 17.31m;
 				b273.ReplenishMinimum = 5;
+				b273.IsDiscontinued = false;
 				b273.PublishDate = new DateTime(2017, 7, 15);
 				b273.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b273);
@@ -3579,6 +3852,7 @@ namespace fa18Team22.Seeding
 				b274.Inventory = 10;
 				b274.BookCost = 15.98m;
 				b274.ReplenishMinimum = 9;
+				b274.IsDiscontinued = false;
 				b274.PublishDate = new DateTime(2017, 7, 15);
 				b274.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b274);
@@ -3592,6 +3866,7 @@ namespace fa18Team22.Seeding
 				b275.Inventory = 4;
 				b275.BookCost = 3.71m;
 				b275.ReplenishMinimum = 3;
+				b275.IsDiscontinued = false;
 				b275.PublishDate = new DateTime(2017, 7, 22);
 				b275.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b275);
@@ -3605,6 +3880,7 @@ namespace fa18Team22.Seeding
 				b276.Inventory = 4;
 				b276.BookCost = 30.64m;
 				b276.ReplenishMinimum = 4;
+				b276.IsDiscontinued = false;
 				b276.PublishDate = new DateTime(2017, 7, 22);
 				b276.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b276);
@@ -3618,6 +3894,7 @@ namespace fa18Team22.Seeding
 				b277.Inventory = 2;
 				b277.BookCost = 15.19m;
 				b277.ReplenishMinimum = 2;
+				b277.IsDiscontinued = false;
 				b277.PublishDate = new DateTime(2017, 8, 19);
 				b277.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b277);
@@ -3631,6 +3908,7 @@ namespace fa18Team22.Seeding
 				b278.Inventory = 8;
 				b278.BookCost = 26.36m;
 				b278.ReplenishMinimum = 3;
+				b278.IsDiscontinued = false;
 				b278.PublishDate = new DateTime(2017, 8, 19);
 				b278.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b278);
@@ -3644,6 +3922,7 @@ namespace fa18Team22.Seeding
 				b279.Inventory = 15;
 				b279.BookCost = 17.79m;
 				b279.ReplenishMinimum = 10;
+				b279.IsDiscontinued = false;
 				b279.PublishDate = new DateTime(2017, 8, 26);
 				b279.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b279);
@@ -3657,6 +3936,7 @@ namespace fa18Team22.Seeding
 				b280.Inventory = 13;
 				b280.BookCost = 4.19m;
 				b280.ReplenishMinimum = 8;
+				b280.IsDiscontinued = false;
 				b280.PublishDate = new DateTime(2017, 9, 9);
 				b280.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b280);
@@ -3670,6 +3950,7 @@ namespace fa18Team22.Seeding
 				b281.Inventory = 10;
 				b281.BookCost = 12m;
 				b281.ReplenishMinimum = 8;
+				b281.IsDiscontinued = false;
 				b281.PublishDate = new DateTime(2017, 9, 16);
 				b281.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b281);
@@ -3683,6 +3964,7 @@ namespace fa18Team22.Seeding
 				b282.Inventory = 2;
 				b282.BookCost = 8.66m;
 				b282.ReplenishMinimum = 1;
+				b282.IsDiscontinued = false;
 				b282.PublishDate = new DateTime(2017, 11, 4);
 				b282.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b282);
@@ -3696,6 +3978,7 @@ namespace fa18Team22.Seeding
 				b283.Inventory = 1;
 				b283.BookCost = 16.47m;
 				b283.ReplenishMinimum = 1;
+				b283.IsDiscontinued = false;
 				b283.PublishDate = new DateTime(2017, 11, 11);
 				b283.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b283);
@@ -3709,6 +3992,7 @@ namespace fa18Team22.Seeding
 				b284.Inventory = 8;
 				b284.BookCost = 18.91m;
 				b284.ReplenishMinimum = 6;
+				b284.IsDiscontinued = false;
 				b284.PublishDate = new DateTime(2017, 11, 18);
 				b284.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b284);
@@ -3722,6 +4006,7 @@ namespace fa18Team22.Seeding
 				b285.Inventory = 6;
 				b285.BookCost = 15.98m;
 				b285.ReplenishMinimum = 5;
+				b285.IsDiscontinued = false;
 				b285.PublishDate = new DateTime(2018, 1, 6);
 				b285.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Thriller");
 				Books.Add(b285);
@@ -3735,6 +4020,7 @@ namespace fa18Team22.Seeding
 				b286.Inventory = 8;
 				b286.BookCost = 11.36m;
 				b286.ReplenishMinimum = 3;
+				b286.IsDiscontinued = false;
 				b286.PublishDate = new DateTime(2018, 1, 6);
 				b286.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b286);
@@ -3748,6 +4034,7 @@ namespace fa18Team22.Seeding
 				b287.Inventory = 9;
 				b287.BookCost = 22.32m;
 				b287.ReplenishMinimum = 6;
+				b287.IsDiscontinued = false;
 				b287.PublishDate = new DateTime(2018, 1, 13);
 				b287.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b287);
@@ -3761,6 +4048,7 @@ namespace fa18Team22.Seeding
 				b288.Inventory = 13;
 				b288.BookCost = 21.05m;
 				b288.ReplenishMinimum = 10;
+				b288.IsDiscontinued = false;
 				b288.PublishDate = new DateTime(2018, 1, 13);
 				b288.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Fantasy");
 				Books.Add(b288);
@@ -3774,6 +4062,7 @@ namespace fa18Team22.Seeding
 				b289.Inventory = 7;
 				b289.BookCost = 21.83m;
 				b289.ReplenishMinimum = 5;
+				b289.IsDiscontinued = false;
 				b289.PublishDate = new DateTime(2018, 2, 3);
 				b289.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b289);
@@ -3787,6 +4076,7 @@ namespace fa18Team22.Seeding
 				b290.Inventory = 11;
 				b290.BookCost = 12.16m;
 				b290.ReplenishMinimum = 9;
+				b290.IsDiscontinued = false;
 				b290.PublishDate = new DateTime(2018, 2, 10);
 				b290.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b290);
@@ -3800,6 +4090,7 @@ namespace fa18Team22.Seeding
 				b291.Inventory = 12;
 				b291.BookCost = 28.07m;
 				b291.ReplenishMinimum = 7;
+				b291.IsDiscontinued = false;
 				b291.PublishDate = new DateTime(2018, 2, 24);
 				b291.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b291);
@@ -3813,6 +4104,7 @@ namespace fa18Team22.Seeding
 				b292.Inventory = 4;
 				b292.BookCost = 24.64m;
 				b292.ReplenishMinimum = 2;
+				b292.IsDiscontinued = false;
 				b292.PublishDate = new DateTime(2018, 3, 10);
 				b292.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Science Fiction");
 				Books.Add(b292);
@@ -3826,6 +4118,7 @@ namespace fa18Team22.Seeding
 				b293.Inventory = 10;
 				b293.BookCost = 9.45m;
 				b293.ReplenishMinimum = 8;
+				b293.IsDiscontinued = false;
 				b293.PublishDate = new DateTime(2018, 3, 17);
 				b293.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b293);
@@ -3839,6 +4132,7 @@ namespace fa18Team22.Seeding
 				b294.Inventory = 5;
 				b294.BookCost = 19.21m;
 				b294.ReplenishMinimum = 1;
+				b294.IsDiscontinued = false;
 				b294.PublishDate = new DateTime(2018, 3, 31);
 				b294.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Suspense");
 				Books.Add(b294);
@@ -3852,6 +4146,7 @@ namespace fa18Team22.Seeding
 				b295.Inventory = 12;
 				b295.BookCost = 7.53m;
 				b295.ReplenishMinimum = 7;
+				b295.IsDiscontinued = false;
 				b295.PublishDate = new DateTime(2018, 4, 14);
 				b295.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Shakespeare");
 				Books.Add(b295);
@@ -3865,6 +4160,7 @@ namespace fa18Team22.Seeding
 				b296.Inventory = 14;
 				b296.BookCost = 14.13m;
 				b296.ReplenishMinimum = 10;
+				b296.IsDiscontinued = false;
 				b296.PublishDate = new DateTime(2018, 5, 12);
 				b296.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b296);
@@ -3878,6 +4174,7 @@ namespace fa18Team22.Seeding
 				b297.Inventory = 10;
 				b297.BookCost = 20.28m;
 				b297.ReplenishMinimum = 6;
+				b297.IsDiscontinued = false;
 				b297.PublishDate = new DateTime(2018, 5, 12);
 				b297.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Historical Fiction");
 				Books.Add(b297);
@@ -3891,6 +4188,7 @@ namespace fa18Team22.Seeding
 				b298.Inventory = 15;
 				b298.BookCost = 12.95m;
 				b298.ReplenishMinimum = 10;
+				b298.IsDiscontinued = false;
 				b298.PublishDate = new DateTime(2018, 5, 19);
 				b298.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Romance");
 				Books.Add(b298);
@@ -3904,6 +4202,7 @@ namespace fa18Team22.Seeding
 				b299.Inventory = 6;
 				b299.BookCost = 6.59m;
 				b299.ReplenishMinimum = 3;
+				b299.IsDiscontinued = false;
 				b299.PublishDate = new DateTime(2018, 5, 26);
 				b299.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Contemporary Fiction");
 				Books.Add(b299);
@@ -3917,10 +4216,12 @@ namespace fa18Team22.Seeding
 				b300.Inventory = 13;
 				b300.BookCost = 6.06m;
 				b300.ReplenishMinimum = 10;
+				b300.IsDiscontinued = false;
 				b300.PublishDate = new DateTime(2018, 6, 9);
 				b300.Genre = db.Genres.FirstOrDefault(x => x.GenreName == "Mystery");
 				Books.Add(b300);
 
+			}
 				//loop through repos
 				foreach (Book bk in Books)
 				{
@@ -3947,6 +4248,7 @@ namespace fa18Team22.Seeding
 						dbbk.Inventory = bk.Inventory;
 						dbbk.BookCost = bk.BookCost;
 						dbbk.ReplenishMinimum = bk.ReplenishMinimum;
+						dbbk.IsDiscontinued = bk.IsDiscontinued;
 						db.Update(dbbk);
 						db.SaveChanges();
 					}
