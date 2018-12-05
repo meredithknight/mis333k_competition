@@ -24,6 +24,12 @@
             @Html.DisplayFor(model => model.ProcurementDate)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd>
@@ -34,6 +40,19 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt>
+            Employee Who Ordered the Procurement
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.FirstName)
+            @Html.DisplayFor(model => model.Employee.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProcurementStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProcurementStatus)
         </dd>
     </dl>
 </div>

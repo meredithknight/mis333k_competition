@@ -23,11 +23,88 @@ namespace fa18Team22.Controllers
         }
 
         // GET: /<Search Controller>/
-        public IActionResult Index()
+        public IActionResult ManualProcurement()
         {
-            ViewBag.SelectedBooksCount = _db.Books.Count();
+
             ViewBag.TotalBooks = _db.Books.Count();
-            return View(_db.Books.Include(r => r.Genre).ToList());
+
+            var query = from r in _db.Books select r;
+            List<Book> allBooks = new List<Book>();
+            query = query.Include(b => b.Reviews);
+            allBooks = query.ToList();
+
+            List<Procurement> allprocs = new List<Procurement>();
+            var procquery = from p in _db.Procurements select p;
+            procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
+            allprocs = procquery.ToList();
+
+            String strUserId = User.Identity.Name;
+            AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == strUserId);
+
+            List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
+            foreach (Book book in allBooks)
+            {
+                AddProcurementVM apvm = new AddProcurementVM();
+                apvm.Title = book.Title;
+                apvm.ProcurementDate = System.DateTime.Today;
+                apvm.BookID = book.BookID;
+                apvm.Author = book.Author;
+                apvm.AvgRatingProc = (decimal)book.AvgRating;
+                apvm.PublishDate = book.PublishDate;
+                apvm.Cost = book.BookCost;
+                apvm.userID = User.Identity.Name;
+                apvm.Inventory = book.Inventory;
+                apvm.InventoryMinimum = book.ReplenishMinimum;
+                apvm.SellingPrice = book.SalesPrice;
+                apvm.IncludeInProcurement = false;
+                apvm.QuantityToOrder = 5;
+                BooksToOrder.Add(apvm);
+
+                foreach (Procurement proc in allprocs)
+                {
+                    if (proc.ProcurementStatus == false)
+                    {
+                        if (book.BookID == proc.Book.BookID)
+                        {
+                            BooksToOrder.Remove(apvm);
+                        }
+                    }
+                }
+
+            }
+            ViewBag.SelectedBooksCount = BooksToOrder.Count();
+            return View(BooksToOrder);
+        }
+
+        [HttpPost]
+        public IActionResult ManualProcurement(List<AddProcurementVM> procurementVMs)
+        {
+
+            foreach (AddProcurementVM apvm in procurementVMs)
+            {
+                if (apvm.IncludeInProcurement == true)
+                {
+                    Book apvmbook = _db.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
+                    string strID = apvm.userID;
+                    AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == apvm.userID);
+
+
+                    Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser };
+                    procurement.Price = apvm.Cost;
+                    procurement.ProcurementDate = apvm.ProcurementDate;
+                    procurement.ProcurementStatus = false;
+                    procurement.Quantity = apvm.QuantityToOrder;
+
+                    String userId = User.Identity.Name;
+                    AppUser user = _db.Users.FirstOrDefault(u => u.UserName == userId);
+                    procurement.Employee = user;
+
+                    _db.Procurements.Add(procurement);
+                    _db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index","Procurement");
         }
 
         public ActionResult DetailedSearch()
@@ -36,7 +113,7 @@ namespace fa18Team22.Controllers
 
             return View();
         }
-        public IActionResult SearchResults(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, SortOrderOpt SortButton)
+        public IActionResult DetailedMProcurement(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, SortOrderOpt SortButton)
         {
             List<Book> SelectedBooks = new List<Book>();
 
@@ -122,13 +199,90 @@ namespace fa18Team22.Controllers
             }
 
 
-            SelectedBooks = query.ToList();
+            SelectedBooks = query.Include(r => r.Reviews).Include(r => r.Genre).ToList();
             ViewBag.SelectedBooksCount = SelectedBooks.Count();
             ViewBag.TotalBooks = _db.Books.Count();
-            //ViewBag.SelectedBooksSearch = SelectedBooksSearch.Count();
-            return View("Index", SelectedBooks);
 
+
+            List<Procurement> allprocs = new List<Procurement>();
+            var procquery = from p in _db.Procurements select p;
+            procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
+            allprocs = procquery.ToList();
+
+            String strUserId = User.Identity.Name;
+            AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == strUserId);
+
+            List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
+            foreach (Book book in SelectedBooks)
+            {
+                AddProcurementVM apvm = new AddProcurementVM();
+                apvm.Title = book.Title;
+                apvm.ProcurementDate = System.DateTime.Today;
+                apvm.BookID = book.BookID;
+                apvm.Author = book.Author;
+                apvm.AvgRatingProc = (decimal)book.AvgRating;
+                apvm.PublishDate = book.PublishDate;
+                apvm.Cost = book.BookCost;
+                apvm.userID = User.Identity.Name;
+                apvm.Inventory = book.Inventory;
+                apvm.InventoryMinimum = book.ReplenishMinimum;
+                apvm.SellingPrice = book.SalesPrice;
+                apvm.IncludeInProcurement = false;
+                apvm.QuantityToOrder = 5;
+                BooksToOrder.Add(apvm);
+
+                foreach (Procurement proc in allprocs)
+                {
+                    if (proc.ProcurementStatus == false)
+                    {
+                        if (book.BookID == proc.Book.BookID)
+                        {
+                            BooksToOrder.Remove(apvm);
+                        }
+                    }
+                }
+
+            }
+
+            return View(BooksToOrder);
         }
+
+
+        [HttpPost]
+        public IActionResult DetailedMProcurement(List<AddProcurementVM> procurementVMs)
+        {
+
+            foreach (AddProcurementVM apvm in procurementVMs)
+            {
+                if (apvm.IncludeInProcurement == true)
+                {
+                    Book apvmbook = _db.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
+                    string strID = apvm.userID;
+                    AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == apvm.userID);
+
+
+                    Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser };
+                    procurement.Price = apvm.Cost;
+                    procurement.ProcurementDate = apvm.ProcurementDate;
+                    procurement.ProcurementStatus = false;
+                    procurement.Quantity = apvm.QuantityToOrder;
+
+                    String userId = User.Identity.Name;
+                    AppUser user = _db.Users.FirstOrDefault(u => u.UserName == userId);
+                    procurement.Employee = user;
+
+                    _db.Procurements.Add(procurement);
+                    _db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", "Procurement");
+        }
+
+
+
+
+
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -137,7 +291,7 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _db.Books.Include(m => m.Genre)
+            var book = await _db.Books.Include(m => m.Genre).Include(r => r.Reviews)
                 .FirstOrDefaultAsync(m => m.BookID == id);
             if (book == null)
             {

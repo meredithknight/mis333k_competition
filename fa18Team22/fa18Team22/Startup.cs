@@ -7,6 +7,7 @@ using fa18Team22.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,13 @@ namespace fa18Team22
                 opts.Password.RequireUppercase = false;
                 opts.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+            services.Configure<FormOptions>(options =>
+            {
+                options.ValueCountLimit = 5000; // 5000 items max
+                options.ValueLengthLimit = 1024 * 1024 * 100; // 100MB max len form data
+            });
+
 
             services.AddMvc();
 

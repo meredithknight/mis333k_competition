@@ -19,11 +19,13 @@ namespace fa18Team22.Models
         public Decimal Price { get; set; }
 
         [Display(Name = "Quantity")]
+        [Range(0, 1000, ErrorMessage = "Number of products cannot be negative")]
         public Int16 Quantity { get; set; }
 
         public Boolean? ProcurementStatus { get; set; }
 
         public Book Book { get; set; }
         public AppUser Employee { get; set; }
+
     }
 }
