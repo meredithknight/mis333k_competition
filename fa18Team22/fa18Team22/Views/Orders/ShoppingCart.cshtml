@@ -25,14 +25,15 @@
         border-bottom: 2px solid #ddd;
     }
 </style>
-
+<br />
 <h2>Shopping Cart</h2>
+<br />
 <div>
     <p></p>
     <p><font color="red">@ViewBag.OutOfStock</font></p>
     <p><font color="red">@ViewBag.BookDiscontinued</font></p>
     <p></p>
-    <h4>Order Details</h4>
+    @*<h4>Order Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -47,10 +48,10 @@
         <dd>
             @Html.DisplayFor(model => model.OrderDate)
         </dd>
-    </dl>
+    </dl>*@
 </div>
 <div>
-    <h4>Current Order</h4>
+    @*<h4>Current Items in Cart</h4>*@
     <table class="table table-sm table-hover table-striped">
         <thead>
             <tr>
@@ -81,6 +82,7 @@
         </tbody>
     </table>
 </div>
+<br />
 <div>
     <table class="table table-sm table-bordered" style="width:30%">
         <tr>
@@ -110,6 +112,6 @@
 
     <a asp-action="Checkout" asp-route-id="@Model.OrderID" class="btn btn-primary">Checkout</a>
     <!--Figure out how to get back to list of books-->
-    <a asp-controller="Books"
+    <a asp-controller="Search"
        asp-action="Index" class="btn btn-secondary">Keep Shopping</a>
 </div>

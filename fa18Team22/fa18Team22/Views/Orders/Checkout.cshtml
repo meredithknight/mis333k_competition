@@ -10,8 +10,11 @@
         font-family: Georgia;
     }
 </style>
+<br />
+<h2>Checkout</h2>
+<br />
 <div>
-    <h4>Order Details</h4>
+    <h5>Book Order Details</h5>
     <table class="table table-sm table-hover table-striped">
         <thead>
             <tr>
@@ -35,7 +38,7 @@
         </tbody>
     </table>
 </div>
-
+<br />
 <div>
     <table class="table table-sm table-bordered" style="width:30%">
         <tr>
@@ -46,7 +49,7 @@
             <td>@Html.DisplayFor(r => r.OrderSubtotal)</td>
         </tr>
         <tr>
-            <td>Sales Tax</td>
+            <td>Shipping Cost</td>
             <td>@Html.DisplayFor(r => r.ShippingCost)</td>
         </tr>
         <tr>
@@ -55,8 +58,7 @@
         </tr>
     </table>
 </div>
-<p>
-</p>
+<br />
 <div>
     <!-- FORM to enter coupon code-->
     <form asp-action="EnterPromo">
@@ -64,42 +66,32 @@
             <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
         </div>
         <p><font color="red">@ViewBag.PromoError</font></p>
-        Enter Coupon Code:<br>
-        @*<input type="text" name="promoCode">*@
+        <b>Enter Coupon Code:</b><br>
         <input asp-for="Promo.PromoCode" name="promoCode" class="form-control" />
         <br>
         <input type="submit" value="Apply Code">
     </form>
 </div>
-<p></p>
-<p></p>
-<p></p>
 <div>
     <!-- enter payment information-->
     <form asp-action="PaymentInformation">
         <p><font color="red">@ViewBag.PaymentError</font></p>
-        <table class="table table-sm table-bordered" style="width: 30%">
-            <tr class="form-group">
-                <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
-            </tr>
-            <tr>
-                <th colspan="2" style="text-align:center">Payment Method</th>
-            </tr>
-            <tr>
-                <td>
-                    @Html.DropDownList("CreditCard", (SelectList)ViewBag.creditcards, new { @class = "form-control" })
-                </td>
-            </tr>
-        </table>
-        Enter Credit Card Number:<br>
-        @*<input type="text" name="NewCreditCard">*@
-        <input asp-for="Payment" name="NewCreditCard" class="form-control" />
-        <br>
-        <input type="submit" value="Apply Payment Method">
 
+        <div><input asp-for="OrderID" type="hidden" name="orderId" class="form-control" /></div>
+        <h5><b>Payment Method</b></h5>
+        <div>@Html.DropDownList("CreditCard", (SelectList)ViewBag.creditcards, new { @class = "form-control" })</div>
+        <br />
+        <div>
+            Enter Credit Card Number:<br>
+            <input asp-for="Payment" name="NewCreditCard" class="form-control" />
+            <br />
+        </div>
+        <div>
+            <input type="submit" value="Place Order">
+        </div>
     </form>
-
 </div>
+
 <div>
     <p>
         <!-- place order-->
