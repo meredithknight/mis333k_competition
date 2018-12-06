@@ -8,6 +8,7 @@ using fa18Team22.DAL;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.Utilities;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace fa18Team22.Controllers
@@ -23,6 +24,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: /<Search Controller>/
+        [Authorize(Roles = "Manager")]
         public IActionResult ManualProcurement()
         {
 
@@ -78,6 +80,7 @@ namespace fa18Team22.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public IActionResult ManualProcurement(List<AddProcurementVM> procurementVMs)
         {
 
@@ -177,12 +180,15 @@ namespace fa18Team22.Controllers
             return RedirectToAction("Index","Procurement");
         }
 
+        [Authorize(Roles = "Manager")]
         public ActionResult DetailedSearch()
         {
             ViewBag.AllGenres = GetAllGenres();
 
             return View();
         }
+
+        [Authorize(Roles = "Manager")]
         public IActionResult DetailedMProcurement(string SearchTitle, string SearchAuthor, string SearchUniqueID, int SearchGenre, DisplayBooks SelectedStock, SortOrderOpt SortButton)
         {
             List<Book> SelectedBooks = new List<Book>();
@@ -320,6 +326,7 @@ namespace fa18Team22.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public IActionResult DetailedMProcurement(List<AddProcurementVM> procurementVMs)
         {
 
@@ -355,6 +362,7 @@ namespace fa18Team22.Controllers
 
 
         // GET: Books/Details/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

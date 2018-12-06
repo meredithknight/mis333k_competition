@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -20,12 +21,14 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Promo
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Promos.ToListAsync());
         }
 
         // GET: Promo/Details/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +47,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Promo/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Create([Bind("PromoID,PromoCode,DiscountAmount,ShippingWaiver,Status,MinimumSpend")] Promo promo, CouponType SelectedPromo)
         {
             if (ModelState.IsValid)
@@ -80,7 +85,8 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Promo/Edit/5
-        public IActionResult Edit(int? id)
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -100,6 +106,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int id, Promo promo)
         {
             if (id != promo.PromoID)

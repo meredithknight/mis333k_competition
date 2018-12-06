@@ -24,7 +24,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
-        //[Authorize(Roles = "Manager, Customer")]
+        [Authorize]
         public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
@@ -44,6 +44,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,6 +66,7 @@ namespace fa18Team22.Controllers
 
         //REMINDER: should this even be possible? -- or should it redirect you to shopping cart?
         // GET: Orders/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -75,6 +77,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("OrderID,OrderDate,ShippingCost")] Order order)
         {
             if (ModelState.IsValid)
@@ -639,7 +642,9 @@ namespace fa18Team22.Controllers
             //Order order = _context.Orders.FirstOrDefault(c => c.OrderID == orderId);
             //include OD and Boooks so if there's an error, it still shows all the needed info
 
+
             String userid = User.Identity.Name;
+
 
             AppUser customer = _context.Users.FirstOrDefault(c => c.UserName == userid);
 
@@ -656,12 +661,15 @@ namespace fa18Team22.Controllers
                 {
                     //order.Payment = CreditCard;
                     order.Payment = CreditCard.Substring(CreditCard.Length-4); //only save last 4 digits in payment
+                    //order.Payment = null;
 
-                    ViewBag.creditcards = GetAllCreditCards(userid, CreditCard);
-                    ViewBag.PaymentError = "";
+
                     //probs need to save changes
                     _context.Orders.Update(order);
                     _context.SaveChanges();
+
+                    ViewBag.creditcards = GetAllCreditCards(userid, CreditCard);
+                    ViewBag.PaymentError = "";
                     //return View("Checkout", order);
                     return RedirectToAction("PlacedOrder", new { id = orderId });
 
@@ -700,12 +708,19 @@ namespace fa18Team22.Controllers
                         //save changes to the CC being added to the customer
                         //_context.SaveChanges();
 
+
+
+
+
                         order.Payment = NewCreditCard.Substring(NewCreditCard.Length - 4); ; //only save last 4 digits in payment
+
+                        //probs need to save changes
+                        _context.Orders.Update(order);
+                        _context.Users.Update(customer);
+                        _context.SaveChanges();
+
                         ViewBag.creditcards = GetAllCreditCards(userid);
                         ViewBag.PaymentError = "";
-                        //probs need to save changes
-
-                        _context.SaveChanges();
                         //return View("Checkout", order);
                         return RedirectToAction("PlacedOrder", new { id = orderId });
 
