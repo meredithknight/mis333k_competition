@@ -62,38 +62,38 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            String userid = User.Identity.Name;
-            AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userid);
+            //String userid = User.Identity.Name;
+            //AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userid);
 
-            var orderquery = from r in _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
-            orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
-            List<OrderDetail> currentorddetails = orderquery.ToList();
-            List<Book> booksinorder = new List<Book>();
+            //var orderquery = from r in _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+            //orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
+            //List<OrderDetail> currentorddetails = orderquery.ToList();
+            //List<Book> booksinorder = new List<Book>();
 
 
-            if (currentorddetails.Count() != 0)
-            {
-                foreach (OrderDetail orddetail in currentorddetails)
-                {
-                    booksinorder.Add(orddetail.Book);
-                }
+            //if (currentorddetails.Count() != 0)
+            //{
+            //    foreach (OrderDetail orddetail in currentorddetails)
+            //    {
+            //        booksinorder.Add(orddetail.Book);
+            //    }
 
-                foreach (Book bk in booksinorder)
-                {
-                    if (bk.Title == book.Title)
-                    {
-                        ViewBag.BookInCart = "This book is already in your cart.";
-                    }
-                    else
-                    {
-                        ViewBag.BookInCart = "";
-                    }
-                }
-            }
-            else
-            {
-                ViewBag.BookInCart = "";
-            }
+            //    foreach (Book bk in booksinorder)
+            //    {
+            //        if (bk.Title == book.Title)
+            //        {
+            //            ViewBag.BookInCart = "This book is already in your cart.";
+            //        }
+            //        else
+            //        {
+            //            ViewBag.BookInCart = "";
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    ViewBag.BookInCart = "";
+            //}
 
 
 
