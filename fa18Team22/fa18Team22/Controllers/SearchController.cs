@@ -212,40 +212,41 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            String userid = User.Identity.Name;
-            AppUser currentuser = _db.Users.FirstOrDefault(r => r.UserName == userid);
-
-            var orderquery = from r in _db.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
-            orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
-            List<OrderDetail> currentorddetails = orderquery.ToList();
-            List<Book> booksinorder = new List<Book>();
-
-
-            if (currentorddetails.Count() != 0)
+            if (User.IsInRole("Customer"))
             {
-                foreach (OrderDetail orddetail in currentorddetails)
-                {
-                    booksinorder.Add(orddetail.Book);
-                }
+                String userid = User.Identity.Name;
+                AppUser currentuser = _db.Users.FirstOrDefault(r => r.UserName == userid);
 
-                foreach (Book bk in booksinorder)
+                var orderquery = from r in _db.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+                orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
+                List<OrderDetail> currentorddetails = orderquery.ToList();
+                List<Book> booksinorder = new List<Book>();
+
+
+                if (currentorddetails.Count() != 0)
                 {
-                    if (bk.Title == book.Title)
+                    foreach (OrderDetail orddetail in currentorddetails)
                     {
-                        ViewBag.BookInCart = "This book is already in your cart.";
+                        booksinorder.Add(orddetail.Book);
                     }
-                    else
+
+                    foreach (Book bk in booksinorder)
                     {
-                        ViewBag.BookInCart = "";
+                        if (bk.Title == book.Title)
+                        {
+                            ViewBag.BookInCart = "This book is already in your cart.";
+                        }
+                        else
+                        {
+                            ViewBag.BookInCart = "";
+                        }
                     }
+                }
+                else
+                {
+                    ViewBag.BookInCart = "";
                 }
             }
-            else
-            {
-                ViewBag.BookInCart = "";
-            }
-
-
 
             return View(book);
         }
