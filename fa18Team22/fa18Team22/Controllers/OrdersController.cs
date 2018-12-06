@@ -374,6 +374,42 @@ namespace fa18Team22.Controllers
             //when a user adds a book to an order, do they go to a page to choose how many???? (elif)
             else
             {
+                String userid = User.Identity.Name;
+                AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userid);
+
+                var orderquery = from r in _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+                orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
+                List<OrderDetail> currentorddetails = orderquery.ToList();
+                List<Book> booksinorder = new List<Book>();
+
+                if (currentorddetails.Count() != 0)
+                {
+                    foreach (OrderDetail orddetail in currentorddetails)
+                    {
+                        booksinorder.Add(orddetail.Book);
+                    }
+
+                    foreach (Book bk in booksinorder)
+                    {
+                        if (bk.Title == book.Title)
+                        {
+                            ViewBag.CannotReAdd = "You cannot add this book to your order. It is already in your cart.";
+                            return RedirectToAction("Details", "Search", new { id = id }); //book id
+                        }
+                //        else
+                //        {
+                //            ViewBag.CannotReAdd = "";
+                //        }
+                    }
+                }
+                //else
+                //{
+                //    ViewBag.CannotReAdd = "";
+                //}
+
+
+
+
                 //create a new order detail for the book for the shopping cart order
                 OrderDetail od = new OrderDetail { };
 
