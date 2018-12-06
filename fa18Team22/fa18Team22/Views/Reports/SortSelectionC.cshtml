@@ -12,9 +12,9 @@
     <div class="form-group">
         <label>Sort by Options:</label>
         <br />
-        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc) Customer Profit Margin Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc,true) Customer Profit Margin Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Customer Profit Margin Descending </label>
-        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Cusomter Revenue Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Customer Revenue Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Customer Revenue Descending </label>
     </div>
     <button type="submit" class="btn btn-success">Generate Report</button>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<fa18Team22.Models.Book>
+﻿@model IEnumerable<fa18Team22.Models.InventoryReportVM>
 
 @{
     ViewData["Title"] = "View";
@@ -25,7 +25,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
                 Ammount In Stock
@@ -39,36 +39,21 @@
     <tbody>
         @*TODO: Change the other parts of the View*@
         @foreach (var item in Model)
-    {
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inventory)
+                @Html.DisplayFor(modelItem => item.BooksInInventory)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookCost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookDetail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvgRating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalesPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Inventory)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReplenishMinimum)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.BookID">Details</a>
+                @Html.DisplayFor(modelItem => item.WeightedAvgCost)
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
+
+<p>The Total Cost of the Inventory is: $@ViewBag.TotalCost  </p>
+<p>The Total Value of the Inventory when sold is: $@ViewBag.TotalValue  </p>

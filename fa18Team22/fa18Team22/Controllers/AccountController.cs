@@ -162,12 +162,62 @@ namespace fa18Team22.Controllers
         }
 
         //GET: Account/Index
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    IndexViewModel ivm = new IndexViewModel();
+
+        //    //get user info
+        //    String id = User.Identity.Name;
+        //    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == id);
+
+        //    //populate the view model
+        //    ivm.Email = user.Email;
+        //    ivm.HasPassword = true;
+        //    ivm.Id = user.Id;
+        //    ivm.UserName = user.UserName;
+        //    ivm.FirstName = user.FirstName;
+        //    ivm.LastName = user.LastName;
+        //    ivm.Address = user.Address;
+        //    ivm.City = user.City;
+        //    ivm.State = user.State;
+        //    ivm.Zip = user.Zip;
+        //    ivm.PhoneNumber = user.PhoneNumber;
+        //    ivm.CreditCard1 = user.CreditCard1;
+        //    ivm.CreditCard2 = user.CreditCard2;
+        //    ivm.CreditCard3 = user.CreditCard3;
+
+        //    if (ivm.CreditCard1 != null)
+        //    {
+        //        ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
+        //    }
+        //    else { ViewBag.CreditCard1 = "None"; }
+
+        //    if (ivm.CreditCard2 != null)
+        //    {
+        //        ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
+        //    }
+        //    else { ViewBag.CreditCard2 = "None"; }
+
+        //    if (ivm.CreditCard3 != null)
+        //    {
+        //        ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
+        //    }
+        //    else { ViewBag.CreditCard3 = "None"; }
+
+        //    return View(ivm);
+        //}
+
+        public ActionResult Index(string id)
         {
+            if (id == null)
+            {
+                id = User.Identity.Name;
+            }
+
+
             IndexViewModel ivm = new IndexViewModel();
 
             //get user info
-            String id = User.Identity.Name;
             AppUser user = _context.Users.FirstOrDefault(u => u.UserName == id);
 
             //populate the view model
@@ -207,6 +257,9 @@ namespace fa18Team22.Controllers
             return View(ivm);
         }
 
+
+
+
         //GET: /Account/Edit
         public ActionResult ModifyAccount(string id)
         {
@@ -235,7 +288,6 @@ namespace fa18Team22.Controllers
             return View(mvm);
         }
 
-       
 
         //POST: /Account/Edit
         [HttpPost]
@@ -253,6 +305,8 @@ namespace fa18Team22.Controllers
                     dbAccount.LastName = account.LastName;
                     dbAccount.Email = account.Email;
                     dbAccount.UserName = account.Email;
+                    dbAccount.NormalizedEmail = account.Email.ToUpper();
+                    dbAccount.NormalizedUserName = account.Email.ToUpper();
                     dbAccount.Address = account.Address;
                     dbAccount.City = account.City;
                     dbAccount.State = account.State;
@@ -281,7 +335,7 @@ namespace fa18Team22.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new{id = account.Email});
             }
             return View(account);
         }
@@ -476,6 +530,8 @@ namespace fa18Team22.Controllers
                     dbAccount.LastName = account.LastName;
                     dbAccount.Email = account.Email;
                     dbAccount.UserName = account.Email;
+                    dbAccount.NormalizedEmail = account.Email.ToUpper();
+                    dbAccount.NormalizedUserName = account.Email.ToUpper();
                     dbAccount.Address = account.Address;
                     dbAccount.City = account.City;
                     dbAccount.State = account.State;
@@ -504,7 +560,7 @@ namespace fa18Team22.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ManageCustomerAccounts");
             }
             return View(account);
         }

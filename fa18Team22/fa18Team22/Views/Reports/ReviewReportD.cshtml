@@ -1,0 +1,35 @@
+﻿@model fa18Team22.Models.ReportDVM
+
+@using fa18Team22.Models
+@{
+    ViewData["Title"] = "Totals Report";
+}
+<h2>Details</h2>
+
+<div>
+    <h4>Totals Report</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Total Revenue:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TR)
+        </dd>
+        <dt>
+            Total Cost:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TC)
+        </dd>
+        <dt>
+            Total Profit:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TP)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="ChooseReport" class="btn btn-secondary">Back to Reports</a>
+</div>

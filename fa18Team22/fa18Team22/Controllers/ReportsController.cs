@@ -51,7 +51,7 @@ namespace fa18Team22.Controllers
             List<AllBooksReportViewModel> allBooksReports = new List<AllBooksReportViewModel>();
 
             List<OrderDetail> BooksReport = new List<OrderDetail>();
-            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            var query = _db.OrderDetails.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
             BooksReport = query.ToList();
 
             foreach(OrderDetail od in BooksReport)
@@ -64,8 +64,8 @@ namespace fa18Team22.Controllers
                 brvm.CustomerName = od.Order.Customer.FirstName + ' '+ od.Order.Customer.LastName;
                 brvm.SellingPrice = od.Price;
                 //TODO: YOU NEED to add to books model class weghted
-                brvm.WeightedAvgCost = od.Book.BookCost;
-                brvm.ProfitMargin = (od.Price - od.Book.BookCost);
+                brvm.WeightedAvgCost = (decimal)od.Book.AvgBookCost;
+                brvm.ProfitMargin = ((decimal)(brvm.SellingPrice - od.Book.AvgBookCost));
                 brvm.OrderDate = od.Order.OrderDate;
                 allBooksReports.Add(brvm);
             }
@@ -88,11 +88,11 @@ namespace fa18Team22.Controllers
             List<OrderReportVM> allBooksReports = new List<OrderReportVM>();
 
             List<OrderDetail> OrdersReport = new List<OrderDetail>();
-            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            var query = _db.OrderDetails.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
             OrdersReport = query.ToList();
 
             List<Order> allOrders = new List<Order>();
-            var orderquery = _db.Orders.Include(o => o.Customer).Include(o => o.OrderDetails).ThenInclude(o => o.Book);
+            var orderquery = _db.Orders.Include(o => o.Customer).Include(o => o.OrderDetails).ThenInclude(o => o.Book).ThenInclude(o => o.Procurements);
             allOrders = orderquery.ToList();
 
             foreach (Order order in allOrders)
@@ -109,7 +109,7 @@ namespace fa18Team22.Controllers
                     if (od.Order.OrderID == order.OrderID)
                     {
                         OrderProfit += od.ExtendedPrice;
-                        OrderCost += od.Book.BookCost;
+                        OrderCost += (Decimal)od.Book.AvgBookCost;
                         BookTitle = od.Book.Title;
                         BookQ = od.Quantity;
                         TandQ = BookTitle + " (" + BookQ.ToString() + ") ";
@@ -156,7 +156,7 @@ namespace fa18Team22.Controllers
             List<CustomerReportVM> customerReportVMs = new List<CustomerReportVM>();
 
             List<OrderDetail> CustomersReports = new List<OrderDetail>();
-            var query = _db.OrderDetails.Include(o => o.Book).Include(o => o.Order).ThenInclude(o => o.Customer);
+            var query = _db.OrderDetails.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
             CustomersReports = query.ToList();
 
             List<AppUser> customers = new List<AppUser>();
@@ -188,7 +188,7 @@ namespace fa18Team22.Controllers
                     if(od.Order.Customer.Id == user.Id)
                     {
                         CustomerProfit += od.ExtendedPrice;
-                        CustomerCost += od.Book.BookCost;
+                        CustomerCost += (Decimal)od.Book.AvgBookCost;
                         strOrderNum = "{" + od.Order.OrderNumber.ToString() + "} ";
                         BookTitle = od.Book.Title;
                         BookQ = od.Quantity;
@@ -227,29 +227,45 @@ namespace fa18Team22.Controllers
         //TODO: Build the View for Report D
         public ActionResult ReviewReportD()
         {
-            List<Order> SelectedOrders = new List<Order>();
-            var query = from o in _db.Orders select o;
+            List<OrderDetail> SelectedOrders = new List<OrderDetail>();
+            var query = from o in _db.OrderDetails select o;
+            query = query.Include(o => o.Order).Include(o => o.Book).ThenInclude(o => o.Procurements);
             SelectedOrders = query.ToList();
+
+            List<Order> allOrders = new List<Order>();
+            var oquery = from o in _db.Orders select o;
+            oquery = oquery.Include(o => o.OrderDetails).ThenInclude(o => o.Book).ThenInclude(o => o.Procurements);
+            allOrders = oquery.ToList();
+
+            List<Procurement> ProcurementsReport = new List<Procurement>();
+            var pquery = _db.Procurements.Include(o => o.Book).ThenInclude(o => o.OrderDetails).ThenInclude(o => o.Order).ThenInclude(o => o.Customer);
+            ProcurementsReport = pquery.ToList();
 
             decimal TotalCost = 0;
             decimal TotalProfit = 0;
             decimal TotalRevenue = 0;
+            int TotalQuant = 0;
 
-            foreach (Order so in SelectedOrders)
+            foreach (Order order in allOrders)
             {
-                TotalProfit += so.OrderSubtotal;
-                //TODO: PROCUREMENT TOTAL COST CALCULATION
-                //TotalCost += so;
-                TotalRevenue += (TotalProfit - TotalCost);
-
+                foreach (OrderDetail od in order.OrderDetails)
+                    {
+                        TotalRevenue += (od.Quantity*od.Price);
+                        TotalQuant += od.Quantity;
+                        TotalCost += ((Decimal)od.Book.AvgBookCost*od.Quantity);
+                        
+                    }
             }
-
-            ViewBag.TotalP = TotalProfit;
-            ViewBag.TotalC = TotalCost;
-            ViewBag.TotalR = TotalRevenue;
+            TotalProfit = TotalRevenue - TotalCost;
 
 
-            return View();
+
+            ReportDVM rdvm = new ReportDVM();
+            rdvm.TC = TotalCost;
+            rdvm.TP = TotalProfit;
+            rdvm.TR = TotalRevenue;
+
+            return View(rdvm);
         }
 
         //Get Report E (Current Inventory)
@@ -257,10 +273,30 @@ namespace fa18Team22.Controllers
         {
             List<Book> InventoryList = new List<Book>();
             var query = from b in _db.Books select b;
-            //InventoryList = query.Include(b => b.Procurement).ToList();
+            query = query.Where(b => b.Inventory > 0);
+            query = query.Include(b => b.Procurements);
+            InventoryList = query.ToList();
             ViewBag.SelectedRecords = InventoryList.Count();
 
-            return View("ReviewReportE",InventoryList);
+
+            List<InventoryReportVM> inventoryReportVMs = new List<InventoryReportVM>();
+            decimal TotalValueSold = 0;
+            decimal TotalValueCost = 0;
+            foreach(Book book in InventoryList)
+            {
+                InventoryReportVM irvm = new InventoryReportVM();
+                irvm.Title = book.Title;
+                irvm.BooksInInventory = book.Inventory;
+                irvm.WeightedAvgCost = (decimal)book.AvgBookCost;
+                TotalValueSold += (book.Inventory * (Decimal)book.AvgSalesPrice);
+                TotalValueCost += (book.Inventory * (Decimal)book.AvgBookCost);
+                inventoryReportVMs.Add(irvm);
+            }
+
+            ViewBag.TotalCost = TotalValueCost;
+            ViewBag.TotalValue = TotalValueSold;
+
+            return View("ReviewReportE",inventoryReportVMs);
         }
 
         //GET Report F (Reviews)

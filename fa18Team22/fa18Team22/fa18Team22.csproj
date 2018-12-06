@@ -47,7 +47,6 @@
     <Content Remove="Views\CustomerAccount\CreateCustomerAccount.cshtml" />
     <Content Remove="Views\CustomerAccount\Edit.cshtml" />
     <Content Remove="Views\EmployeeAccount\HireEmployee.cshtml" />
-    <Content Remove="Views\Reports\SortSelectionC.cshtml" />
     <Content Remove="Views\CustomerAccount\CreateCustomerAccount 2.cshtml" />
     <Content Remove="Views\CustomerAccount\Index.cshtml" />
     <Content Remove="Views\Orders\Checkout %28copy%29.cshtml" />

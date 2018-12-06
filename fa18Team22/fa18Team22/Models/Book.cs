@@ -95,24 +95,21 @@ namespace fa18Team22.Models
                 }
                 else
                 {
-                    List<Procurement> CheckedInProcurements = new List<Procurement>();
-                    foreach (Procurement item in Procurements)
+                    decimal decAvgCost;
+                    int allQuantity = InitialInventory;
+                    decimal decCost = InitialCost*InitialInventory;
+
+                    foreach (Procurement pr in Procurements)
                     {
-                        if (item.ProcurementStatus == true)
+                        if (pr.Book.BookID == BookID)
                         {
-                            CheckedInProcurements.Add(item);
+                            decCost += (pr.Price*pr.Quantity);
+                            allQuantity += pr.Quantity;
                         }
                     }
-                    if (CheckedInProcurements.Count() == 0)
-                    {
-                        return BookCost;
-                    }
-                    else
-                    {
-                        decimal decAvgCost = Procurements.Average(p => p.Price);
-                        decAvgCost = Math.Round(decAvgCost, 2);
-                        return decAvgCost;
-                    }
+                    decAvgCost = (decCost / allQuantity);
+                    decAvgCost = Math.Round(decAvgCost, 2);
+                    return decAvgCost;
                 }
                  
             }
@@ -121,7 +118,32 @@ namespace fa18Team22.Models
         [Display(Name = "Average Sales Price")]
         public Decimal? AvgSalesPrice
         {
-            get { return OrderDetails.Average(od => od.ExtendedPrice); }
+            get 
+            {
+                if (OrderDetails.Count() == 0)
+                {
+                    return SalesPrice;
+                }
+                else
+                {
+                    decimal decAvgSalesPrice;
+                    int allQuantity = InitialInventory;
+                    decimal decPrice = InitialSalesPrice;
+
+                    foreach (OrderDetail od in OrderDetails)
+                    {
+                        if (od.Book.BookID == BookID)
+                        {
+                            decPrice += (od.Price*od.Quantity);
+                            allQuantity += od.Quantity;
+                        }
+                    }
+                    decAvgSalesPrice = (decPrice / allQuantity);
+                    decAvgSalesPrice = Math.Round(decAvgSalesPrice, 2);
+                    return decAvgSalesPrice;
+                }
+
+            }
         }
 
         //set to false if book is being carried in the store

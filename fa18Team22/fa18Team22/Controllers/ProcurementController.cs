@@ -112,6 +112,7 @@ namespace fa18Team22.Controllers
                     apvm.Inventory = book.Inventory;
                     apvm.InventoryMinimum = book.ReplenishMinimum;
                     apvm.SellingPrice = book.SalesPrice;
+                    apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
                     apvm.IncludeInProcurement = false;
                     apvm.QuantityToOrder = 5;
                     BooksToOrder.Add(apvm);
@@ -156,6 +157,10 @@ namespace fa18Team22.Controllers
                     AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
                     procurement.Employee = user;
 
+                    //update cost to be latest cost paid
+                    apvmbook.BookCost = apvm.Cost;
+
+                    _context.Books.Update(apvmbook);
                     _context.Procurements.Add(procurement);
                     _context.SaveChanges();
                 }
