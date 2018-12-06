@@ -630,6 +630,65 @@ namespace fa18Team22.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId) //ger CC user enters 
+        {
+
+            //getting the order that this CC is being used for
+            Order order = _context.Orders.Include(c => c.Promo).Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == orderId);
+            //Order order = _context.Orders.FirstOrDefault(c => c.OrderID == orderId);
+            //include OD and Boooks so if there's an error, it still shows all the needed info
+
+            //check if user entered both or no payment methods
+            if((CreditCard == "Enter a new credit card" && NewCreditCard == null) || (CreditCard != "Enter a new credit card" && NewCreditCard != null))
+            {
+                ViewBag.PaymentError = "You must enter one payment type.";
+                String userid = User.Identity.Name;
+                ViewBag.creditcards = GetAllCreditCards(userid);
+                return View("Checkout", order);
+            }
+            else
+            {
+                if (CreditCard != "Enter a new credit card")
+                {
+                    order.Payment = CreditCard;
+                    String userid = User.Identity.Name;
+                    ViewBag.creditcards = GetAllCreditCards(userid);
+                    //probs need to save changes
+                    _context.SaveChanges();
+                    return View("Checkout", order);
+
+                }
+                else //NewCreditCard != null
+                {
+                    if (NewCreditCard.Length == 16)
+                    {
+                        //data annotation for payment should catch if the CC# is not valid
+                        order.Payment = NewCreditCard;
+                        String userid = User.Identity.Name;
+                        ViewBag.creditcards = GetAllCreditCards(userid);
+                        //probs need to save changes
+                        _context.SaveChanges();
+                        return View("Checkout", order);
+                    }
+                    else
+                    {
+                        String userid = User.Identity.Name;
+                        ViewBag.creditcards = GetAllCreditCards(userid);
+                        ViewBag.PaymentError = "You entered an invalid credit card number";
+                        return View("Checkout", order);
+                    }
+
+                }
+           
+            }
+
+        }
+
+
+
+
+
             public int GetBookInventory(Book BookID)
         {
             int bookInventory = BookID.Inventory;
@@ -683,6 +742,8 @@ namespace fa18Team22.Controllers
             }
 
             List <String> creditcards = new List<string>();
+
+            creditcards.Add("Enter a new credit card");
 
             if (user.CreditCard1 != null)
             {

@@ -20,15 +20,8 @@
     <Folder Include="DAL\" />
     <Folder Include="Utilities\" />
     <Folder Include="Seeding\" />
-    <Folder Include="Views\Home\" />
-    <Folder Include="wwwroot\" />
-    <Folder Include="Views\RoleAdmin\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Seeding\" />
-    <Folder Include="Views\Reports\" />
-    <Folder Include="Views\ProcurementSearch\" />
-    <Folder Include="Views\RecommendBooks\" />
-    <Folder Include="Views\ManageUsers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\SortOrderOption.cs" />
@@ -36,10 +29,7 @@
     <Compile Remove="Controllers\CustomerAccountController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Views\Shared\_Layout.cshtml" />
-    <Content Remove="Views\_ViewStart.cshtml" />
     <Content Remove="Views\Orders\PlaceOrder.cshtml" />
-    <Content Remove="Views\RoleAdmin\Edit.cshtml" />
     <Content Remove="Views\Shared\RoleAdmin\Edit.cshtml" />
     <Content Remove="Views\Shared\RoleAdmin\Create.cshtml" />
     <Content Remove="Views\Procurement\DetailedSearch.cshtml" />
@@ -51,8 +41,7 @@
     <Content Remove="Views\CustomerAccount\Index.cshtml" />
     <Content Remove="Views\Orders\Checkout %28copy%29.cshtml" />
     <Content Remove="Views\Orders\CheckoutWithPromo.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Views\Shared\_Layout.cshtml" />
+    <Content Remove="Views\Account\ChangeEmployeeUserStatus.cshtml" />
+    <Content Remove="Views\RoleAdmin\Edit.cshtml" />
   </ItemGroup>
 </Project>

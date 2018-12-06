@@ -56,8 +56,12 @@
 </div>
 <div>
     <!-- enter payment information-->
-    <form action="paymentInformation">
+    <form asp-action="PaymentInformation">
+        <p><font color="red">@ViewBag.PaymentError</font></p>
         <table class="table table-sm table-bordered" style="width: 30%">
+            <tr class="form-group">
+                <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
+            </tr>
             <tr>
                 <th colspan="2" style="text-align:center">Payment Method</th>
             </tr>
@@ -69,9 +73,10 @@
         </table>
         <br />
         Enter Credit Card Number:<br>
-        <input type="text" name="creditCard">
+        @*<input type="text" name="NewCreditCard">*@
+        <input asp-for="Payment" name="NewCreditCard" class="form-control" />
         <br>
-        <input type="submit" value="Use New Card">
+        <input type="submit" value="Apply Payment Method">
 
     </form>
 
