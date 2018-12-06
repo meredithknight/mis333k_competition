@@ -32,12 +32,12 @@ namespace fa18Team22.Controllers
             if (User.IsInRole("Customer"))
             {
                 //REMINDER: fix this to include only the customer's orders
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete).OrderBy(c => c.OrderNumber).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete).OrderByDescending(c => c.OrderNumber).ToList();
                 //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
             }
             else //for employees and managers to see all completed orders
             {
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderByDescending(c =>c.OrderDate).OrderByDescending(c => c.OrderNumber).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderByDescending(c => c.OrderNumber).ToList();
             }
             return View(Orders);
             //return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
@@ -357,6 +357,38 @@ namespace fa18Team22.Controllers
             //REMINDER: where we'll update inventory
 
             //ViewBag.AllProducts = GetAllProducts();
+
+            //get current user 
+            var query1 = from r in _context.OrderDetails.Include(r => r.Order).Include(r => r.Book) select r;
+            List<OrderDetail> orderdetailsoforder = query1.Where(r => r.Order.OrderID == order.OrderID).ToList(); 
+
+            string userName = User.Identity.Name;
+            AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userName);
+
+
+            String strOrderDetail = "";
+
+            foreach(OrderDetail ord in orderdetailsoforder)
+            {
+                strOrderDetail += ord.Book.Title + " | " + ord.Quantity + " | $" + ord.Price + " | $" + ord.ExtendedPrice + "\n";
+            }
+
+
+
+
+
+
+            String emailsubject = "Team 22: New Order";
+            String emailbody = "Thank you for your order! Below is your order summary. " + "\n" + 
+                "Title         " + "Quantity      " + "Price     " + "Book Total       " + "\n" + 
+                strOrderDetail + "\n" +
+                "Order Summary:" + "\n" + 
+                "Subtotal: $" + order.OrderSubtotal + "\n" + 
+                                     "Shipping Cost: $" + order.ShippingCost + "\n" + 
+                                     "Total: $" + order.OrderTotal;
+            SendEmail(currentuser.Email, currentuser.FirstName, emailbody, emailsubject);
+
+
             return View("PlacedOrder", order);
         }
 

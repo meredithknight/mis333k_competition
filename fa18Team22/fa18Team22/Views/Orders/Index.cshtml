@@ -40,14 +40,20 @@
                 @Html.DisplayNameFor(model => model.OrderNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderTotal)
+                @Html.DisplayNameFor(model => model.OrderSubtotal)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ShippingCost)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.OrderTotal)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.Payment)
             </th>
+
+
             <th></th>
         </tr>
     </thead>
@@ -62,18 +68,21 @@
                     @Html.DisplayFor(modelItem => item.OrderNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrderTotal)
+                    @Html.DisplayFor(modelItem => item.OrderSubtotal)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ShippingCost)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Payment)
+                    @Html.DisplayFor(modelItem => item.OrderTotal)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.OrderID" class="btn btn-warning">Edit</a>
+                    @String.Format("{0}{1}", "****-****-****-", (item.Payment))
+                </td>
+
+
+                <td>
                     <a asp-action="Details" asp-route-id="@item.OrderID" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.OrderID" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
