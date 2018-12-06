@@ -172,7 +172,7 @@ namespace fa18Team22.Controllers
                 query = query.Where(r => r.Price <= decPMax);
 
             }
-            query = query.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
+            //query = query.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
             OrdersReport = query.ToList();
 
             List<Order> allOrders = new List<Order>();
@@ -209,7 +209,7 @@ namespace fa18Team22.Controllers
                 orvm.BookTandQ = ListBookTandQ;
                 orvm.OrderTotal = OrderProfit;
                 orvm.OrderCost = OrderCost;
-                if (orvm.CustomerName != "")
+                if (orvm.OrderTotal != 0)
                 {
                     allBooksReports.Add(orvm);
                 }
