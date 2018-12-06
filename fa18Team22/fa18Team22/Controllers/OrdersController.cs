@@ -24,7 +24,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
-        //[Authorize(Roles = "Manager, Customer")]
+        [Authorize]
         public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
@@ -44,6 +44,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,6 +66,7 @@ namespace fa18Team22.Controllers
 
         //REMINDER: should this even be possible? -- or should it redirect you to shopping cart?
         // GET: Orders/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -75,6 +77,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("OrderID,OrderDate,ShippingCost")] Order order)
         {
             if (ModelState.IsValid)
