@@ -162,52 +162,7 @@ namespace fa18Team22.Controllers
             return View(model);
         }
 
-        //GET: Account/Index
-        //public ActionResult Index()
-        //{
-        //    IndexViewModel ivm = new IndexViewModel();
-
-        //    //get user info
-        //    String id = User.Identity.Name;
-        //    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == id);
-
-        //    //populate the view model
-        //    ivm.Email = user.Email;
-        //    ivm.HasPassword = true;
-        //    ivm.Id = user.Id;
-        //    ivm.UserName = user.UserName;
-        //    ivm.FirstName = user.FirstName;
-        //    ivm.LastName = user.LastName;
-        //    ivm.Address = user.Address;
-        //    ivm.City = user.City;
-        //    ivm.State = user.State;
-        //    ivm.Zip = user.Zip;
-        //    ivm.PhoneNumber = user.PhoneNumber;
-        //    ivm.CreditCard1 = user.CreditCard1;
-        //    ivm.CreditCard2 = user.CreditCard2;
-        //    ivm.CreditCard3 = user.CreditCard3;
-
-        //    if (ivm.CreditCard1 != null)
-        //    {
-        //        ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard1 = "None"; }
-
-        //    if (ivm.CreditCard2 != null)
-        //    {
-        //        ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard2 = "None"; }
-
-        //    if (ivm.CreditCard3 != null)
-        //    {
-        //        ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard3 = "None"; }
-
-        //    return View(ivm);
-        //}
-
+        [Authorize]
         public ActionResult Index(string id)
         {
             if (id == null)
@@ -241,19 +196,19 @@ namespace fa18Team22.Controllers
             {
                 ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard1 = "None"; }
+            else { ViewBag.CreditCard1 = "No credit card on file!"; }
 
             if (ivm.CreditCard2 != null)
             {
                 ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard2 = "None"; }
+            else { ViewBag.CreditCard2 = "No credit card on file!"; }
 
             if (ivm.CreditCard3 != null)
             {
                 ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard3 = "None"; }
+            else { ViewBag.CreditCard3 = "No credit card on file!"; }
 
             return View(ivm);
         }
@@ -262,6 +217,7 @@ namespace fa18Team22.Controllers
 
 
         //GET: /Account/Edit
+        [Authorize]
         public ActionResult ModifyAccount(string id)
         {
             if (id == null)
@@ -293,6 +249,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult ModifyAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
@@ -341,6 +298,7 @@ namespace fa18Team22.Controllers
 
         //Logic for change password
         // GET: /Account/ChangePassword
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
@@ -350,6 +308,7 @@ namespace fa18Team22.Controllers
         // POST: /Account/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -388,6 +347,7 @@ namespace fa18Team22.Controllers
 
         //CUSTOMER ACCOUNT CONTROLLER /// ////////////////////////////////////////////////////////////
         //Manage Customer accounts (like an index)
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> ManageCustomerAccounts()
         {
             //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
@@ -414,6 +374,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult CreateCustomerAccount()
         {
             return View();
@@ -422,6 +383,7 @@ namespace fa18Team22.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> CreateCustomerAccount(RegisterViewModel model, LoginViewModel LoginModel)
         {
             if (ModelState.IsValid)
@@ -484,6 +446,7 @@ namespace fa18Team22.Controllers
         //Edit a selected customer account
         //GET
         //GET: /Account/Edit
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult EditCustomerAccount(string id)
         {
             if (id == null)
@@ -516,6 +479,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult EditCustomerAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
@@ -563,6 +527,7 @@ namespace fa18Team22.Controllers
         }
 
         //edit a customer or employee user status
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult ChangeCustomerUserStatus(string id)
         {
             if (id == null)
@@ -584,6 +549,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> ChangeCustomerUserStatus(string id, UserStatusEnum SelectedUserStatus)
         {
             AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
@@ -629,6 +595,7 @@ namespace fa18Team22.Controllers
 
         //START OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
         //manage employee accounts (like an index page)
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> ManageEmployeeAccounts()
         {
             //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
@@ -655,6 +622,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Manager")]
         public ActionResult CreateEmployeeAccount()
         {
             return View();
@@ -663,6 +631,7 @@ namespace fa18Team22.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> CreateEmployeeAccount(RegisterViewModel model, LoginViewModel LoginModel)
         {
             if (ModelState.IsValid)
@@ -723,6 +692,7 @@ namespace fa18Team22.Controllers
         }
 
         //edit a customer or employee user status
+        [Authorize(Roles = "Manager")]
         public ActionResult ChangeEmployeeUserStatus(string id)
         {
             if (id == null)
@@ -744,6 +714,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> ChangeEmployeeUserStatus(string id, UserStatusEnum SelectedUserStatus)
         {
             AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
@@ -786,6 +757,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET: /Account/Edit
+        [Authorize(Roles = "Manager")]
         public ActionResult EditEmployeeAccount(string id)
         {
             if (id == null)
@@ -818,6 +790,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public IActionResult EditEmployeeAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
