@@ -305,9 +305,7 @@ namespace fa18Team22.Controllers
                     dbAccount.FirstName = account.FirstName;
                     dbAccount.LastName = account.LastName;
                     dbAccount.Email = account.Email;
-                    dbAccount.UserName = account.Email;
                     dbAccount.NormalizedEmail = account.Email.ToUpper();
-                    dbAccount.NormalizedUserName = account.Email.ToUpper();
                     dbAccount.Address = account.Address;
                     dbAccount.City = account.City;
                     dbAccount.State = account.State;
@@ -336,7 +334,7 @@ namespace fa18Team22.Controllers
                     }
                 }
 
-                return RedirectToAction("Index", new{id = account.Email});
+                return RedirectToAction("Index");
             }
             return View(account);
         }
@@ -530,9 +528,7 @@ namespace fa18Team22.Controllers
                     dbAccount.FirstName = account.FirstName;
                     dbAccount.LastName = account.LastName;
                     dbAccount.Email = account.Email;
-                    dbAccount.UserName = account.Email;
                     dbAccount.NormalizedEmail = account.Email.ToUpper();
-                    dbAccount.NormalizedUserName = account.Email.ToUpper();
                     dbAccount.Address = account.Address;
                     dbAccount.City = account.City;
                     dbAccount.State = account.State;
