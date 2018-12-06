@@ -9,6 +9,7 @@ using fa18Team22.DAL;
 using fa18Team22.Models;
 using PagedList;
 using PagedList.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -22,7 +23,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Procurement
-        //[Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Procurements.Include(p => p.Book).Include(r => r.Employee).Where(r => r.ProcurementStatus == null || r.ProcurementStatus == false).ToListAsync());
@@ -30,6 +31,7 @@ namespace fa18Team22.Controllers
 
 
         // GET: Procurement/Details/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,6 +51,7 @@ namespace fa18Team22.Controllers
 
 
         //GET: Automatic Order
+        [Authorize(Roles = "Manager")]
         public IActionResult AutomaticOrder()
         {
             var query = from r in _context.Books select r;
@@ -59,6 +62,7 @@ namespace fa18Team22.Controllers
 
         }
 
+        [Authorize(Roles = "Manager")]
         public IActionResult AutoOrder1(int[] IdsToAdd)
         {
             var query = from r in _context.Books select r;
@@ -80,6 +84,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Manager")]
         public IActionResult AddProcurements()
         {
             var query = from r in _context.Books select r;
@@ -135,6 +140,7 @@ namespace fa18Team22.Controllers
 
         //POST
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public IActionResult AddProcurements(List<AddProcurementVM> procurementVMs)
         {
 
@@ -240,6 +246,7 @@ namespace fa18Team22.Controllers
 
         //POST: Automatic Order
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public IActionResult AutomaticOrder(int[] IdsToAdd ,string[] QuantityToAdd, Decimal Cost) 
         {
 
@@ -274,6 +281,7 @@ namespace fa18Team22.Controllers
 
 
         // GET: Procurement/Create
+        [Authorize(Roles = "Manager")]
         public IActionResult Create()
         {
             return View();
@@ -284,6 +292,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Create([Bind("ProcurementID,ProcurementDate,Price,Quantity")] Procurement procurement)
         {
             if (ModelState.IsValid)
@@ -296,6 +305,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Procurement/Edit/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -316,6 +326,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Edit(int id, [Bind("ProcurementID,ProcurementDate,Price,Quantity")] Procurement procurement)
         {
             if (id != procurement.ProcurementID)
@@ -347,6 +358,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Procurement/Delete/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -393,6 +405,7 @@ namespace fa18Team22.Controllers
 
         //POST: check-in
         [HttpPost]
+        [Authorize(Roles = "Manager")]
         public ActionResult CheckIn(int? id, string IncomingQuantity )
         {
 
