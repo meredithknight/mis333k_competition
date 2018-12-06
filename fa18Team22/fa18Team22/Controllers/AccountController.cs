@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace fa18Team22.Controllers
 {
     public enum UserStatusEnum { Active, Inactive}
+    public enum CCType { Visa, MasterCard, Discover, AmericanExpress }
 
     [Authorize]
     public class AccountController : Controller

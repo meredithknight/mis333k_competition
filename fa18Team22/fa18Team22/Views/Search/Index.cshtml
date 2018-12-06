@@ -61,6 +61,9 @@
             <th>
                 In Stock?
             </th>
+            <th>
+                Discontinued?
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -89,6 +92,9 @@
                 <td>
                     @if (item.Inventory > 0) { @ViewBag.InStock }
                     @if (item.Inventory <= 0) { @ViewBag.OutofStock }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDiscontinued)
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>

@@ -69,7 +69,7 @@ namespace fa18Team22.Models
                     }
                     else
                     {
-                        Decimal avgrat = ApprovedReviews.Average(m => m.Rating);
+                        Decimal avgrat = (decimal)ApprovedReviews.Average(m => m.Rating);
                         //Decimal decAvgrat = Convert.ToDecimal(avgrat);
                         avgrat = Math.Round(avgrat, 1);
                         return avgrat;
@@ -147,6 +147,7 @@ namespace fa18Team22.Models
         }
 
         //set to false if book is being carried in the store
+        [Display(Name = "Discontinued?")]
         public Boolean IsDiscontinued { get; set; }
 
         //navigational properties

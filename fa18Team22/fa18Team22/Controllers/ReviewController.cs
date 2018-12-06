@@ -100,37 +100,82 @@ namespace fa18Team22.Controllers
             {
                 return NotFound();
             }
+
             String userName = User.Identity.Name;
-            var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author) select r;
-            query = query.Where(r => r.Book.BookID == id);
-            query = query.Where(r => r.Author.UserName == userName);
-            List<Review> listreviews = query.ToList();
-            if (listreviews.Count == 0)
+
+            //check to see if this review has already been created
+            AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userName);
+            //Book currentbook = _context.Books.FirstOrDefault(r => r.BookID == id);
+            var orderquery = from r in _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+            orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == true);
+            List<OrderDetail> currentorddetails = orderquery.ToList();
+            List<Book> booksinorder = new List<Book>();
+            if (currentorddetails.Count() != 0)
             {
-                Review review = new Review();
-                Book book = _context.Books.FirstOrDefault(m => m.BookID == id);
-                review.Book = book;
-                _context.Add(review);
-                _context.SaveChangesAsync();
+                foreach (OrderDetail orddetail in currentorddetails)
+                {
+                    booksinorder.Add(orddetail.Book);
+                }
+            }
+
+            Boolean bookbought = false;
+            foreach(Book bk in booksinorder)
+            {
+                if(bk.BookID == id)
+                {
+                    bookbought = true;
+                }
+                else
+                {
+                    bookbought = false;
+
+                }
+
+            }
 
 
-                ////delete first create to make sure no empty reviews are shown
-                //var querytodelete = from r in _context.Reviews select r;
-                //querytodelete = querytodelete.Where(r => r.Author == null && r.ReviewText == null);
-                //List<Review> reviewstodelete = querytodelete.ToList();
-                //foreach (Review reviewobject in reviewstodelete)
-                //{
-                //    _context.Reviews.Remove(reviewobject);
-                //}
+            if(bookbought == true )
+            {
+                var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author) select r;
+                query = query.Where(r => r.Book.BookID == id);
+                query = query.Where(r => r.Author.UserName == userName);
+                List<Review> listreviews = query.ToList();
+                if (listreviews.Count == 0)
+                {
+                    Review review = new Review();
+                    Book book = _context.Books.FirstOrDefault(m => m.BookID == id);
+                    review.Book = book;
+                    _context.Add(review);
+                    _context.SaveChangesAsync();
 
 
-                return View(review);
+                    ////delete first create to make sure no empty reviews are shown
+                    //var querytodelete = from r in _context.Reviews select r;
+                    //querytodelete = querytodelete.Where(r => r.Author == null && r.ReviewText == null);
+                    //List<Review> reviewstodelete = querytodelete.ToList();
+                    //foreach (Review reviewobject in reviewstodelete)
+                    //{
+                    //    _context.Reviews.Remove(reviewobject);
+                    //}
+
+
+                    return View(review);
+                }
+                else
+                {
+                    return View("Error", new string[] { "Review already created. Cannot create more than one review for a book." });
+
+                }
+
             }
             else
             {
-                return View("Error", new string[] { "Review already created. Cannot create more than one review for a book." });
+                return View("Error", new string[] { "You have not bought this book yet." });
 
             }
+
+
+
 
         }
 
@@ -139,7 +184,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review, decimal Rating, string ReviewText, int id)
+        public async Task<IActionResult> Create([Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review, Int16 Rating, string ReviewText, int id)
         {
             if (ModelState.IsValid)
             {

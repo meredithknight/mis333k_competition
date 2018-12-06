@@ -32,6 +32,9 @@ namespace fa18Team22.Models
         [Display(Name = "In Stock?")]
         public Boolean InStock { get; set; }
 
+        [Display(Name = "Discontinued?")]
+        public Boolean IsDiscontinued { get; set; }
+
         [Display(Name = "Total Times Ordered")]
         public Int32 QuantityOrdered { get; set; }
 
