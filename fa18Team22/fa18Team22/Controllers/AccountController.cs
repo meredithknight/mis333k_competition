@@ -162,6 +162,7 @@ namespace fa18Team22.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Index(string id)
         {
             if (id == null)
@@ -216,6 +217,7 @@ namespace fa18Team22.Controllers
 
 
         //GET: /Account/Edit
+        [Authorize]
         public ActionResult ModifyAccount(string id)
         {
             if (id == null)
@@ -247,6 +249,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult ModifyAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
@@ -295,6 +298,7 @@ namespace fa18Team22.Controllers
 
         //Logic for change password
         // GET: /Account/ChangePassword
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
@@ -304,6 +308,7 @@ namespace fa18Team22.Controllers
         // POST: /Account/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -342,6 +347,7 @@ namespace fa18Team22.Controllers
 
         //CUSTOMER ACCOUNT CONTROLLER /// ////////////////////////////////////////////////////////////
         //Manage Customer accounts (like an index)
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> ManageCustomerAccounts()
         {
             //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
@@ -368,6 +374,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult CreateCustomerAccount()
         {
             return View();
@@ -376,6 +383,7 @@ namespace fa18Team22.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> CreateCustomerAccount(RegisterViewModel model, LoginViewModel LoginModel)
         {
             if (ModelState.IsValid)
@@ -438,6 +446,7 @@ namespace fa18Team22.Controllers
         //Edit a selected customer account
         //GET
         //GET: /Account/Edit
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult EditCustomerAccount(string id)
         {
             if (id == null)
@@ -470,6 +479,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult EditCustomerAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
@@ -517,6 +527,7 @@ namespace fa18Team22.Controllers
         }
 
         //edit a customer or employee user status
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult ChangeCustomerUserStatus(string id)
         {
             if (id == null)
@@ -538,6 +549,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<ActionResult> ChangeCustomerUserStatus(string id, UserStatusEnum SelectedUserStatus)
         {
             AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
@@ -583,6 +595,7 @@ namespace fa18Team22.Controllers
 
         //START OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
         //manage employee accounts (like an index page)
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> ManageEmployeeAccounts()
         {
             //return View(await _context.Books.Include(m => m.Genre).ToListAsync());
@@ -609,6 +622,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
+        [Authorize(Roles = "Manager")]
         public ActionResult CreateEmployeeAccount()
         {
             return View();
@@ -617,6 +631,7 @@ namespace fa18Team22.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> CreateEmployeeAccount(RegisterViewModel model, LoginViewModel LoginModel)
         {
             if (ModelState.IsValid)
@@ -677,6 +692,7 @@ namespace fa18Team22.Controllers
         }
 
         //edit a customer or employee user status
+        [Authorize(Roles = "Manager")]
         public ActionResult ChangeEmployeeUserStatus(string id)
         {
             if (id == null)
@@ -698,6 +714,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> ChangeEmployeeUserStatus(string id, UserStatusEnum SelectedUserStatus)
         {
             AppUser currentUser = _context.Users.FirstOrDefault(c => c.Id == id);
@@ -740,6 +757,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET: /Account/Edit
+        [Authorize(Roles = "Manager")]
         public ActionResult EditEmployeeAccount(string id)
         {
             if (id == null)
@@ -772,6 +790,7 @@ namespace fa18Team22.Controllers
         //POST: /Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager")]
         public IActionResult EditEmployeeAccount(ModifyAccountViewModel account)
         {
             if (ModelState.IsValid)
