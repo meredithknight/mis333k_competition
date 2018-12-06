@@ -1,4 +1,5 @@
-﻿@model fa18Team22.Models.Order
+﻿@model fa18Team22.Models.AddDiscountODVM
+
 
 @{
     ViewData["Title"] = "Checkout";
@@ -22,13 +23,13 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (OrderDetail rd in Model.OrderDetails)
+            @foreach (AddDiscountVM advm in Model.OrderDetails)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => rd.Book.Title)</td>
-                    <td>@Html.DisplayFor(modelItem => rd.Price)</td>
-                    <td>@Html.DisplayFor(modelItem => rd.Quantity)</td>
-                    <td>@Html.DisplayFor(modelItem => rd.ExtendedPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => advm.BookTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => advm.BookPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => advm.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => advm.ExtendedPrice)</td>
                 </tr>
 
             }
@@ -93,8 +94,8 @@
 <div>
     <p>
         <!-- place order-->
-        <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>
-        @*<a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" asp-route-data="@Model" class="btn btn-success">Place Order</a>*@
+        @*<a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>*@
+        <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" asp-route-data="@Model" class="btn btn-success">Place Order</a>
 
     </p>
 </div>
