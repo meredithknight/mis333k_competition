@@ -478,6 +478,7 @@ namespace fa18Team22.Controllers
             //getting the order that this promo is being applied to
             //Order order = _context.Orders.Include(c => c.OrderDetails).FirstOrDefault(c => c.OrderID == orderId);
             Order order = _context.Orders.Include(c => c.Promo).Include(c => c.OrderDetails).ThenInclude(c=>c.Book).FirstOrDefault(c => c.OrderID == orderId);
+            //Order order = _context.Orders.Include(c => c.Promo).Include(c => c.OrderDetails).ThenInclude(c => c.Book).ThenInclude(c => c.Genre).FirstOrDefault(c => c.OrderID == orderId);
 
             //AddDiscountVM afterDiscountVM = new AddDiscountVM();
 
@@ -545,6 +546,8 @@ namespace fa18Team22.Controllers
                                         //od.Price = Math.Round(od.Price * (item.DiscountAmount / 100), 2);
                                         od.Price = od.Price * (item.DiscountAmount / 100);
 
+                                        //_context.OrderDetails.Update(od);
+                                        _context.SaveChanges();
                                         //do I need to attach this updated orderDetail to this order??/save it
 
 
