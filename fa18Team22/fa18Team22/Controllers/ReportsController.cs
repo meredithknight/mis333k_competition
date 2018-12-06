@@ -47,16 +47,15 @@ namespace fa18Team22.Controllers
         }
 
         [Authorize(Roles = "Manager, Employee")]
-        public ActionResult ReviewReportA(SortReport SelectedSort)
+        public ActionResult ReviewReportA(SortReport SelectedSort, String ProfitMin, String ProfitMax, String PriceMin, String PriceMax)
         {
             //initialize booksreport viewmodel
             List<AllBooksReportViewModel> allBooksReports = new List<AllBooksReportViewModel>();
 
-            List<OrderDetail> BooksReport = new List<OrderDetail>();
-            var query = _db.OrderDetails.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
-            BooksReport = query.ToList();
+            List<OrderDetail> BooksReport = new List<OrderDetail>();             var query = from r in _db.OrderDetails select r;              BooksReport = query.ToList();              if(!string.IsNullOrEmpty(ProfitMin))             {                 decimal decProfitMin;                  try                 {                     decProfitMin = Convert.ToDecimal(ProfitMin);                 }                 catch                 {                     //adding error message for viewbag                     @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";                  }                 decProfitMin = Convert.ToDecimal(ProfitMin);                 //query = query.Where(r => r.Price >= decProfitMin);                 query = query.Where(r => (r.Book.AvgSalesPrice - r.Book.AvgBookCost) >= decProfitMin);             }              if (!string.IsNullOrEmpty(ProfitMax))             {                 decimal decPMax;                  try                 {                     decPMax = Convert.ToDecimal(ProfitMax);                 }                 catch                 {                     //adding error message for viewbag                     @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";                  }                 //query = query.Where(r => r.Price >= decPMax);                 decPMax = Convert.ToDecimal(ProfitMax);                 query = query.Where(r => (r.Book.AvgSalesPrice - r.Book.AvgBookCost) <= decPMax);              }              if (!string.IsNullOrEmpty(PriceMin))             {                 decimal decProfitMin;                  try                 {                     decProfitMin = Convert.ToDecimal(PriceMin);                 }                 catch                 {                     //adding error message for viewbag                     @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";                  }                 //query = query.Where(r => r.Price >= decProfitMin);                 decProfitMin = Convert.ToDecimal(PriceMin);                 query = query.Where(r => r.Price >= decProfitMin);              }              if (!string.IsNullOrEmpty(PriceMax))             {                 decimal decPMax;                  try                 {                     decPMax = Convert.ToDecimal(PriceMax);                 }                 catch                 {                     //adding error message for viewbag                     @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";                  }                 //query = query.Where(r => r.Price >= decPMax);                 decPMax = Convert.ToDecimal(PriceMax);                 query = query.Where(r => r.Price <= decPMax);              } 
+            BooksReport = query.Include(z => z.Book).ThenInclude(z => z.Procurements).Include(z => z.Order).ThenInclude(z => z.Customer).ToList();
 
-            foreach(OrderDetail od in BooksReport)
+            foreach (OrderDetail od in BooksReport)
             {
                 AllBooksReportViewModel brvm = new AllBooksReportViewModel();
 
@@ -86,13 +85,94 @@ namespace fa18Team22.Controllers
         }
 
         [Authorize(Roles = "Manager, Employee")]
-        public ActionResult ReviewReportB(SortReport SelectedSort)
+        public ActionResult ReviewReportB(SortReport SelectedSort, String ProfitMin, String ProfitMax, String PriceMin, String PriceMax)
         {
             //initialize booksreport viewmodel
             List<OrderReportVM> allBooksReports = new List<OrderReportVM>();
 
             List<OrderDetail> OrdersReport = new List<OrderDetail>();
-            var query = _db.OrderDetails.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
+            var query = from r in _db.OrderDetails select r;
+
+
+            if (!string.IsNullOrEmpty(ProfitMin))
+            {
+                decimal decProfitMin;
+
+                try
+                {
+                    decProfitMin = Convert.ToDecimal(ProfitMin);
+                }
+                catch
+                {
+                    //adding error message for viewbag
+                    @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
+
+                }
+                decProfitMin = Convert.ToDecimal(ProfitMin);
+                //query = query.Where(r => r.Price >= decProfitMin);
+                query = query.Where(r => (r.Book.AvgSalesPrice - r.Book.AvgBookCost) >= decProfitMin);
+            }
+
+            if (!string.IsNullOrEmpty(ProfitMax))
+            {
+                decimal decPMax;
+
+                try
+                {
+                    decPMax = Convert.ToDecimal(ProfitMax);
+                }
+                catch
+                {
+                    //adding error message for viewbag
+                    @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
+
+                }
+                //query = query.Where(r => r.Price >= decPMax);
+                decPMax = Convert.ToDecimal(ProfitMax);
+                query = query.Where(r => (r.Book.AvgSalesPrice - r.Book.AvgBookCost) <= decPMax);
+
+            }
+
+            if (!string.IsNullOrEmpty(PriceMin))
+            {
+                decimal decProfitMin;
+
+                try
+                {
+                    decProfitMin = Convert.ToDecimal(PriceMin);
+                }
+                catch
+                {
+                    //adding error message for viewbag
+                    @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
+
+                }
+                //query = query.Where(r => r.Price >= decProfitMin);
+                decProfitMin = Convert.ToDecimal(PriceMin);
+                query = query.Where(r => r.Price >= decProfitMin);
+
+            }
+
+            if (!string.IsNullOrEmpty(PriceMax))
+            {
+                decimal decPMax;
+
+                try
+                {
+                    decPMax = Convert.ToDecimal(PriceMax);
+                }
+                catch
+                {
+                    //adding error message for viewbag
+                    @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
+
+                }
+                //query = query.Where(r => r.Price >= decPMax);
+                decPMax = Convert.ToDecimal(PriceMax);
+                query = query.Where(r => r.Price <= decPMax);
+
+            }
+            query = query.Include(o => o.Book).ThenInclude(o => o.Procurements).Include(o => o.Order).ThenInclude(o => o.Customer);
             OrdersReport = query.ToList();
 
             List<Order> allOrders = new List<Order>();
@@ -129,8 +209,10 @@ namespace fa18Team22.Controllers
                 orvm.BookTandQ = ListBookTandQ;
                 orvm.OrderTotal = OrderProfit;
                 orvm.OrderCost = OrderCost;
-
-                allBooksReports.Add(orvm);
+                if (orvm.CustomerName != "")
+                {
+                    allBooksReports.Add(orvm);
+                }
 
             }
 
