@@ -654,6 +654,7 @@ namespace fa18Team22.Controllers
                     order.Payment = CreditCard;
                     String userid = User.Identity.Name;
                     ViewBag.creditcards = GetAllCreditCards(userid, CreditCard);
+                    ViewBag.PaymentError = "";
                     //probs need to save changes
                     _context.SaveChanges();
                     return View("Checkout", order);
@@ -668,18 +669,22 @@ namespace fa18Team22.Controllers
                         {
                             if (!Char.IsDigit(num))
                             {
-                                //data annotation for payment should catch if the CC# is not valid
-                                order.Payment = NewCreditCard;
+
                                 ViewBag.creditcards = GetAllCreditCards(userid);
-                                //probs need to save changes
-                                _context.SaveChanges();
+                                ViewBag.PaymentError = "You entered an invalid credit card number";
                                 return View("Checkout", order);
                             }
 
                         }
+
+                        //data annotation for payment should catch if the CC# is not valid
+                        order.Payment = NewCreditCard;
                         ViewBag.creditcards = GetAllCreditCards(userid);
-                        ViewBag.PaymentError = "You entered an invalid credit card number";
+                        ViewBag.PaymentError = "";
+                        //probs need to save changes
+                        _context.SaveChanges();
                         return View("Checkout", order);
+
 
                     }
                     else
