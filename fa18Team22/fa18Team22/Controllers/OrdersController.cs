@@ -653,7 +653,7 @@ namespace fa18Team22.Controllers
                 {
                     order.Payment = CreditCard;
                     String userid = User.Identity.Name;
-                    ViewBag.creditcards = GetAllCreditCards(userid);
+                    ViewBag.creditcards = GetAllCreditCards(userid, CreditCard);
                     //probs need to save changes
                     _context.SaveChanges();
                     return View("Checkout", order);
@@ -661,15 +661,26 @@ namespace fa18Team22.Controllers
                 }
                 else //NewCreditCard != null
                 {
-                    if (NewCreditCard.Length == 16)
+                    if (NewCreditCard.Length == 16) //check that CC is
                     {
-                        //data annotation for payment should catch if the CC# is not valid
-                        order.Payment = NewCreditCard;
                         String userid = User.Identity.Name;
+                        foreach (char num in NewCreditCard)
+                        {
+                            if (!Char.IsDigit(num))
+                            {
+                                //data annotation for payment should catch if the CC# is not valid
+                                order.Payment = NewCreditCard;
+                                ViewBag.creditcards = GetAllCreditCards(userid);
+                                //probs need to save changes
+                                _context.SaveChanges();
+                                return View("Checkout", order);
+                            }
+
+                        }
                         ViewBag.creditcards = GetAllCreditCards(userid);
-                        //probs need to save changes
-                        _context.SaveChanges();
+                        ViewBag.PaymentError = "You entered an invalid credit card number";
                         return View("Checkout", order);
+
                     }
                     else
                     {
@@ -760,6 +771,47 @@ namespace fa18Team22.Controllers
             SelectList allCreditCards = new SelectList(creditcards, "CreditCards");
             return allCreditCards;
         }
+        private SelectList GetAllCreditCards(string userid, string CreditCard)
+        {
+            AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userid);
+
+            if (user.CreditCard1 != null)
+            {
+                user.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
+            }
+            if (user.CreditCard2 != null)
+            {
+                user.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
+            }
+            if (user.CreditCard3 != null)
+            {
+                user.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
+            }
+
+            List<String> creditcards = new List<string>();
+
+            creditcards.Add("Enter a new credit card");
+
+            if (user.CreditCard1 != null)
+            {
+                creditcards.Add(user.CreditCard1);
+            }
+            if (user.CreditCard2 != null)
+            {
+                creditcards.Add(user.CreditCard2);
+            }
+            if (user.CreditCard3 != null)
+            {
+                creditcards.Add(user.CreditCard3);
+            }
+
+            //get the selected credit card
+            string selectedCard = CreditCard;
+
+            SelectList allCreditCards = new SelectList(creditcards, "CreditCards", selectedCard);
+            return allCreditCards;
+        }
+
 
         public static void SendEmail(string ToAddress, string ToName, string emailBody, string emailSubject)
         {
