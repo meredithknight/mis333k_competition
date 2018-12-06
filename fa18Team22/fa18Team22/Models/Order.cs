@@ -10,9 +10,7 @@ namespace fa18Team22.Models
         [Display(Name = "Order ID")]
         public Int32 OrderID { get; set; }
 
-        [Display(Name = "Credit Card")]
-        [DataType(DataType.CreditCard)]
-        [StringLength(16, ErrorMessage = "Pick a valid payment method")]
+        [Display(Name = "Payment Card")]
         public String Payment { get; set; }
 
         [Display(Name = "Order Number")]

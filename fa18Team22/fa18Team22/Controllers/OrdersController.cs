@@ -639,11 +639,14 @@ namespace fa18Team22.Controllers
             //Order order = _context.Orders.FirstOrDefault(c => c.OrderID == orderId);
             //include OD and Boooks so if there's an error, it still shows all the needed info
 
+            String userid = User.Identity.Name;
+
+            AppUser customer = _context.Users.FirstOrDefault(c => c.UserName == userid);
+
             //check if user entered both or no payment methods
-            if((CreditCard == "Enter a new credit card" && NewCreditCard == null) || (CreditCard != "Enter a new credit card" && NewCreditCard != null))
+            if ((CreditCard == "Enter a new credit card" && NewCreditCard == null) || (CreditCard != "Enter a new credit card" && NewCreditCard != null))
             {
                 ViewBag.PaymentError = "You must enter one payment type.";
-                String userid = User.Identity.Name;
                 ViewBag.creditcards = GetAllCreditCards(userid);
                 return View("Checkout", order);
             }
@@ -651,20 +654,22 @@ namespace fa18Team22.Controllers
             {
                 if (CreditCard != "Enter a new credit card")
                 {
-                    order.Payment = CreditCard;
-                    String userid = User.Identity.Name;
+                    //order.Payment = CreditCard;
+                    order.Payment = CreditCard.Substring(CreditCard.Length-4); //only save last 4 digits in payment
+
                     ViewBag.creditcards = GetAllCreditCards(userid, CreditCard);
                     ViewBag.PaymentError = "";
                     //probs need to save changes
+                    _context.Orders.Update(order);
                     _context.SaveChanges();
-                    return View("Checkout", order);
+                    //return View("Checkout", order);
+                    return RedirectToAction("PlacedOrder", new { id = orderId });
 
                 }
                 else //NewCreditCard != null
                 {
                     if (NewCreditCard.Length == 16) //check that CC is
                     {
-                        String userid = User.Identity.Name;
                         foreach (char num in NewCreditCard)
                         {
                             if (!Char.IsDigit(num))
@@ -678,18 +683,36 @@ namespace fa18Team22.Controllers
                         }
 
                         //data annotation for payment should catch if the CC# is not valid
-                        order.Payment = NewCreditCard;
+                        //order.Payment = NewCreditCard;
+
+                        if(customer.CreditCard1 == null)
+                        {
+                            customer.CreditCard1 = NewCreditCard;
+                        }
+                        else if (customer.CreditCard1 == null)
+                        {
+                            customer.CreditCard2 = NewCreditCard;
+                        }
+                        else //either CC3 is null, or we will override
+                        {
+                            customer.CreditCard3 = NewCreditCard;
+                        }
+                        //save changes to the CC being added to the customer
+                        //_context.SaveChanges();
+
+                        order.Payment = NewCreditCard.Substring(NewCreditCard.Length - 4); ; //only save last 4 digits in payment
                         ViewBag.creditcards = GetAllCreditCards(userid);
                         ViewBag.PaymentError = "";
                         //probs need to save changes
+
                         _context.SaveChanges();
-                        return View("Checkout", order);
+                        //return View("Checkout", order);
+                        return RedirectToAction("PlacedOrder", new { id = orderId });
 
 
                     }
                     else
                     {
-                        String userid = User.Identity.Name;
                         ViewBag.creditcards = GetAllCreditCards(userid);
                         ViewBag.PaymentError = "You entered an invalid credit card number";
                         return View("Checkout", order);

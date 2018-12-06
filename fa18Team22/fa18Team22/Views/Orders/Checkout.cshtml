@@ -35,6 +35,7 @@
         </tbody>
     </table>
 </div>
+
 <div>
     <table class="table table-sm table-bordered" style="width:30%">
         <tr>
@@ -54,6 +55,25 @@
         </tr>
     </table>
 </div>
+<p>
+</p>
+<div>
+    <!-- FORM to enter coupon code-->
+    <form asp-action="EnterPromo">
+        <div class="form-group">
+            <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
+        </div>
+        <p><font color="red">@ViewBag.PromoError</font></p>
+        Enter Coupon Code:<br>
+        @*<input type="text" name="promoCode">*@
+        <input asp-for="Promo.PromoCode" name="promoCode" class="form-control" />
+        <br>
+        <input type="submit" value="Apply Code">
+    </form>
+</div>
+<p></p>
+<p></p>
+<p></p>
 <div>
     <!-- enter payment information-->
     <form asp-action="PaymentInformation">
@@ -71,7 +91,6 @@
                 </td>
             </tr>
         </table>
-        <br />
         Enter Credit Card Number:<br>
         @*<input type="text" name="NewCreditCard">*@
         <input asp-for="Payment" name="NewCreditCard" class="form-control" />
@@ -82,23 +101,9 @@
 
 </div>
 <div>
-    <!-- FORM to enter coupon code-->
-    <form asp-action="EnterPromo">
-        <div class="form-group">
-            <input asp-for="OrderID" type="hidden" name="orderId" class="form-control" />
-        </div>
-        <p><font color="red">@ViewBag.PromoError</font></p>
-        Enter Coupon Code:<br>
-        @*<input type="text" name="promoCode">*@
-        <input asp-for="Promo.PromoCode" name="promoCode" class="form-control" />
-        <br>
-        <input type="submit" value="Apply Code">
-    </form>
-</div>
-<div>
     <p>
         <!-- place order-->
-        <a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>
+        @*<a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" class="btn btn-success">Place Order</a>*@
         @*<a asp-action="PlacedOrder" asp-route-id="@Model.OrderID" asp-route-data="@Model" class="btn btn-success">Place Order</a>*@
 
     </p>
