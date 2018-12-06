@@ -853,7 +853,7 @@ namespace fa18Team22.Controllers
         }
         public static void SendEmail (string ToAddress, string ToName, string emailBody, string emailSubject)
         {
-            var fromAddress = new MailAddress("bevobooks@gmail.com", "From Bevo Books");
+            var fromAddress = new MailAddress("bevobooks@gmail.com", "Bevo Books");
             var toAddress = new MailAddress(ToAddress, "To "+ToName);
             const string fromPassword = "fa18team22";
 

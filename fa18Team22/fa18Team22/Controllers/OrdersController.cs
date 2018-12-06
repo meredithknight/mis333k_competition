@@ -357,6 +357,38 @@ namespace fa18Team22.Controllers
             //REMINDER: where we'll update inventory
 
             //ViewBag.AllProducts = GetAllProducts();
+
+            //get current user 
+            var query1 = from r in _context.OrderDetails.Include(r => r.Order).Include(r => r.Book) select r;
+            List<OrderDetail> orderdetailsoforder = query1.Where(r => r.Order.OrderID == order.OrderID).ToList(); 
+
+            string userName = User.Identity.Name;
+            AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userName);
+
+
+            String strOrderDetail = "";
+
+            foreach(OrderDetail ord in orderdetailsoforder)
+            {
+                strOrderDetail += ord.Book.Title + " | " + ord.Quantity + " | $" + ord.Price + " | $" + ord.ExtendedPrice + "\n";
+            }
+
+
+
+
+
+
+            String emailsubject = "Team 22: New Order";
+            String emailbody = "Thank you for your order! Below is your order summary. " + "\n" + 
+                "Title         " + "Quantity      " + "Price     " + "Book Total       " + "\n" + 
+                strOrderDetail + "\n" +
+                "Order Summary:" + "\n" + 
+                "Subtotal: $" + order.OrderSubtotal + "\n" + 
+                                     "Shipping Cost: $" + order.ShippingCost + "\n" + 
+                                     "Total: $" + order.OrderTotal;
+            SendEmail(currentuser.Email, currentuser.FirstName, emailbody, emailsubject);
+
+
             return View("PlacedOrder", order);
         }
 
