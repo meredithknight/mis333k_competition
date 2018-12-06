@@ -59,7 +59,7 @@ namespace fa18Team22.Controllers
                 apvm.InventoryMinimum = book.ReplenishMinimum;
                 apvm.SellingPrice = book.SalesPrice;
                 apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                apvm.IncludeInProcurement = false;
+                apvm.IncludeInProcurement = true;
                 apvm.QuantityToOrder = 5;
                 BooksToOrder.Add(apvm);
 
@@ -121,7 +121,7 @@ namespace fa18Team22.Controllers
                         apvm2.InventoryMinimum = book.ReplenishMinimum;
                         apvm2.SellingPrice = book.SalesPrice;
                         apvm2.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                        apvm2.IncludeInProcurement = false;
+                        apvm2.IncludeInProcurement = true;
                         apvm2.QuantityToOrder = 5;
                         BooksToOrder.Add(apvm2);
 
@@ -304,7 +304,7 @@ namespace fa18Team22.Controllers
                 apvm.InventoryMinimum = book.ReplenishMinimum;
                 apvm.SellingPrice = book.SalesPrice;
                 apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                apvm.IncludeInProcurement = false;
+                apvm.IncludeInProcurement = true;
                 apvm.QuantityToOrder = 5;
                 BooksToOrder.Add(apvm);
 
@@ -320,8 +320,55 @@ namespace fa18Team22.Controllers
                 }
 
             }
-
+            ViewBag.DetailedMError = "";
             return View(BooksToOrder);
+        }
+       
+
+
+        [Authorize(Roles = "Manager")]
+        public IActionResult DetailedMProcurementError()
+        {
+            List<Int32> listofbooks = TempData["booksinquery"] as List<Int32>; 
+            List<Procurement> allprocs = new List<Procurement>();
+            var procquery = from p in _db.Procurements select p;
+            procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
+            allprocs = procquery.ToList();
+
+            List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
+            //foreach (Book book in listofbooks)
+            //{
+            //    AddProcurementVM apvm = new AddProcurementVM();
+            //    apvm.Title = book.Title;
+            //    apvm.ProcurementDate = System.DateTime.Today;
+            //    apvm.BookID = book.BookID;
+            //    apvm.Author = book.Author;
+            //    apvm.AvgRatingProc = (decimal)book.AvgRating;
+            //    apvm.PublishDate = book.PublishDate;
+            //    apvm.Cost = book.BookCost;
+            //    apvm.userID = User.Identity.Name;
+            //    apvm.Inventory = book.Inventory;
+            //    apvm.InventoryMinimum = book.ReplenishMinimum;
+            //    apvm.SellingPrice = book.SalesPrice;
+            //    apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
+            //    apvm.IncludeInProcurement = true;
+            //    apvm.QuantityToOrder = 5;
+            //    BooksToOrder.Add(apvm);
+
+            //    foreach (Procurement proc in allprocs)
+            //    {
+            //        if (proc.ProcurementStatus == false)
+            //        {
+            //            if (book.BookID == proc.Book.BookID)
+            //            {
+            //                BooksToOrder.Remove(apvm);
+            //            }
+            //        }
+            //    }
+
+            //}
+            ViewBag.DetailedMError = "";
+            return View("DetailedMProcurement",BooksToOrder);
         }
 
 
@@ -334,26 +381,41 @@ namespace fa18Team22.Controllers
             {
                 if (apvm.IncludeInProcurement == true)
                 {
-                    Book apvmbook = _db.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
-                    string strID = apvm.userID;
-                    AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == apvm.userID);
+                    if(apvm.Cost <= 0 || apvm.QuantityToOrder <= 0)
+                    {
+                        List<Int32> booksinquery = new List<Int32>();
+                        foreach(AddProcurementVM returnbook in procurementVMs)
+                        {
+                            //Book booktoadd = _db.Books.FirstOrDefault(r => r.BookID == returnbook.BookID);
+                            booksinquery.Add(returnbook.BookID);
+                        }
+                        TempData["mylist"] = booksinquery;
+                        return RedirectToAction("DetailedMProcurementError");
+                    }
+                    else
+                    {
+                        Book apvmbook = _db.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
+                        string strID = apvm.userID;
+                        AppUser apvmuser = _db.Users.FirstOrDefault(u => u.UserName == apvm.userID);
 
 
-                    Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser };
-                    procurement.Price = apvm.Cost;
-                    procurement.ProcurementDate = apvm.ProcurementDate;
-                    procurement.ProcurementStatus = false;
-                    procurement.Quantity = apvm.QuantityToOrder;
+                        Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser };
+                        procurement.Price = apvm.Cost;
+                        procurement.ProcurementDate = apvm.ProcurementDate;
+                        procurement.ProcurementStatus = false;
+                        procurement.Quantity = apvm.QuantityToOrder;
 
-                    String userId = User.Identity.Name;
-                    AppUser user = _db.Users.FirstOrDefault(u => u.UserName == userId);
-                    procurement.Employee = user;
+                        String userId = User.Identity.Name;
+                        AppUser user = _db.Users.FirstOrDefault(u => u.UserName == userId);
+                        procurement.Employee = user;
 
-                    _db.Procurements.Add(procurement);
-                    _db.SaveChanges();
+                        _db.Procurements.Add(procurement);
+                        _db.SaveChanges();
+                    }
+
                 }
             }
-
+            ViewBag.DetailedMError = "";
             return RedirectToAction("Index", "Procurement");
         }
 

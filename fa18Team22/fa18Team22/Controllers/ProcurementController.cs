@@ -90,7 +90,7 @@ namespace fa18Team22.Controllers
             var query = from r in _context.Books select r;
             //change to < r.ReplenishMinimum, exclude books on active procurement
             List<Book> allBooks = new List<Book>();
-            query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
+            query = query.Where(r => r.Inventory < r.ReplenishMinimum);
             query = query.Include(r => r.Procurements).Include(r => r.Reviews);
             allBooks = query.ToList();
 
@@ -118,7 +118,7 @@ namespace fa18Team22.Controllers
                     apvm.InventoryMinimum = book.ReplenishMinimum;
                     apvm.SellingPrice = book.SalesPrice;
                     apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                    apvm.IncludeInProcurement = false;
+                    apvm.IncludeInProcurement = true;
                     apvm.QuantityToOrder = 5;
                     BooksToOrder.Add(apvm);
 
@@ -134,7 +134,7 @@ namespace fa18Team22.Controllers
                 }
 
             }
-
+            
             return View(BooksToOrder);
         }
 
@@ -146,89 +146,90 @@ namespace fa18Team22.Controllers
 
             foreach(AddProcurementVM apvm in procurementVMs)
             {
-
-                //check to see if cost and quantity is greater than zero
-                if (apvm.Cost <=0 || apvm.QuantityToOrder <= 0)
+                if(apvm.IncludeInProcurement == true)
                 {
-                    var query = from r in _context.Books select r;
-                    //change to < r.ReplenishMinimum, exclude books on active procurement
-                    List<Book> allBooks = new List<Book>();
-                    query = query.Where(r => r.Inventory <= r.ReplenishMinimum);
-                    query = query.Include(r => r.Procurements).Include(r => r.Reviews);
-                    allBooks = query.ToList();
-
-                    List<Procurement> allprocs = new List<Procurement>();
-                    var procquery = from p in _context.Procurements select p;
-                    procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
-                    allprocs = procquery.ToList();
-
-                    String strUserId = User.Identity.Name;
-                    AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == strUserId);
-
-
-                    List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
-                    foreach (Book book in allBooks)
+                    if (apvm.Cost <= 0 || apvm.QuantityToOrder <= 0)
                     {
-                        AddProcurementVM apvm2 = new AddProcurementVM();
-                        apvm2.Title = book.Title;
-                        apvm2.ProcurementDate = System.DateTime.Today;
-                        apvm2.BookID = book.BookID;
-                        apvm2.Author = book.Author;
-                        apvm2.AvgRatingProc = (decimal)book.AvgRating;
-                        apvm2.Cost = book.BookCost;
-                        apvm2.userID = User.Identity.Name;
-                        apvm2.Inventory = book.Inventory;
-                        apvm2.InventoryMinimum = book.ReplenishMinimum;
-                        apvm2.SellingPrice = book.SalesPrice;
-                        apvm2.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                        apvm2.IncludeInProcurement = false;
-                        apvm2.QuantityToOrder = 5;
-                        BooksToOrder.Add(apvm2);
+                        var query = from r in _context.Books select r;
+                        //change to < r.ReplenishMinimum, exclude books on active procurement
+                        List<Book> allBooks = new List<Book>();
+                        query = query.Where(r => r.Inventory < r.ReplenishMinimum);
+                        query = query.Include(r => r.Procurements).Include(r => r.Reviews);
+                        allBooks = query.ToList();
 
-                        foreach (Procurement proc in allprocs)
+                        List<Procurement> allprocs = new List<Procurement>();
+                        var procquery = from p in _context.Procurements select p;
+                        procquery = procquery.Include(p => p.Book).Include(p => p.Employee);
+                        allprocs = procquery.ToList();
+
+                        String strUserId = User.Identity.Name;
+                        AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == strUserId);
+
+
+                        List<AddProcurementVM> BooksToOrder = new List<AddProcurementVM>();
+                        foreach (Book book in allBooks)
                         {
-                            if (proc.ProcurementStatus == false)
+                            AddProcurementVM apvm2 = new AddProcurementVM();
+                            apvm2.Title = book.Title;
+                            apvm2.ProcurementDate = System.DateTime.Today;
+                            apvm2.BookID = book.BookID;
+                            apvm2.Author = book.Author;
+                            apvm2.AvgRatingProc = (decimal)book.AvgRating;
+                            apvm2.Cost = book.BookCost;
+                            apvm2.userID = User.Identity.Name;
+                            apvm2.Inventory = book.Inventory;
+                            apvm2.InventoryMinimum = book.ReplenishMinimum;
+                            apvm2.SellingPrice = book.SalesPrice;
+                            apvm2.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
+                            apvm2.IncludeInProcurement = true;
+                            apvm2.QuantityToOrder = 5;
+                            BooksToOrder.Add(apvm2);
+
+                            foreach (Procurement proc in allprocs)
                             {
-                                if (book.BookID == proc.Book.BookID)
+                                if (proc.ProcurementStatus == false)
                                 {
-                                    BooksToOrder.Remove(apvm2);
+                                    if (book.BookID == proc.Book.BookID)
+                                    {
+                                        BooksToOrder.Remove(apvm2);
+                                    }
                                 }
                             }
+
+
                         }
+                        ViewBag.ProcurementError = "Quantity and Cost need to be greater than zero";
+                        return View("AddProcurements", BooksToOrder);
+                    }
+                    else
+                    {
+                        ViewBag.ProcurementError = "";
+                        Book apvmbook = _context.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
+                        string strID = apvm.userID;
+                        AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == apvm.userID);
+
+
+                        Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser };
+                        procurement.Price = apvm.Cost;
+                        procurement.ProcurementDate = apvm.ProcurementDate;
+                        procurement.ProcurementStatus = false;
+                        procurement.Quantity = apvm.QuantityToOrder;
+
+                        String userId = User.Identity.Name;
+                        AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
+                        procurement.Employee = user;
+
+                        //update cost to be latest cost paid
+                        apvmbook.BookCost = apvm.Cost;
+
+                        _context.Books.Update(apvmbook);
+                        _context.Procurements.Add(procurement);
+                        _context.SaveChanges();
 
                     }
-                    ViewBag.ProcurementError = "Quantity and Cost needs to be greater than zero";
-                    return View("AddProcurements", BooksToOrder);
                 }
-                else
-                {
-                    ViewBag.ProcurementError = "";
-                }
-                
-                if (apvm.IncludeInProcurement == true)
-                {
-                    Book apvmbook = _context.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
-                    string strID = apvm.userID;
-                    AppUser apvmuser = _context.Users.FirstOrDefault(u => u.UserName == apvm.userID);
 
-
-                    Procurement procurement = new Procurement() { Book = apvmbook, Employee = apvmuser};
-                    procurement.Price = apvm.Cost;
-                    procurement.ProcurementDate = apvm.ProcurementDate;
-                    procurement.ProcurementStatus = false;
-                    procurement.Quantity = apvm.QuantityToOrder;
-
-                    String userId = User.Identity.Name;
-                    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == userId);
-                    procurement.Employee = user;
-
-                    //update cost to be latest cost paid
-                    apvmbook.BookCost = apvm.Cost;
-
-                    _context.Books.Update(apvmbook);
-                    _context.Procurements.Add(procurement);
-                    _context.SaveChanges();
-                }
+                //check to see if cost and quantity is greater than zero
             }
 
             return RedirectToAction("Index");
