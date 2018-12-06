@@ -133,6 +133,7 @@ namespace fa18Team22.Controllers
                 svm.SalesPrice = book.SalesPrice;
                 if (book.Inventory > 0) { svm.InStock = true; }
                 if (book.Inventory <= 0) { svm.InStock = false; }
+                svm.IsDiscontinued = book.IsDiscontinued;
                 svm.UniqueNumber = book.UniqueID;
                 svm.BookDetail = book.BookDetail;
                 svm.AvgRating = (decimal)book.AvgRating;
@@ -180,6 +181,18 @@ namespace fa18Team22.Controllers
             ViewBag.SelectedBooksCount = searchVms.Count();
             ViewBag.TotalBooks = _db.Books.Count();
             //ViewBag.SelectedBooksSearch = SelectedBooksSearch.Count();
+
+
+            //want to see if this book is already in their cart
+
+      
+
+
+
+
+
+
+
             return View("ViewModelIndex", searchVms);
 
         }
@@ -198,6 +211,41 @@ namespace fa18Team22.Controllers
             {
                 return NotFound();
             }
+
+            String userid = User.Identity.Name;
+            AppUser currentuser = _db.Users.FirstOrDefault(r => r.UserName == userid);
+
+            var orderquery = from r in _db.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+            orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
+            List<OrderDetail> currentorddetails = orderquery.ToList();
+            List<Book> booksinorder = new List<Book>();
+
+
+            if (currentorddetails.Count() != 0)
+            {
+                foreach (OrderDetail orddetail in currentorddetails)
+                {
+                    booksinorder.Add(orddetail.Book);
+                }
+
+                foreach (Book bk in booksinorder)
+                {
+                    if (bk.Title == book.Title)
+                    {
+                        ViewBag.BookInCart = "This book is already in your cart.";
+                    }
+                    else
+                    {
+                        ViewBag.BookInCart = "";
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.BookInCart = "";
+            }
+
+
 
             return View(book);
         }

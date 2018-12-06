@@ -140,6 +140,7 @@ namespace fa18Team22.Controllers
 
             foreach(AddProcurementVM apvm in procurementVMs)
             {
+                
                 if (apvm.IncludeInProcurement == true)
                 {
                     Book apvmbook = _context.Books.FirstOrDefault(r => r.BookID == apvm.BookID);
@@ -183,6 +184,7 @@ namespace fa18Team22.Controllers
         [HttpPost]
         public IActionResult AutomaticOrder(int[] IdsToAdd ,string[] QuantityToAdd, Decimal Cost) 
         {
+
             var query = from r in _context.Books select r;
             //change to < r.ReplenishMinimum, exclude books on active procurement
             List<Book> allBooks = new List<Book>();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace fa18Team22.Models
 {
+
     public class AppUser : IdentityUser
 
     {
@@ -54,13 +55,22 @@ namespace fa18Team22.Models
         //[StringLength(15, ErrorMessage = "Max of 15 characters for password")]
         //public String Password { get; set; }
 
+        //[Display(Name = "Type")]
+        //public String CreditCard1Type { get; set; } = "N/A";
+
         [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]
         public String CreditCard1 { get; set; }
 
+        //[Display(Name = "Type")]
+        //public String CreditCard2Type { get; set; } = "N/A";
+
         [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]
         public String CreditCard2 { get; set; }
+
+        //[Display(Name = "Type")]
+        //public String CreditCard3Type { get; set; } = "N/A";
 
         [StringLength(16, ErrorMessage = "Credit card number must be 16 digits")]
         [DataType(DataType.CreditCard)]

@@ -47,7 +47,7 @@ namespace fa18Team22.Controllers
             return View(await _context.Books.Include(m => m.Genre).Include(m=>m.Reviews).ToListAsync());
         }
 
-        // GET: Books/Details/5
+               // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,12 +55,47 @@ namespace fa18Team22.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.Include(m => m.Genre).Include(m => m.Reviews)
+            var book = await _context.Books.Include(m => m.Genre).Include(r => r.Reviews)
                 .FirstOrDefaultAsync(m => m.BookID == id);
             if (book == null)
             {
                 return NotFound();
             }
+
+            String userid = User.Identity.Name;
+            AppUser currentuser = _context.Users.FirstOrDefault(r => r.UserName == userid);
+
+            var orderquery = from r in _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).ThenInclude(r => r.Customer) select r;
+            orderquery = orderquery.Where(r => r.Order.Customer.UserName == currentuser.UserName && r.Order.IsComplete == false);
+            List<OrderDetail> currentorddetails = orderquery.ToList();
+            List<Book> booksinorder = new List<Book>();
+
+
+            if (currentorddetails.Count() != 0)
+            {
+                foreach (OrderDetail orddetail in currentorddetails)
+                {
+                    booksinorder.Add(orddetail.Book);
+                }
+
+                foreach (Book bk in booksinorder)
+                {
+                    if (bk.Title == book.Title)
+                    {
+                        ViewBag.BookInCart = "This book is already in your cart.";
+                    }
+                    else
+                    {
+                        ViewBag.BookInCart = "";
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.BookInCart = "";
+            }
+
+
 
             return View(book);
         }
@@ -160,6 +195,7 @@ namespace fa18Team22.Controllers
                     dbBook.BookDetail = book.BookDetail;
                     dbBook.SalesPrice = book.SalesPrice;
                     dbBook.Inventory = book.Inventory;
+                    dbBook.IsDiscontinued = book.IsDiscontinued;
                     dbBook.ReplenishMinimum = book.ReplenishMinimum;
 
                     _context.Update(dbBook);
