@@ -235,10 +235,10 @@ namespace fa18Team22.Controllers
 
                         if (od.Book.Inventory == 0)
                         {
-                            ViewBag.OutOfStock = od.Book.Title + " is currently out of stock. It has been removed from your cart.";
                             //update the order to remove this order detail
                             _context.OrderDetails.Remove(od);
                             _context.SaveChanges();
+                            ViewBag.OutOfStock = od.Book.Title + " is currently out of stock. It has been removed from your cart.";
                         }
                         if(od.Book.IsDiscontinued) //if it's true
                         {
@@ -253,10 +253,10 @@ namespace fa18Team22.Controllers
 
                             OrdersController.SendEmail(customer.Email, customer.FirstName, emailbody, emailsubject);
 
-                            ViewBag.BookDiscontinued = od.Book.Title + " has been discontinued. It has been removed from your cart";
                             //update the order to remove this order detail
                             _context.OrderDetails.Remove(od);
                             _context.SaveChanges();
+                            ViewBag.BookDiscontinued = od.Book.Title + " has been discontinued. It has been removed from your cart";
 
                         }
                     }
@@ -345,9 +345,10 @@ namespace fa18Team22.Controllers
             order.OrderDate = System.DateTime.Today;
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
 
-            
+
 
             //does this save all changes made to "order"?????
+            _context.Orders.Update(order);
             _context.SaveChanges();
 
             //send order confirmation email
@@ -522,7 +523,7 @@ namespace fa18Team22.Controllers
             //AddDiscountVM afterDiscountVM = new AddDiscountVM();
 
             String userid = User.Identity.Name;
-            ViewBag.creditcards = GetAllCreditCards(userid);
+            //ViewBag.creditcards = GetAllCreditCards(userid);
             var allOrders = _context.Orders.Include(c => c.Promo).Include(c => c.Customer).Where(c => c.Customer.UserName == userid).ToList();
 
             List<Promo> promosUsed = new List<Promo>();
@@ -556,6 +557,7 @@ namespace fa18Team22.Controllers
                                 {
                                     if(promo.PromoCode == promoCode) //promosUsed is equal to promoCode entered
                                     {
+                                        ViewBag.creditcards = GetAllCreditCards(userid);
                                         ViewBag.PromoError = "You have already used this coupon.";
                                         return View("Checkout", order);
                                     }
@@ -572,9 +574,7 @@ namespace fa18Team22.Controllers
                                     order.Promo = item;
                                     _context.Orders.Update(order);
                                     _context.SaveChanges();
-                                    //afterDiscountVM.SavedPromoCode = item.PromoCode; //promoCode string to be used later
-                                    //afterDiscountVM.ShippingCost = 0m;
-
+                                    ViewBag.creditcards = GetAllCreditCards(userid);
                                     return View("Checkout", order);
                                 }
                                 else //should be a discount coupon
@@ -597,12 +597,14 @@ namespace fa18Team22.Controllers
                                     _context.Orders.Update(order);
                                     _context.SaveChanges();
                                     //return RedirectToAction("Checkout", new { id = order.OrderID });
+                                    ViewBag.creditcards = GetAllCreditCards(userid);
                                     return View("Checkout", order); //od is not staying connected to order through the pass back to view
                                         //when passing this order, some value is null that goes into calculating the subtotal (od.ExtendedPrice???)
                                 }
                             }
                             else //if they didnt meet the minimum spending amount
                             {
+                                ViewBag.creditcards = GetAllCreditCards(userid);
                                 ViewBag.PromoError = "You did not meet the minimum spending requirement to use this coupon.";
                                 return View("Checkout", order);
                             }
@@ -610,6 +612,7 @@ namespace fa18Team22.Controllers
                         }
                         else //if coupon is not enabled
                         {
+                            ViewBag.creditcards = GetAllCreditCards(userid);
                             ViewBag.PromoError = "This coupon is not available for use at this time.";
                             return View("Checkout", order);
 
@@ -623,11 +626,13 @@ namespace fa18Team22.Controllers
                     //}
                 }
                 //gets to end of list and no promos match
+                ViewBag.creditcards = GetAllCreditCards(userid);
                 ViewBag.PromoError = "Invalid coupon code.";
                 return View("Checkout", order);
 
             }
             //already used coupon
+            ViewBag.creditcards = GetAllCreditCards(userid);
             ViewBag.PromoError = "You have already applied a coupon to this order.";
             return View("Checkout", order);
         }
