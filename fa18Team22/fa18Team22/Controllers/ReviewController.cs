@@ -64,7 +64,7 @@ namespace fa18Team22.Controllers
 
         //TODO: 
         // GET: Review/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {

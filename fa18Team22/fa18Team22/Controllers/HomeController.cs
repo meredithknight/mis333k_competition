@@ -19,7 +19,7 @@ namespace fa18Team22.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var query = from r in _context.Promos select r;
             List<Promo> promos = query.ToList();

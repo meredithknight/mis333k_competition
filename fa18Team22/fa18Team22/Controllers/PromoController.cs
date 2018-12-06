@@ -80,7 +80,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Promo/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
