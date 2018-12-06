@@ -162,52 +162,6 @@ namespace fa18Team22.Controllers
             return View(model);
         }
 
-        //GET: Account/Index
-        //public ActionResult Index()
-        //{
-        //    IndexViewModel ivm = new IndexViewModel();
-
-        //    //get user info
-        //    String id = User.Identity.Name;
-        //    AppUser user = _context.Users.FirstOrDefault(u => u.UserName == id);
-
-        //    //populate the view model
-        //    ivm.Email = user.Email;
-        //    ivm.HasPassword = true;
-        //    ivm.Id = user.Id;
-        //    ivm.UserName = user.UserName;
-        //    ivm.FirstName = user.FirstName;
-        //    ivm.LastName = user.LastName;
-        //    ivm.Address = user.Address;
-        //    ivm.City = user.City;
-        //    ivm.State = user.State;
-        //    ivm.Zip = user.Zip;
-        //    ivm.PhoneNumber = user.PhoneNumber;
-        //    ivm.CreditCard1 = user.CreditCard1;
-        //    ivm.CreditCard2 = user.CreditCard2;
-        //    ivm.CreditCard3 = user.CreditCard3;
-
-        //    if (ivm.CreditCard1 != null)
-        //    {
-        //        ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard1 = "None"; }
-
-        //    if (ivm.CreditCard2 != null)
-        //    {
-        //        ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard2 = "None"; }
-
-        //    if (ivm.CreditCard3 != null)
-        //    {
-        //        ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
-        //    }
-        //    else { ViewBag.CreditCard3 = "None"; }
-
-        //    return View(ivm);
-        //}
-
         public ActionResult Index(string id)
         {
             if (id == null)
@@ -241,19 +195,19 @@ namespace fa18Team22.Controllers
             {
                 ViewBag.CreditCard1 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard1.Substring(user.CreditCard1.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard1 = "None"; }
+            else { ViewBag.CreditCard1 = "No credit card on file!"; }
 
             if (ivm.CreditCard2 != null)
             {
                 ViewBag.CreditCard2 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard2.Substring(user.CreditCard2.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard2 = "None"; }
+            else { ViewBag.CreditCard2 = "No credit card on file!"; }
 
             if (ivm.CreditCard3 != null)
             {
                 ViewBag.CreditCard3 = String.Format("{0}{1}", "**** - **** - **** - ", (user.CreditCard3.Substring(user.CreditCard3.Length - 4, 4)));
             }
-            else { ViewBag.CreditCard3 = "None"; }
+            else { ViewBag.CreditCard3 = "No credit card on file!"; }
 
             return View(ivm);
         }
