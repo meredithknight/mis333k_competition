@@ -11,6 +11,12 @@
 {
     <form asp-action="LogOff" asp-controller="Account" method="post" id="logoutForm" class="navbar-right" )>
         <ul class="nav navbar-nav navbar-right">
+            @if (User.IsInRole("Customer"))
+            {
+                <li class="nav-item">
+                    @Html.ActionLink("Shopping Cart", "ShoppingCart", "Orders", null, new { @class = "nav-link" })
+                </li>
+            }
             <li>
                 <a asp-action="Index" asp-controller="Account" title="Manage" class="nav-link">Hello @User.Identity.Name!</a>
             </li>
@@ -21,6 +27,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
+
         <li><a asp-action="Register" asp-controller="Account" id="registerLink" class="nav-link">Register</a></li>
         <li><a asp-action="Login" asp-controller="Account" id="loginLink" class="nav-link">Log in</a></li>
     </ul>
