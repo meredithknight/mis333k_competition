@@ -198,7 +198,7 @@ namespace fa18Team22.Controllers
         {
             //REMINDER: make it to find the open order for a 
             //var orderList = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer == User.Identity).ToList();
-            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+            Order order = _context.Orders.Include(c => c.Promo).Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
 
             //Order order = _context.Orders.Include(m => m.OrderDetails).Where(c => c.IsComplete == false);
@@ -267,14 +267,17 @@ namespace fa18Team22.Controllers
 
         //GET
         [Authorize]
-        public IActionResult Checkout(int? id)
+        public IActionResult Checkout(int? id) //OrderID
         {
             if (id == null)
             {
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+            //Order order = _context.Orders.Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
+
+            //include promo attached
+            Order order = _context.Orders.Include(c=>c.Promo).Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
             if (order == null)
             {
@@ -293,6 +296,8 @@ namespace fa18Team22.Controllers
 
         //GET
         [Authorize]
+        //12/5 broke it --> trying to pass promoCode from view to this controller method
+        //public IActionResult PlacedOrder(int? id, Order order) //this is an orderID //add in string for credit card and make nullable to return an error
         public IActionResult PlacedOrder(int? id) //this is an orderID
         {
             if (id == null)
@@ -300,8 +305,9 @@ namespace fa18Team22.Controllers
                 return View("Error", new string[] { "You must specify an order to place!" });
             }
 
-            //logic to change shopping cart to completed order
+            //int ordId = givenOrder.OrderID;
 
+            //logic to change shopping cart to completed order
                 //add payment card
                 //add promo code (if there is one)
                 //change IsComplete to True
@@ -314,6 +320,7 @@ namespace fa18Team22.Controllers
             foreach (OrderDetail odd in allorderdetails)
             {
                 if(odd.Order.OrderID == id)
+                //if(odd.Order.OrderID == order.OrderID)
                 {
                     odd.Book.Inventory -= odd.Quantity;
                     _context.SaveChanges();
@@ -322,16 +329,21 @@ namespace fa18Team22.Controllers
 
             var order = _context.Orders.Include(r => r.Promo).Include(r => r.OrderDetails).ThenInclude(r => r.Book).Include(r => r.Customer).FirstOrDefault(r =>r.OrderID == id);
 
+            //order.Promo = promoCode;
+
             if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
+            Promo isPromoSaved = order.Promo;
 
             //once order is placed, change "IsComplete" property to true
             order.IsComplete = true;
             order.OrderDate = System.DateTime.Today;
             order.OrderNumber = GenerateNextOrderNumber.GetNextOrderNumber(_context);
+
             
+
             //does this save all changes made to "order"?????
             _context.SaveChanges();
 
@@ -464,65 +476,118 @@ namespace fa18Team22.Controllers
         {
 
             //getting the order that this promo is being applied to
-            Order order = _context.Orders.Include(c => c.OrderDetails).FirstOrDefault(c => c.OrderID == orderId);
+            //Order order = _context.Orders.Include(c => c.OrderDetails).FirstOrDefault(c => c.OrderID == orderId);
+            Order order = _context.Orders.Include(c => c.Promo).Include(c => c.OrderDetails).ThenInclude(c=>c.Book).FirstOrDefault(c => c.OrderID == orderId);
+
+            //AddDiscountVM afterDiscountVM = new AddDiscountVM();
 
             String userid = User.Identity.Name;
             ViewBag.creditcards = GetAllCreditCards(userid);
+            var allOrders = _context.Orders.Include(c => c.Promo).Include(c => c.Customer).Where(c => c.Customer.UserName == userid).ToList();
 
-            var promos = _context.Promos.ToList();
-            //REMINDER: figure out error if no promos exist
-            foreach(Promo item in promos)
-            { 
-                if(item.PromoCode == promoCode) //if the promoCode exists
+            List<Promo> promosUsed = new List<Promo>();
+
+            foreach (Order ord in allOrders) //list of all orders connected to a user
+            {
+                if(ord.Promo != null) //if they used a promo on a previous order
                 {
-                    if (item.Status) //if the status is True for enabled
-                    {
-                        if (order.OrderSubtotal > item.MinimumSpend) //if the customer spent enough to use this promo
-                        {
-                            if (item.ShippingWaiver) //promo applies to shippingCost
-                            {
-                                //set shipping cost to 0
-                                order.ShippingCost = 0m;
-                                order.Promo = item;
-                                return View("Checkout", order);
-                            }
-                            else //should be a discount coupon
-                            {
-                                //apply percentage discount to each individual book price
-                                foreach (OrderDetail od in order.OrderDetails)
-                                {
-                                    od.Price = od.Price * (item.DiscountAmount / 100);
-                                    //do I need to attach this updated orderDetail to this order??/save it
-                                }
-                                order.Promo = item;
-                                return View("Checkout", order);
-                            }
-                        }
-                        else //if they didnt meet the minimum spending amount
-                        {
-                            ViewBag.PromoError = "You did not meet the minimum spending requirement to use this coupon.";
-                            return View("Checkout", order);
-                        }
-
-                    }
-                    else //if coupon is not enabled
-                    {
-                        ViewBag.PromoError = "This coupon is not available for use at this time.";
-                        return View("Checkout", order);
-                    }
-
+                    promosUsed.Add(ord.Promo); //add promo to a list of all promos used
                 }
-                //else //coupon code doesn't exist
-                //{
-                //    ViewBag.PromoError = "Invalid coupon code.";
-                //    return RedirectToAction("ShoppingCart", order);
-                //}
             }
-            //gets to end of list and no promos match
-            ViewBag.PromoError = "Invalid coupon code.";
+
+
+
+            if (order.Promo == null) //have not used ANY coupon //I THINK THIS ACTUALLY CHECKS IF THERE'S A PROMO ON THIS ORDER
+            {
+
+                var promos = _context.Promos.ToList();
+                //REMINDER: figure out error if no promos exist
+                foreach (Promo item in promos)
+                {
+                    if (item.PromoCode == promoCode) //if the promoCode exists
+                    {
+                        if (item.Status) //if the status is True for enabled
+                        {
+
+                            //check if promo has been used on previous order
+                            if(promosUsed.Count() != 0)
+                            {
+                                foreach(Promo promo in promosUsed)
+                                {
+                                    if(promo.PromoCode == promoCode) //promosUsed is equal to promoCode entered
+                                    {
+                                        ViewBag.PromoError = "You have already used this coupon.";
+                                        return View("Checkout", order);
+                                    }
+                                }
+                            }
+
+
+                            if (order.OrderSubtotal > item.MinimumSpend) //if the customer spent enough to use this promo
+                            {
+                                if (item.ShippingWaiver) //promo applies to shippingCost
+                                {
+                                    //set shipping cost to 0
+                                    order.ShippingCost = 0m;
+                                    order.Promo = item;
+                                    _context.Orders.Update(order);
+                                    _context.SaveChanges();
+                                    //afterDiscountVM.SavedPromoCode = item.PromoCode; //promoCode string to be used later
+                                    //afterDiscountVM.ShippingCost = 0m;
+
+                                    return View("Checkout", order);
+                                }
+                                else //should be a discount coupon
+                                {
+                                    //apply percentage discount to each individual book price
+                                    foreach (OrderDetail od in order.OrderDetails)
+                                    {
+                                        //od.Price = Math.Round(od.Price * (item.DiscountAmount / 100), 2);
+                                        od.Price = od.Price * (item.DiscountAmount / 100);
+
+                                        //do I need to attach this updated orderDetail to this order??/save it
+
+
+
+                                    }
+                                    order.Promo = item;
+
+                                    _context.Orders.Update(order);
+                                    _context.SaveChanges();
+                                    //return RedirectToAction("Checkout", new { id = order.OrderID });
+                                    return View("Checkout", order); //od is not staying connected to order through the pass back to view
+                                        //when passing this order, some value is null that goes into calculating the subtotal (od.ExtendedPrice???)
+                                }
+                            }
+                            else //if they didnt meet the minimum spending amount
+                            {
+                                ViewBag.PromoError = "You did not meet the minimum spending requirement to use this coupon.";
+                                return View("Checkout", order);
+                            }
+
+                        }
+                        else //if coupon is not enabled
+                        {
+                            ViewBag.PromoError = "This coupon is not available for use at this time.";
+                            return View("Checkout", order);
+
+                        }
+
+                    }
+                    //else //coupon code doesn't exist
+                    //{
+                    //    ViewBag.PromoError = "Invalid coupon code.";
+                    //    return RedirectToAction("ShoppingCart", order);
+                    //}
+                }
+                //gets to end of list and no promos match
+                ViewBag.PromoError = "Invalid coupon code.";
+                return View("Checkout", order);
+
+            }
+            //already used coupon
+            ViewBag.PromoError = "You have already applied a coupon to this order.";
             return View("Checkout", order);
-
-
         }
 
 
