@@ -32,12 +32,12 @@ namespace fa18Team22.Controllers
             if (User.IsInRole("Customer"))
             {
                 //REMINDER: fix this to include only the customer's orders
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete).OrderBy(c => c.OrderNumber).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.Customer.UserName == User.Identity.Name).Where(c => c.IsComplete).OrderByDescending(c => c.OrderNumber).ToList();
                 //Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete != false).ToList();
             }
             else //for employees and managers to see all completed orders
             {
-                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderByDescending(c =>c.OrderDate).OrderByDescending(c => c.OrderNumber).ToList();
+                Orders = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete).OrderByDescending(c => c.OrderNumber).ToList();
             }
             return View(Orders);
             //return View(await _context.Orders.Include(r => r.OrderDetails).ToListAsync());
