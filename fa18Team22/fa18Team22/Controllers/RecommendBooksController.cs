@@ -62,7 +62,9 @@ namespace fa18Team22.Controllers
             {
                 booksboughtbyuser.Add(orddlt.Book);
             }
-
+            Int16 skipcounter = 1;
+            Int16 skipcounter3 = 1;
+            Boolean sameauthor = false;
             string author = orderDetails.Book.Author;
             string genre = orderDetails.Book.Genre.GenreName;
             var query = from r in _context.Books select r;
@@ -70,70 +72,423 @@ namespace fa18Team22.Controllers
             if (query.ToList().Count() > 1)
             {
                 List<Book> querylist = query.ToList();
-                Book highestratedbook = querylist.OrderByDescending(r => r.Author).FirstOrDefault();
+                Book highestratedbook = querylist.OrderByDescending(r => r.AvgRating).FirstOrDefault();
                 if (highestratedbook != null)
                 {
+                    if(highestratedbook.Title == orderDetails.Book.Title)
+                    {
+                        highestratedbook = querylist.Skip(1).FirstOrDefault();
+                    }
                     bookstorecommend.Add(highestratedbook);
                     if (booksboughtbyuser.Any(r => r == highestratedbook))
                     {
                         bookstorecommend.Remove(highestratedbook);
                     }
                 }
-
             }
+            else
+            {
 
-            var query2 = from r in _context.Books select r;
-            query2 = query2.Where(r => r.Genre.GenreName == genre && r.AvgRating <= 4).OrderByDescending(r => r.AvgRating);
-            Book secondbook = query2.FirstOrDefault();
-            if (secondbook != null)
-            {
-                bookstorecommend.Add(secondbook);
-                if (booksboughtbyuser.Any(r => r == secondbook))
-                {
-                    bookstorecommend.Remove(secondbook);
-                }
-            }
+                //pick three (greater than 4 stars)
+                var queryforthree = from r in _context.Books select r;
+                queryforthree = queryforthree.Where(r => r.Genre.GenreName == genre && r.AvgRating > 4).OrderByDescending(r => r.AvgRating);
 
-            Book thirdbook = query2.Skip(1).FirstOrDefault();
-            if (thirdbook != null)
-            {
-                bookstorecommend.Add(thirdbook);
-                if (booksboughtbyuser.Any(r => r == thirdbook))
+                if(queryforthree.Count() > 3)
                 {
-                    bookstorecommend.Remove(thirdbook);
-                }
-            }
-            if (bookstorecommend.Count() < 3)
-            {
-                var lessthan4query = from r in _context.Books select r;
-                Book extrabooktoadd = lessthan4query.Where(r => r.AvgRating < 4).OrderByDescending(r => r.AvgRating).FirstOrDefault();
-                if (extrabooktoadd != null)
-                {
-                    bookstorecommend.Add(extrabooktoadd);
-                    if (booksboughtbyuser.Any(r => r == extrabooktoadd))
+                    Book firstbookforthree = queryforthree.FirstOrDefault();
+                    if (firstbookforthree != null)
                     {
-                        bookstorecommend.Remove(extrabooktoadd);
+                        if (bookstorecommend.Any())
+                        {
+                            foreach (Book bktorec in bookstorecommend)
+                            {
+                                if (bktorec.Author != firstbookforthree.Author)
+                                {
+                                    sameauthor = true;
+
+                                }
+                                else
+                                {
+                                    sameauthor = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sameauthor = true;
+                        }
+
+
+                        if (sameauthor == true)
+                        {
+                            bookstorecommend.Add(firstbookforthree);
+                            if (booksboughtbyuser.Any(r => r == firstbookforthree))
+                            {
+                                bookstorecommend.Remove(firstbookforthree);
+                            }
+                        }
+                    }
+
+                    while (bookstorecommend.Count() < 3)
+                    {
+                        Book booktoadd = queryforthree.Skip(skipcounter).FirstOrDefault();
+                        if (booktoadd != null)
+                        {
+                            if (bookstorecommend.Count() > 0)
+                            {
+                                foreach (Book bktorec in bookstorecommend)
+                                {
+                                    if (bktorec.Author != booktoadd.Author)
+                                    {
+                                        sameauthor = true;
+
+                                    }
+                                    else
+                                    {
+                                        sameauthor = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                sameauthor = true;
+                            }
+
+                            if (sameauthor == true)
+                            {
+                                bookstorecommend.Add(booktoadd);
+                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                {
+                                    bookstorecommend.Remove(booktoadd);
+                                }
+                            }
+
+                        }
+                        skipcounter += 1;
                     }
                 }
 
-            }
-            Int16 skipcounter = 1;
-            while (bookstorecommend.Count() < 3)
-            {
 
-                var queryhighestoverall = from r in _context.Books select r;
-                Book nexttoadd = queryhighestoverall.OrderByDescending(r => r.AvgRating).Skip(skipcounter).FirstOrDefault();
-                if (nexttoadd != null)
+                //not enough for stars???
+                if(queryforthree.Count() <= 3 || bookstorecommend.Count() < 3)
                 {
-                    bookstorecommend.Add(nexttoadd);
-                    if (booksboughtbyuser.Any(r => r == nexttoadd))
+                    var queryforthreev2 = from r in _context.Books select r;
+                    queryforthreev2 = queryforthreev2.Where(r => r.Genre.GenreName == genre).OrderByDescending(r => r.AvgRating);
+                    var querycounter = queryforthreev2.Count();
+
+                    Book firstbookforthree = queryforthreev2.FirstOrDefault();
+                    if (firstbookforthree != null)
                     {
-                        bookstorecommend.Remove(nexttoadd);
+                        bookstorecommend.Add(firstbookforthree);
+                        if (booksboughtbyuser.Any(r => r == firstbookforthree))
+                        {
+                            bookstorecommend.Remove(firstbookforthree);
+                        }
+                    }
+
+                    while (bookstorecommend.Count() < 3 && querycounter > 0)
+                    {
+                        Book booktoadd = queryforthreev2.Skip(skipcounter3).FirstOrDefault();
+                        if (booktoadd != null)
+                        {
+                            if(bookstorecommend.Count() > 0)
+                            {
+                                foreach (Book bktorec in bookstorecommend)
+                                {
+                                    if (bktorec.Author != booktoadd.Author)
+                                    {
+                                        sameauthor = true;
+
+                                    }
+                                    else
+                                    {
+                                        sameauthor = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                sameauthor = true;
+                            }
+
+
+                            if (sameauthor == true)
+                            {
+                                bookstorecommend.Add(booktoadd);
+                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                {
+                                    bookstorecommend.Remove(booktoadd);
+                                }
+                            }
+
+                        }
+                        skipcounter += 1;
+                        querycounter -=1;
+                    }
+
+                    var queryforthreev3 = from r in _context.Books select r;
+                    queryforthreev3 = queryforthreev3.OrderByDescending(r => r.AvgRating);
+                    while (bookstorecommend.Count < 3)
+                    {
+                        Book booktoadd = queryforthreev3.Skip(skipcounter3).FirstOrDefault();
+                        if (booktoadd != null)
+                        {
+                            if(bookstorecommend.Count() < 0)
+                            {
+                                foreach (Book bktorec in bookstorecommend)
+                                {
+                                    if (bktorec.Author != booktoadd.Author)
+                                    {
+                                        sameauthor = true;
+
+                                    }
+                                    else
+                                    {
+                                        sameauthor = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                sameauthor = true;
+                            }
+
+                            if (sameauthor == true)
+                            {
+                                bookstorecommend.Add(booktoadd);
+                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                {
+                                    bookstorecommend.Remove(booktoadd);
+                                }
+                            }
+
+                        }
+                        skipcounter3 += 1;
+                    }
+
+
+                }
+
+                return bookstorecommend;
+
+
+            }
+            //get two if got same author and genre
+
+
+            var queryfortwo = from r in _context.Books select r;
+            queryfortwo = queryfortwo.Where(r => r.Genre.GenreName == genre && r.AvgRating > 4).OrderByDescending(r => r.AvgRating);
+
+            if (queryfortwo.Count() > 2)
+            {
+                Book firstbookfortwo = queryfortwo.FirstOrDefault();
+                if (firstbookfortwo != null)
+                {
+                    if (bookstorecommend.Any())
+                    {
+                        foreach (Book bktorec in bookstorecommend)
+                        {
+                            if (bktorec.Author != firstbookfortwo.Author)
+                            {
+                                sameauthor = true;
+
+                            }
+                            else
+                            {
+                                sameauthor = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        sameauthor = true;
+                    }
+
+
+                    if (sameauthor == true)
+                    {
+                        bookstorecommend.Add(firstbookfortwo);
+                        if (booksboughtbyuser.Any(r => r == firstbookfortwo))
+                        {
+                            bookstorecommend.Remove(firstbookfortwo);
+                        }
                     }
                 }
-                skipcounter += 1;
+
+                while (bookstorecommend.Count() < 3)
+                {
+                    Book booktoadd = queryfortwo.Skip(skipcounter).FirstOrDefault();
+                    if (booktoadd != null)
+                    {
+                        if (bookstorecommend.Count() > 0)
+                        {
+                            foreach (Book bktorec in bookstorecommend)
+                            {
+                                if (bktorec.Author != booktoadd.Author)
+                                {
+                                    sameauthor = true;
+
+                                }
+                                else
+                                {
+                                    sameauthor = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sameauthor = true;
+                        }
+
+                        if (sameauthor == true)
+                        {
+                            bookstorecommend.Add(booktoadd);
+                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            {
+                                bookstorecommend.Remove(booktoadd);
+                            }
+                        }
+
+                    }
+                    skipcounter += 1;
+                }
+            }
+
+
+            //not enough for stars???
+            if (queryfortwo.Count() <= 2 || bookstorecommend.Count() < 3)
+            {
+                var queryforttwov2 = from r in _context.Books select r;
+                queryforttwov2 = queryforttwov2.Where(r => r.Genre.GenreName == genre).OrderByDescending(r => r.AvgRating);
+                var querycounter = queryforttwov2.Count();
+
+                Book firstbookfortwo = queryforttwov2.FirstOrDefault();
+                if (firstbookfortwo != null)
+                {
+                    if (bookstorecommend.Any())
+                    {
+                        foreach (Book bktorec in bookstorecommend)
+                        {
+                            if (bktorec.Author != firstbookfortwo.Author)
+                            {
+                                sameauthor = true;
+
+                            }
+                            else
+                            {
+                                sameauthor = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        sameauthor = true;
+                    }
+
+
+                    if (sameauthor == true)
+                    {
+                        bookstorecommend.Add(firstbookfortwo);
+                        if (booksboughtbyuser.Any(r => r == firstbookfortwo))
+                        {
+                            bookstorecommend.Remove(firstbookfortwo);
+                        }
+                    }
+                }
+
+                while (bookstorecommend.Count() < 3 && querycounter > 0)
+                {
+                    Book booktoadd = queryforttwov2.Skip(skipcounter).FirstOrDefault();
+                    if (booktoadd != null)
+                    {
+                        if (bookstorecommend.Any())
+                        {
+                            foreach (Book bktorec in bookstorecommend)
+                            {
+                                if (bktorec.Author != booktoadd.Author)
+                                {
+                                    sameauthor = true;
+
+                                }
+                                else
+                                {
+                                    sameauthor = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sameauthor = true;
+                        }
+
+
+                        if (sameauthor == true)
+                        {
+                            bookstorecommend.Add(booktoadd);
+                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            {
+                                bookstorecommend.Remove(booktoadd);
+                            }
+                        }
+
+                    }
+                    skipcounter += 1;
+                    querycounter -= 1;
+                }
+
+                var queryfortwov3 = from r in _context.Books select r;
+                queryfortwov3 = queryfortwov3.OrderByDescending(r => r.AvgRating);
+                while (bookstorecommend.Count < 3)
+                {
+                    Book booktoadd = queryfortwov3.Skip(skipcounter3).FirstOrDefault();
+                    if (booktoadd != null)
+                    {
+                        if (bookstorecommend.Count() < 0)
+                        {
+                            foreach (Book bktorec in bookstorecommend)
+                            {
+                                if (bktorec.Author != booktoadd.Author)
+                                {
+                                    sameauthor = true;
+
+                                }
+                                else
+                                {
+                                    sameauthor = false;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            sameauthor = true;
+                        }
+
+                        if (sameauthor == true)
+                        {
+                            bookstorecommend.Add(booktoadd);
+                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            {
+                                bookstorecommend.Remove(booktoadd);
+                            }
+                        }
+
+                    }
+                    skipcounter3 += 1;
+                }
+
+
 
             }
+
             return bookstorecommend;
 
         }
