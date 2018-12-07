@@ -29,6 +29,9 @@ namespace fa18Team22
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //James's new database!
+            //var connectionString = "Server=tcp:fa18projectdemo1.database.windows.net,1433;Initial Catalog=fa18ProjectDemo1;Persist Security Info=False;User ID=MISAdmin;Password=Password1;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
             var connectionString = "Server=tcp:fa18team22v2.database.windows.net,1433;Initial Catalog=fa18team22_v2;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             //var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=True;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
