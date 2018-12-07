@@ -98,6 +98,7 @@ namespace fa18Team22.Controllers
 
             OrderDetail DbOrdDet = _context.OrderDetails.Include(r => r.Book).Include(r => r.Order).FirstOrDefault(r => r.OrderDetailID == orderDetail.OrderDetailID);
 
+            ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
 
             if (ModelState.IsValid)
             {
@@ -124,15 +125,19 @@ namespace fa18Team22.Controllers
                             //if there is already other book(s) in the order
                             decimal oldShippingCost = order.ShippingCost;
 
-                            decimal additionalShippingCost = oldShippingCost - (DbOrdDet.Quantity * 1.50m);
-                                //use the old quantity and subtract that old cost
+                            //decimal additionalShippingCost = oldShippingCost - (DbOrdDet.Quantity * 1.50m);
+                            decimal additionalShippingCost = oldShippingCost - (DbOrdDet.Quantity * currentShipCosts.AddBookShipCost);
+                            //use the old quantity and subtract that old cost
 
-                            order.ShippingCost = orderDetail.Quantity * 1.50m + additionalShippingCost;
+
+                            //order.ShippingCost = orderDetail.Quantity * 1.50m + additionalShippingCost;
+                            order.ShippingCost = orderDetail.Quantity * currentShipCosts.AddBookShipCost + additionalShippingCost;
                         }
                         else
                         {
                             //if this is the only book in the order
-                            order.ShippingCost = 3.50m + ((orderDetail.Quantity - 1) * 1.50m);
+                            //order.ShippingCost = 3.50m + ((orderDetail.Quantity - 1) * 1.50m);
+                            order.ShippingCost = currentShipCosts.FirstBookShipCost + ((orderDetail.Quantity - 1) * currentShipCosts.AddBookShipCost);
                         }
 
                         //update orderdetail
@@ -195,7 +200,7 @@ namespace fa18Team22.Controllers
             OrderDetail od = _context.OrderDetails.Include(c => c.Order).FirstOrDefault(c => c.OrderDetailID == id);
             Order order = _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == od.Order.OrderID);
 
-            ShippingCosts currentShipCosts = _context.ShippingCosts.LastOrDefault();
+            ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
 
             int orderDetailCount = order.OrderDetails.Count();
 

@@ -28,7 +28,7 @@ namespace fa18Team22.Controllers
         [Authorize(Roles = "Manager")]
         public ActionResult ChangeShippingCosts()
         {
-            ShippingCosts currentShipCosts = _context.ShippingCosts.LastOrDefault();
+            ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
 
             //return View();
             return View(currentShipCosts);
@@ -36,7 +36,7 @@ namespace fa18Team22.Controllers
 
         [Authorize(Roles ="Manager")]
         [HttpPost]
-        public ActionResult ChangeShippingCosts(string FirstBookShipCost, string AddBookShipCost)
+        public ActionResult ChangeShippingCosts(int ShipCostId, string FirstBookShipCost, string AddBookShipCost)
         {
             if (FirstBookShipCost == null || AddBookShipCost == null)//if the manager doesn't enter a value for both
             {
@@ -48,12 +48,12 @@ namespace fa18Team22.Controllers
                 Decimal decFirstBookShipCost;
                 Decimal decAddBookShipCost;
 
-                ShippingCosts newShipCosts = new ShippingCosts();
+                ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault(c=>c.ShippingCostsID == ShipCostId);
 
                 try
                 {
                     decFirstBookShipCost = Convert.ToDecimal(FirstBookShipCost);
-                    newShipCosts.FirstBookShipCost = decFirstBookShipCost;
+                    currentShipCosts.FirstBookShipCost = decFirstBookShipCost;
                 }
                 catch
                 {
@@ -63,7 +63,7 @@ namespace fa18Team22.Controllers
                 try
                 {
                     decAddBookShipCost = Convert.ToDecimal(AddBookShipCost);
-                    newShipCosts.AddBookShipCost = decAddBookShipCost;
+                    currentShipCosts.AddBookShipCost = decAddBookShipCost;
                 }
                 catch
                 {
@@ -71,9 +71,9 @@ namespace fa18Team22.Controllers
                     return View();
                 }
 
-                _context.Update(newShipCosts);
+                _context.Update(currentShipCosts);
                 _context.SaveChanges();
-                return View(newShipCosts);
+                return View(currentShipCosts);
 
                 //add the dec values to the model class properties 
                 //ShipFirstBook

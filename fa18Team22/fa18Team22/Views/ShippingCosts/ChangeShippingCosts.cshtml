@@ -15,7 +15,7 @@
     <!-- enter shipping costs-->
     <form asp-action="ChangeShippingCosts">
         <p><font color="red">@ViewBag.InvalidCost</font></p>
-        @*<div><input asp-for="OrderID" type="hidden" name="orderId" class="form-control" /></div>*@
+        <div><input asp-for="ShippingCostsID" type="hidden" name="ShipCostId" class="form-control" /></div>
         <div>
             <p><font color="red">@ViewBag.InvalidFirstBook</font></p>
             First Book Shipping Cost:<br>

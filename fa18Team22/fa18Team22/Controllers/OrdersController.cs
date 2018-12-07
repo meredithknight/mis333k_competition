@@ -261,6 +261,38 @@ namespace fa18Team22.Controllers
                         }
                     }
 
+                    //recalculate the shipping costs when they come here???
+                    ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
+
+                    //reset shipping cost
+                    order.ShippingCost = 0;
+
+                    int count = 0;
+
+                    foreach (OrderDetail od in order.OrderDetails.ToList())
+                    {
+                        if (count == 0) //if this is the first order detail
+                        {
+                            if (od.Quantity == 1)
+                            {
+                                order.ShippingCost = currentShipCosts.FirstBookShipCost;
+                            }
+                            else //more than 1 book in the orderdetail
+                            {
+                                order.ShippingCost = currentShipCosts.FirstBookShipCost + ((od.Quantity - 1)*currentShipCosts.AddBookShipCost);
+                            }
+                        }
+                        else //all other orderdetails
+                        {
+                            order.ShippingCost += currentShipCosts.AddBookShipCost * od.Quantity;
+                        }
+                        count += 1;
+                    }
+
+
+
+
+
                     return View(order);
                 }
 
@@ -465,7 +497,7 @@ namespace fa18Team22.Controllers
                 //od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
                 Order ShoppingCartOrder = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
-                ShippingCosts currentShipCosts = _context.ShippingCosts.LastOrDefault();
+                ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
 
                 //if a shopping cart doesn't exist, 
                 if (ShoppingCartOrder == null) //no current shopping cart --> add all the fields that need to be put in to create an order
