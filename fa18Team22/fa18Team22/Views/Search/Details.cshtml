@@ -11,7 +11,11 @@
     }
 </style>
 
-<h2>Details</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-list-ul"></i>
+    </span>
+Details</h2>
 
 <div>
     <p><font color="red">@ViewBag.BookInCart</font></p>
@@ -65,7 +69,7 @@
         @if (Model.Inventory <= 0)
         {
         <dt>
-            Out of Inventory. Check back soon!
+            <i class="fas fa-sad-tear"></i>Out of Inventory. Check back soon!
         </dt>
         <dd>
 
@@ -74,7 +78,7 @@
         @if (Model.Inventory < 3 && Model.Inventory > 0)
         {
         <dt>
-            Watch Out! Inventory is Low! Order now to ensure you get a copy!
+            <i class="fas fa-exclamation-triangle"></i>Watch Out! Inventory is Low! Order now to ensure you get a copy!
         </dt>
         <dd>
 
