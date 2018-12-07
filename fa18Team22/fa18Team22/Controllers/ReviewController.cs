@@ -21,6 +21,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Review
+        [Authorize]
         public IActionResult Index()
         {
 
@@ -66,7 +67,7 @@ namespace fa18Team22.Controllers
 
         //TODO: 
         // GET: Review/Details/5
-
+        [Authorize]
         public IActionResult Details(int? id)
         {
  
@@ -88,7 +89,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Review/Create
-        [Authorize]
+        [Authorize(Roles ="Customer")]
         public IActionResult Create(int? id)
         {
             if (id == null)
@@ -240,6 +241,7 @@ namespace fa18Team22.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult AllReviews()
         {
             var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author).Include(r => r.Approver).Include(r => r.Rejecter) select r;
@@ -318,35 +320,6 @@ namespace fa18Team22.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(review);
-        }
-
-        // GET: Review/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var review = await _context.Reviews
-                .FirstOrDefaultAsync(m => m.ReviewID == id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
-        }
-
-        // POST: Review/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var review = await _context.Reviews.FindAsync(id);
-            _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool ReviewExists(int id)

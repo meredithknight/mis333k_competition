@@ -45,5 +45,6 @@
     <Content Remove="Views\Account\ChangeEmployeeUserStatus.cshtml" />
     <Content Remove="Views\RoleAdmin\Edit.cshtml" />
     <Content Remove="Views\Procurement\AddProcurements.cshtml" />
+    <Content Remove="Views\Review\Delete.cshtml" />
   </ItemGroup>
 </Project>
