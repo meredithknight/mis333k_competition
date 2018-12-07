@@ -26,19 +26,28 @@
                 Order Number
             </th>
             <th>
+                Order Date
+            </th>
+            <th>
                 Book Titles (Quantity Ordered)
             </th>
             <th>
                 Customer
             </th>
             <th>
-                Order Total
+                Order Revenue
             </th>
             <th>
-                Order Cost (Avg)
+                Order Cost
+            </th>
+            <th>
+                Order Cost (per Book/Avg)
             </th>
             <th>
                 Profit Margin
+            </th>
+            <th>
+                Order Revenue - Order Cost (per Book/Avg)
             </th>
             <th></th>
         </tr>
@@ -49,6 +58,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.BookTandQ)
@@ -63,7 +75,13 @@
                     @Html.DisplayFor(modelItem => item.OrderCost)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.OrderCostAvg)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.ProfitMargin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProfitMarginMinusAvg)
                 </td>
             </tr>
         }
