@@ -40,8 +40,10 @@ namespace fa18Team22.Models
         public Decimal OrderTotal { get; set; }
 
         public Decimal OrderCost { get; set; }
+        public Decimal OrderCostAvg { get; set; }
 
         public Decimal ProfitMargin { get; set; }
+        public Decimal ProfitMarginMinusAvg { get; set; }
 
         public DateTime OrderDate { get; set; }
 

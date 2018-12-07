@@ -98,6 +98,7 @@
                 <td>
                     <a asp-action="EditCustomerAccount" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                     <a asp-action="ChangeCustomerUserStatus" asp-route-id="@item.Id" class="btn btn-info">Activate/Deactivate Account</a>
+                    <a asp-action="ChangeCustomerPassword" asp-route-id="@item.Id" class="btn btn-success">Change Customer Password</a>
                     @*<a asp-action="Delete" asp-route-id="@item.BookID" class="btn btn-danger">Delete</a>*@
                 </td>
             </tr>

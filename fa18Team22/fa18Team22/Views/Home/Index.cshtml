@@ -11,18 +11,18 @@
     }
 </style>
 
-<h1 align="center">Bevo's Books</h1>
+<p></p>
+
+<h1 style="font-size:48px;" align="center">Bevo's Books</h1>
 
 <h2 align="center">
     Hello there! Welcome to the best book store at UT.
 </h2>
 
 <p align="center">
-    @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })
 </p>
 
-@if (User.IsInRole("Customer"))
-{
 <div class="home">
     <div class="class1">
         <h3 align="center">
@@ -57,27 +57,51 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PromoCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DiscountAmount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MinimumSpend)
-                    </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiscountAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MinimumSpend)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShippingWaiver)
-                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingWaiver)
+                        </td>
 
-                </tr>
-                 }
+                    </tr>
+                }
 
             </tbody>
         </table>
-    </div>
+   </div>
+    <p>
+        @if (User.IsInRole("Employee"))
+        {
+            <figure align="Center">
+                <img src="https://i.imgur.com/o1BMbEg.jpg?2" alt="EmployeeofTheMonth" style="width: 295px; height: 298px;">
+                <figcaption>Meet our employee of the month--Tommy!
+                <br>Average review approval time: 59s (wow!)
+                </figcaption>
+            </figure>
+        }
+    </p>
+    <p>
+        @if (User.IsInRole("Manager"))
+        {
+        <figure align="Center">
+            <img src="https://i.imgur.com/umulLok.jpg" alt="KnownBookThief" style="width: 257px; height: 246px;">
+            <figcaption>
+                HAVE YOU SEEN THIS MAN?
+                <br>Subject evaded capture after intercepting Bevo's
+                <br>Books 12.07.2018 procurement delivery.
+            </figcaption>
+        </figure>
+        }
+    </p>
     <div class="class1">
         <h3 align="center">
             <span style="font-size: 20px; color: brown;">
@@ -89,92 +113,10 @@
             </span>
         </h3>
         <p align="center">
-        Go support the horns every home game!After all University of Texas Home wins, students receive 20% off all purchases! 
+            Go support the horns every home game! After all University of Texas Home wins, students receive 20% off all purchases!
         </p>
-        <p align ="center"> 
-        (Promotion only available in store. Must show student ID to receive discount.)
-        </p>
-    </div>
-</div>
-}
-
-@if (User.IsInRole("Manager"))
-{
-    <div class="home">
-    <div class="class1">
-        <h3 align="center">
-            <span style="font-size: 20px; color: green;">
-                <i class="far fa-money-bill-alt"></i>
-            </span>
-            Current Promotions
-            <span style="font-size: 20px; color: green;">
-                <i class="far fa-money-bill-alt"></i>
-            </span>
-        </h3>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Promotion Code
-                    </th>
-                    <th>
-                        Discount Percentage
-                    </th>
-                    <th>
-                        Minimum Required to Use
-                    </th>
-
-                    <th>
-                        Shipping Waiver?
-                    </th>
-
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PromoCode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DiscountAmount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MinimumSpend)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShippingWaiver)
-                    </td>
-
-                </tr>
-                 }
-
-            </tbody>
-        </table>
-    </div>
-    <div class="class1">
-        <h3 align="center">
-            <span style="font-size: 20px; color: brown;">
-                <i class="fas fa-football-ball"></i>
-            </span>
-            Student Benefits
-            <span style="font-size: 20px; color: orange;">
-                <i class="fas fa-basketball-ball"></i>
-            </span>
-        </h3>
         <p align="center">
-        Go support the horns every home game!After all University of Texas Home wins, students receive 20% off all purchases! 
-        </p>
-        <p align ="center"> 
-        (Promotion only available in store. Must show student ID to receive discount.)
+            (Promotion only available in store. Must show student ID to receive discount.)
         </p>
     </div>
 </div>
-
-}
-
-
-
