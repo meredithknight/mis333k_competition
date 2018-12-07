@@ -8,11 +8,12 @@
 </style>
 <h2>All Customers Report</h2>
 <form asp-action="ReviewReportC" asp-controller="Reports" method="get">
+
     @*Sort Options *@
     <div class="form-group">
         <label>Sort by Options:</label>
         <br />
-        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc,true) Customer Profit Margin Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc, true) Customer Profit Margin Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Customer Profit Margin Descending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Customer Revenue Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Customer Revenue Descending </label>

@@ -8,8 +8,34 @@
     }
 </style>
 
+
+
 <h2> Reviews Report Search Options </h2>
+
+
+<p>
+    <font color="red">
+        @ViewBag.ConvertError
+    </font>
+</p>
 <form asp-action="ReviewReport" asp-controller="Reports" method="get">
+
+    
+    @*Search by Price*@
+    <div class="form-group">
+        Accepted Minimum: @Html.TextBox("AcceptedMin", null, new { style = "width:50px" })
+        Accepted Maximum: @Html.TextBox("AcceptedMax", null, new { style = "width:50px" })
+
+
+            <div class="text-danger"> @ViewBag.Message </div>
+    </div>
+    <div>
+        Rejected Minimum: @Html.TextBox("RejectedMin", null, new { style = "width:50px" })
+        Rejected Maximum: @Html.TextBox("RejectedMax", null, new { style = "width:50px" })
+
+    </div>
+
+
 
     Sort Option:
     <div class="form-group">
