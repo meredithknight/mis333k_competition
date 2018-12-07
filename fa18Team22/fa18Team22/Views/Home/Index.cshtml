@@ -21,53 +21,56 @@
     @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary" })
 </p>
 
+@if (User.IsInRole("Customer"))
+{
+    <h3 align="center">
+        <i class="glyphicon glyphicon-lock"></i>Current Promotions
+    </h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Promotion Code
+                </th>
+                <th>
+                    Discount Percentage
+                </th>
+                <th>
+                    Minimum Required to Use
+                </th>
 
-<h3 align="center">
-    <i class="glyphicon glyphicon-lock"></i>Current Promotions
-</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Promotion Code
-            </th>
-            <th>
-                Discount Percentage
-            </th>
-            <th>
-                Minimum Required to Use
-            </th>
+                <th>
+                    Shipping Waiver?
+                </th>
 
-            <th>
-                Shipping Waiver?
-            </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiscountAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinimumSpend)
+                    </td>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PromoCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DiscountAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MinimumSpend)
-            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShippingWaiver)
+                    </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.ShippingWaiver)
-            </td>
+                </tr>
+            }
 
-        </tr>
+        </tbody>
+    </table>
 }
 
-    </tbody>
-</table>
 
 
 
