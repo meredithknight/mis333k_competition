@@ -224,6 +224,7 @@ namespace fa18Team22.Controllers
 
                 orvm.Payment = order.Payment;
                 orvm.OrderNumber = order.OrderNumber;
+                if (OrderProcQuantity == 0) { OrderProcQuantity = 1; }
                 orvm.OrderCostAvg = (OrderCost / OrderProcQuantity);
 
                 decimal OrderCostAvgTimesOrderQuantity = (OrderCost / OrderProcQuantity)*OrderQuantity;
