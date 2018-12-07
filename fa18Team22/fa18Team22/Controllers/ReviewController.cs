@@ -48,6 +48,7 @@ namespace fa18Team22.Controllers
                     books.Add(orddlt.Book);
                 }
                 List<Book> noduplicatebooks = books.Distinct().ToList();
+
                 return View(noduplicatebooks);
 
 
@@ -153,7 +154,7 @@ namespace fa18Team22.Controllers
                     //    _context.Reviews.Remove(reviewobject);
                     //}
 
-
+                    ViewBag.TextError = "";
                     return View(review);
                 }
                 else
@@ -184,6 +185,13 @@ namespace fa18Team22.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(ReviewText == null)
+                {
+                    ViewBag.TextError = "Review cannot be blank!";
+                    return View("Create", review);
+                }
+
+
                 String userId = User.Identity.Name;
                 AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
                 Review newreview = new Review();
