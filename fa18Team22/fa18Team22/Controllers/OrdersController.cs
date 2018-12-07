@@ -94,71 +94,71 @@ namespace fa18Team22.Controllers
         //SHOULD ONLY BE ABLE TO EDIT CURRENT SHOPPING CART, NOT AN OLD ORDER
         // GET: Orders/Edit/5
         //public async Task<IActionResult> Edit(int? id)
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public IActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //var order = await _context.Orders.FindAsync(id);
+        //    //var order = await _context.Orders.FindAsync(id);
 
-            var order =  _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == id);
+        //    var order =  _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == id);
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //only let them edit if the order is not complete
-            //return View(order);
-            if (order.IsComplete == false)
-            {
-                return View(order);
-            }
-            else
-            {
-                return NotFound();
-                //REMINDER: may want to change this error to say something like 
-                // "this order has been placed, you cannot change this order"
-            }
+        //    //only let them edit if the order is not complete
+        //    //return View(order);
+        //    if (order.IsComplete == false)
+        //    {
+        //        return View(order);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //        //REMINDER: may want to change this error to say something like 
+        //        // "this order has been placed, you cannot change this order"
+        //    }
 
-        }
+        //}
 
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,ShippingCost")] Order order)
-        {
-            if (id != order.OrderID)
-            {
-                return NotFound();
-            }
+        //// POST: Orders/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,ShippingCost")] Order order)
+        //{
+        //    if (id != order.OrderID)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(order);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!OrderExists(order.OrderID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(order);
+        //}
 
         //NO ONE SHOULD BE ABLE TO DELETE ORDERS
         //// GET: Orders/Delete/5
