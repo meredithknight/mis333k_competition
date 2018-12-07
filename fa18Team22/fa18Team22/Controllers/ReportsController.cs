@@ -33,20 +33,20 @@ namespace fa18Team22.Controllers
         }
 
         // GET: /<controller>/
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public IActionResult ChooseReport()
         {
             return View();
         }
 
         // GET: /<controller>/
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public IActionResult SortSelectionA()
         {
             return View();
         }
 
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public ActionResult ReviewReportA(SortReport SelectedSort, String ProfitMin, String ProfitMax, String PriceMin, String PriceMax)
         {
             //initialize booksreport viewmodel
@@ -78,13 +78,13 @@ namespace fa18Team22.Controllers
 
         }
 
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public IActionResult SortSelectionB()
         {
             return View();
         }
 
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public ActionResult ReviewReportB(SortReport SelectedSort, String ProfitMin, String ProfitMax, String PriceMin, String PriceMax)
         {
 
@@ -261,13 +261,13 @@ namespace fa18Team22.Controllers
 
         }
 
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public IActionResult SortSelectionC()
         {
             return View();
         }
 
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> ReviewReportC(SortReport SelectedSort)
         {
             List<CustomerReportVM> customerReportVMs = new List<CustomerReportVM>();
@@ -343,7 +343,7 @@ namespace fa18Team22.Controllers
 
         //GET:Report D (totals)
         //TODO: Build the View for Report D
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public ActionResult ReviewReportD()
         {
             List<OrderDetail> SelectedOrders = new List<OrderDetail>();
@@ -388,7 +388,7 @@ namespace fa18Team22.Controllers
         }
 
         //Get Report E (Current Inventory)
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public ActionResult ReviewReportE()
         {
             List<Book> InventoryList = new List<Book>();
@@ -420,7 +420,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET Report F (Reviews)
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public ActionResult ReviewReport()
         {
             ViewBag.ConvertError = "";
@@ -428,7 +428,7 @@ namespace fa18Team22.Controllers
         }
 
         //POST report F (reviews)
-        [Authorize(Roles = "Manager, Employee")]
+        [Authorize(Roles = "Manager")]
         public async Task<ActionResult> DisplayReviewReport(ReviewOptions ReviewOption, SortReport SortBy)
         {
 
