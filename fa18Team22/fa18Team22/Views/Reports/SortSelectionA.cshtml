@@ -1,9 +1,9 @@
-﻿@using fa18Team22.Controllers @using fa18Team22.Models  @*FONT*@ 
-<style type="text/css">
-      body {
-          font-family: Georgia;
-
-    }
-
-
-</style>  <h2>All Books Report</h2> <form asp-action="ReviewReportA" asp-controller="Reports" method="get">      @*Search by Profit Margin*@     <div class="form-group">         Profit Margin: @Html.TextBox("ProfitMin", null, new { style = "width:100px" })         Profit Margin: @Html.TextBox("ProfitMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Search by Price*@     <div class="form-group">         Lowest Price: @Html.TextBox("PriceMin", null, new { style = "width:100px" })         Highest Price: @Html.TextBox("PriceMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Sort Options *@     <div class="form-group">         <label>Sort by Options:</label>         <br />         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostRecent, true) Most Recent Order </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc) Profit Margin Ascending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Profit Margin Descending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Price Ascending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Price Descending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostPopular) Most Popular </label>     </div>       <button type="submit" class="btn btn-success">Generate Report</button> </form>  
+﻿@using fa18Team22.Controllers @using fa18Team22.Models  @{
+    ViewData["Title"] = "Books";  }  @*FONT*@
+    <style type="text/css">
+        body {
+            font-family: Georgia;
+        }
+    </style>  
+    <h2>All Books Report</h2> 
+    <form asp-action="ReviewReportA" asp-controller="Reports" method="get">      @*Search by Profit Margin*@     <div class="form-group">         Profit Margin: @Html.TextBox("ProfitMin", null, new { style = "width:100px" })         Profit Margin: @Html.TextBox("ProfitMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Search by Price*@     <div class="form-group">         Lowest Price: @Html.TextBox("PriceMin", null, new { style = "width:100px" })         Highest Price: @Html.TextBox("PriceMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Sort Options *@     <div class="form-group">         <label>Sort by Options:</label>         <br />         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostRecent, true) Most Recent Order </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc) Profit Margin Ascending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Profit Margin Descending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Price Ascending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Price Descending </label>         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.MostPopular) Most Popular </label>     </div>       <button type="submit" class="btn btn-success">Generate Report</button> </form>  
