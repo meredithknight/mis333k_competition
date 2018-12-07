@@ -136,10 +136,11 @@ namespace fa18Team22.Controllers
                     Genre dbGenre = _context.Genres.Include(c => c.Books).FirstOrDefault(c => c.GenreID == newgenre.GenreID);
                     Book dbBook = _context.Books.Include(c => c.Genre).FirstOrDefault(c => c.UniqueID == book.UniqueID);
                     dbGenre.Books.Add(dbBook);
-                    //lets user pick genre the book belongs to, then add the genre to the book instance and the book instance to the genre
-                    _context.Add(newgenre);
+                    dbBook.Genre = dbGenre;
+                    //lets user pick genre the book belongs to, then add the genre to the book instance and the book instance to the genre                    _context.Add(newgenre);
                     _context.Update(dbGenre);
-                    _context.SaveChangesAsync();
+                    _context.Update(dbBook);
+                    _context.SaveChanges();
                 }
                 if (SelectedGenre != 0)
                 {
