@@ -30,9 +30,19 @@
         <i class="fas fa-money-bill-alt"></i>    </span>
 Orders</h2>
 
-<p>
+
+@if (User.IsInRole("Customer"))
+{
+
+ <p>
     <a asp-action="ShoppingCart" class="btn btn-primary">View Shopping Cart <i class="fas fa-shopping-cart"></i></a>
 </p>
+
+}
+
+
+
+
 <table class="table">
     <thead>
         <tr>
