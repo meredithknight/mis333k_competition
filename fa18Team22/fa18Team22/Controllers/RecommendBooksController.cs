@@ -62,6 +62,8 @@ namespace fa18Team22.Controllers
             {
                 booksboughtbyuser.Add(orddlt.Book);
             }
+            Int16 skipcounterhighestrated = 0;
+            Int32 querycounterhighestrated = 0;
             Int16 skipcounter = 1;
             Int16 skipcounter3 = 1;
             Boolean sameauthor = false;
@@ -72,19 +74,31 @@ namespace fa18Team22.Controllers
             if (query.ToList().Count() > 1)
             {
                 List<Book> querylist = query.ToList();
-                Book highestratedbook = querylist.OrderByDescending(r => r.AvgRating).FirstOrDefault();
-                if (highestratedbook != null)
+                querycounterhighestrated = querylist.Count();
+                while(querycounterhighestrated != 0)
                 {
-                    if(highestratedbook.Title == orderDetails.Book.Title)
+                    Book highestratedbook = querylist.OrderByDescending(r => r.AvgRating).Skip(skipcounterhighestrated).FirstOrDefault();
+                    if (highestratedbook != null)
                     {
-                        highestratedbook = querylist.Skip(1).FirstOrDefault();
+                        if (highestratedbook.Title == orderDetails.Book.Title)
+                        {
+                            highestratedbook = querylist.Skip(1).FirstOrDefault();
+                        }
+                        bookstorecommend.Add(highestratedbook);
+                        if (booksboughtbyuser.Any(r => r.BookID == highestratedbook.BookID))
+                        {
+                            bookstorecommend.Remove(highestratedbook);
+                            skipcounterhighestrated += 1;
+                            querycounterhighestrated -= 0;
+                        }
                     }
-                    bookstorecommend.Add(highestratedbook);
-                    if (booksboughtbyuser.Any(r => r.BookID == highestratedbook.BookID))
+                    else
                     {
-                        bookstorecommend.Remove(highestratedbook);
+                        skipcounterhighestrated += 1;
+                        querycounterhighestrated -= 0;
                     }
                 }
+
             }
             else
             {
