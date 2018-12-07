@@ -15,6 +15,7 @@ namespace fa18Team22.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
     	public Decimal Price{ get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ExtendedPrice
         {
             get { return Quantity * Price; }
