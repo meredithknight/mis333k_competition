@@ -10,13 +10,27 @@
         font-family: Georgia;
     }
 </style>
-@if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false)
+@if (User.IsInRole("Customer"))
 {
     <div class="jumbotron">
         <div class="container">
             <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
             <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
             <p>@Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })</p>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false && User.IsInRole("Customer") == false)
+{
+    <div class="jumbotron">
+        <div class="container">
+            <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+            <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
+            <p>
+                @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })
+                @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success btn-lg" })
+            </p>
         </div>
     </div>
 }
@@ -99,50 +113,50 @@
     <p>
         @if (User.IsInRole("Employee"))
         {
-            <p align="center">
+        <p align="center">
             <strong>KEEP UP THE HARD WORK AND MAYBE YOU COULD BE EMPLOYEE OF THE MONTH</strong>
-            </p>
-            <figure align="Center">
-                <img src="https://i.imgur.com/o1BMbEg.jpg?2" alt="EmployeeofTheMonth" style="width: 295px; height: 298px;">
-                <figcaption>
-                    Meet our employee of the month--Tommy!
-                    <br>Average review approval time: <strong>59s</strong> (wow!)
-                </figcaption>
-            </figure>
-        }
-    </p>
-    <p>
-        @if (User.IsInRole("Manager"))
-        {
-            <figure align="Center">
-                <img src="https://i.imgur.com/umulLok.jpg" alt="KnownBookThief" style="width: 257px; height: 246px;">
-                <figcaption>
-                    <strong>HAVE YOU SEEN THIS MAN?</strong>
-                    <br><u>Managers be advised:</u>
-                    <br>Subject evaded capture after intercepting Bevo's
-                    <br>Books 12.07.2018 procurement delivery.
-                </figcaption>
-            </figure>
-        }
-    </p>
-    @if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false)
-    {
-        <div class="class1">
-            <h3 align="center">
-                <span style="font-size: 20px; color: brown;">
-                    <i class="fas fa-football-ball"></i>
-                </span>
-                Student Benefits
-                <span style="font-size: 20px; color: orange;">
-                    <i class="fas fa-basketball-ball"></i>
-                </span>
-            </h3>
-            <p align="center">
-                Go support the horns every home game! After all University of Texas Home wins, students receive 20% off all purchases!
-            </p>
-            <p align="center">
-                (Promotion only available in store. Must show student ID to receive discount.)
-            </p>
-        </div>
+        </p>
+        <figure align="Center">
+            <img src="https://i.imgur.com/o1BMbEg.jpg?2" alt="EmployeeofTheMonth" style="width: 295px; height: 298px;">
+            <figcaption>
+                Meet our employee of the month--Tommy!
+                <br>Average review approval time: <strong>59s</strong> (wow!)
+            </figcaption>
+        </figure>
     }
-</div>
+        </p>
+        <p>
+            @if (User.IsInRole("Manager"))
+            {
+                <figure align="Center">
+                    <img src="https://i.imgur.com/umulLok.jpg" alt="KnownBookThief" style="width: 257px; height: 246px;">
+                    <figcaption>
+                        <strong>HAVE YOU SEEN THIS MAN?</strong>
+                        <br><u>Managers be advised:</u>
+                        <br>Subject evaded capture after intercepting Bevo's
+                        <br>Books 12.07.2018 procurement delivery.
+                    </figcaption>
+                </figure>
+            }
+        </p>
+        @if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false)
+        {
+            <div class="class1">
+                <h3 align="center">
+                    <span style="font-size: 20px; color: brown;">
+                        <i class="fas fa-football-ball"></i>
+                    </span>
+                    Student Benefits
+                    <span style="font-size: 20px; color: orange;">
+                        <i class="fas fa-basketball-ball"></i>
+                    </span>
+                </h3>
+                <p align="center">
+                    Go support the horns every home game! After all University of Texas Home wins, students receive 20% off all purchases!
+                </p>
+                <p align="center">
+                    (Promotion only available in store. Must show student ID to receive discount.)
+                </p>
+            </div>
+        }
+    </div>

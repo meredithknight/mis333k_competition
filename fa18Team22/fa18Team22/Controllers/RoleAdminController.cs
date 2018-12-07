@@ -15,7 +15,7 @@ using fa18Team22.Models;
 namespace fa18Team22.Controllers
 {
 
-    //[Authorize(Roles = "Manager")]
+    [Authorize(Roles = "Manager")]
     public class RoleAdminController : Controller
     {
         private AppDbContext _db;
