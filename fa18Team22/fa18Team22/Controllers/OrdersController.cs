@@ -358,10 +358,12 @@ namespace fa18Team22.Controllers
 
             //decrease the inventory for books that are ordered
             List<OrderDetail> allorderdetails = new List<OrderDetail>();
-            var query = _context.OrderDetails.Include(r => r.Book).Include(m => m.Order).ThenInclude(m => m.Customer);
+            var query = _context.OrderDetails.Include(r => r.Order).ThenInclude(m => m.Customer).Include(m => m.Book);
             allorderdetails = query.ToList();
 
-            foreach (OrderDetail odd in allorderdetails)
+
+            //foreach (OrderDetail odd in allorderdetails)
+            foreach(OrderDetail odd in allorderdetails)
             {
                 if(odd.Order.OrderID == id)
                 //if(odd.Order.OrderID == order.OrderID)

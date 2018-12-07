@@ -29,14 +29,16 @@ namespace fa18Team22
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //CONNECTION STRING FOR FINAL PROJECT TO TURN IN --> fa18team22final_project (DB)
+            //var connectionString = "Server=tcp:fa18team22finalprojectus.database.windows.net,1433;Initial Catalog=fa18team22FINAL_PROJECT;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+            //BACKUP CONNECTION STRING FOR FINAL PROJECT TO TURN IN --> fa18team22final_project_BACKUP (DB)
+            //var connectionString = "Server=tcp:fa18team22finalprojectbackup.database.windows.net,1433;Initial Catalog=fa18team22FINAL_PROJECT_BACKUP;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
             //CONNECTION STRING TO MESS WITH
             var connectionString = "Server=tcp:fa18team22v2copy.database.windows.net,1433;Initial Catalog=fa18team22_v2_Copy;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
 
-            //CONNECTION STRING USED BY PRE-GRADING
-            //var connectionString = "Server=tcp:fa18team22v2.database.windows.net,1433;Initial Catalog=fa18team22_v2;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            //var connectionString = "Server=tcp:fa18team22.database.windows.net,1433;Initial Catalog=fa18Team22;Persist Security Info=True;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";  //paste your connection string from Azure in between the quotes.
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddIdentity<AppUser, IdentityRole>(opts => {
