@@ -1,4 +1,5 @@
 ﻿@model fa18Team22.Models.Order
+@using fa18Team22.Controllers
 
 @{
     ViewData["Title"] = "Checkout";
@@ -85,6 +86,12 @@
             Enter Credit Card Number:<br>
             <input asp-for="Payment" name="NewCreditCard" class="form-control" />
             <br />
+            @if (Model.Customer.CreditCard1 != null && Model.Customer.CreditCard2 != null && Model.Customer.CreditCard3 != null)
+            {
+                <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC1, true)Credit Card 1</label>
+                <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC2)Credit Card 2</label>
+                <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC3)Credit Card 3</label>
+            }
         </div>
         <div>
             <input type="submit" value="Place Order">

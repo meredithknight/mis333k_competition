@@ -30,14 +30,28 @@
             @Html.DisplayFor(model => model.ReviewText)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ApprovalStatus)
+            Approved Status
         </dt>
+        @if (Model.ApprovalStatus == false)
+    {
         <dd>
-            @Html.DisplayFor(model => model.ApprovalStatus)
+            Rejected
         </dd>
+}
+        @if (Model.ApprovalStatus == true)
+    {
+        <dd>
+            Approved
+        </dd>
+}
+        @if (Model.ApprovalStatus == null)
+    {
+        <dd>
+            In Progress
+        </dd>
+}
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ReviewID" class="btn btn-warning">Edit</a>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

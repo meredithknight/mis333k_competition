@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -64,36 +65,29 @@ namespace fa18Team22.Controllers
 
         //TODO: 
         // GET: Review/Details/5
+
         public IActionResult Details(int? id)
         {
-            if (id == null)
+ 
+
+            String username = User.Identity.Name;
+
+
+            var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author) select r;
+            Review reviewtodisplay = query.Where(r => r.Book.BookID == id && r.Author.UserName == username).FirstOrDefault();
+
+
+
+            if (reviewtodisplay == null)
             {
-                return NotFound();
+                return View("Error", new string[] { "Review has not been created yet. Please create a review for this book." });
             }
 
-            var reviewid = 0;
-            Book book = _context.Books.Include(r => r.Reviews).Include(r => r.Author).FirstOrDefault(r => r.BookID == id);
-            foreach (var bookobject in book.Reviews)
-            {
-                if (bookobject.Author.UserName == User.Identity.Name)
-                {
-                    reviewid = bookobject.ReviewID;
-                }
-            }
-
-
-
-            Review review = _context.Reviews.Include(r => r.Author).Include(r => r.Book).FirstOrDefault(r => r.ReviewID == reviewid);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return View(review);
+            return View(reviewtodisplay);
         }
 
         // GET: Review/Create
+        [Authorize]
         public IActionResult Create(int? id)
         {
             if (id == null)
@@ -124,6 +118,7 @@ namespace fa18Team22.Controllers
                 if(bk.BookID == id)
                 {
                     bookbought = true;
+                    break;
                 }
                 else
                 {
@@ -184,6 +179,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create([Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review, Int16 Rating, string ReviewText, int id)
         {
             if (ModelState.IsValid)
@@ -206,7 +202,7 @@ namespace fa18Team22.Controllers
             return View(review);
         }
 
-        
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult Approve(int? id)
         {
             String userId = User.Identity.Name;
@@ -220,6 +216,8 @@ namespace fa18Team22.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult Reject(int? id)
         {
             String userId = User.Identity.Name;
@@ -244,6 +242,7 @@ namespace fa18Team22.Controllers
 
 
         // GET: Review/Edit/5
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -264,6 +263,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int id, [Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review)
         {
             if (id != review.ReviewID)

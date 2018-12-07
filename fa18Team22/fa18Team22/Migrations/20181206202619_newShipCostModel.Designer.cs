@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using fa18Team22.DAL;
 
 namespace fa18Team22.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181206202619_newShipCostModel")]
+    partial class newShipCostModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,21 +289,6 @@ namespace fa18Team22.Migrations
                     b.HasIndex("RejecterId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("fa18Team22.Models.ShippingCosts", b =>
-                {
-                    b.Property<int>("ShippingCostsID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("AddBookShipCost");
-
-                    b.Property<decimal>("FirstBookShipCost");
-
-                    b.HasKey("ShippingCostsID");
-
-                    b.ToTable("ShippingCosts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

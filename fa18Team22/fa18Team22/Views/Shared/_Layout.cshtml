@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="https://sportslogohistory-tvgu1jdkm2wvqi.netdna-ssl.com/wp-content/uploads/2018/02/texas_longhorns_1883-pres_a.png" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
     <div>
@@ -20,10 +21,10 @@
                         @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Search", "Index", "Search", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Browse Books", "Index", "Search", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Books", "Index", "Books", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Search", "DetailedSearch", "Search", null, new { @class = "nav-link" })
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -81,8 +82,10 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer align ="center">
+        <footer align="center">
             <p>&copy; @DateTime.Now.Year - Bevo's Books</p>
+            <i class="fab fa-facebook-square"></i>
+            Click <a href="https://www.facebook.com/Bevos-Bookstore-503270580166959/?modal=admin_todo_tour">here</a> to join us on Facebook.
         </footer>
     </div>
     <script src="~/lib/jquery/jquery.js"></script>

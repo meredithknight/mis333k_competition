@@ -14,6 +14,8 @@ using System.Net;
 
 namespace fa18Team22.Controllers
 {
+    public enum CCReplace { CC1, CC2, CC3 }
+
     public class OrdersController : Controller
     {
         private readonly AppDbContext _context;
@@ -92,71 +94,71 @@ namespace fa18Team22.Controllers
         //SHOULD ONLY BE ABLE TO EDIT CURRENT SHOPPING CART, NOT AN OLD ORDER
         // GET: Orders/Edit/5
         //public async Task<IActionResult> Edit(int? id)
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public IActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //var order = await _context.Orders.FindAsync(id);
+        //    //var order = await _context.Orders.FindAsync(id);
 
-            var order =  _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == id);
+        //    var order =  _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == id);
 
-            if (order == null)
-            {
-                return NotFound();
-            }
+        //    if (order == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            //only let them edit if the order is not complete
-            //return View(order);
-            if (order.IsComplete == false)
-            {
-                return View(order);
-            }
-            else
-            {
-                return NotFound();
-                //REMINDER: may want to change this error to say something like 
-                // "this order has been placed, you cannot change this order"
-            }
+        //    //only let them edit if the order is not complete
+        //    //return View(order);
+        //    if (order.IsComplete == false)
+        //    {
+        //        return View(order);
+        //    }
+        //    else
+        //    {
+        //        return NotFound();
+        //        //REMINDER: may want to change this error to say something like 
+        //        // "this order has been placed, you cannot change this order"
+        //    }
 
-        }
+        //}
 
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,ShippingCost")] Order order)
-        {
-            if (id != order.OrderID)
-            {
-                return NotFound();
-            }
+        //// POST: Orders/Edit/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,ShippingCost")] Order order)
+        //{
+        //    if (id != order.OrderID)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(order);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!OrderExists(order.OrderID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(order);
+        //}
 
         //NO ONE SHOULD BE ABLE TO DELETE ORDERS
         //// GET: Orders/Delete/5
@@ -261,6 +263,38 @@ namespace fa18Team22.Controllers
                         }
                     }
 
+                    //recalculate the shipping costs when they come here???
+                    ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
+
+                    //reset shipping cost
+                    order.ShippingCost = 0;
+
+                    int count = 0;
+
+                    foreach (OrderDetail od in order.OrderDetails.ToList())
+                    {
+                        if (count == 0) //if this is the first order detail
+                        {
+                            if (od.Quantity == 1)
+                            {
+                                order.ShippingCost = currentShipCosts.FirstBookShipCost;
+                            }
+                            else //more than 1 book in the orderdetail
+                            {
+                                order.ShippingCost = currentShipCosts.FirstBookShipCost + ((od.Quantity - 1)*currentShipCosts.AddBookShipCost);
+                            }
+                        }
+                        else //all other orderdetails
+                        {
+                            order.ShippingCost += currentShipCosts.AddBookShipCost * od.Quantity;
+                        }
+                        count += 1;
+                    }
+
+
+
+
+
                     return View(order);
                 }
 
@@ -282,10 +316,17 @@ namespace fa18Team22.Controllers
             //include promo attached
             Order order = _context.Orders.Include(c=>c.Promo).Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
+            int odCount = order.OrderDetails.Count();
+
             if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
+            if (odCount == 0)
+            {
+                return View("Error", new string[] { "No items in cart!" });
+            }
+
 
             String userid = User.Identity.Name;
 
@@ -465,6 +506,7 @@ namespace fa18Team22.Controllers
                 //od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
                 Order ShoppingCartOrder = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
+                ShippingCosts currentShipCosts = _context.ShippingCosts.FirstOrDefault();
 
                 //if a shopping cart doesn't exist, 
                 if (ShoppingCartOrder == null) //no current shopping cart --> add all the fields that need to be put in to create an order
@@ -476,7 +518,8 @@ namespace fa18Team22.Controllers
 
                     ShoppingCartOrder.OrderDate = System.DateTime.Today;
 
-                    ShoppingCartOrder.ShippingCost = 3.50m; //because this is the first book being added to order
+                    //ShoppingCartOrder.ShippingCost = 3.50m; //because this is the first book being added to order
+                    ShoppingCartOrder.ShippingCost = currentShipCosts.FirstBookShipCost;
 
                     ShoppingCartOrder.IsComplete = false; //makes this the shopping cart
 
@@ -520,11 +563,13 @@ namespace fa18Team22.Controllers
                     //if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
                     if (orderDetailCount > 1)
                     {
-                        ShoppingCartOrder.ShippingCost = 1.50m + ShoppingCartOrder.ShippingCost;
+                        //ShoppingCartOrder.ShippingCost = 1.50m + ShoppingCartOrder.ShippingCost;
+                        ShoppingCartOrder.ShippingCost = currentShipCosts.AddBookShipCost + ShoppingCartOrder.ShippingCost;
                     }
                     else 
                     {
-                        ShoppingCartOrder.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                        //ShoppingCartOrder.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                        ShoppingCartOrder.ShippingCost = currentShipCosts.FirstBookShipCost;
                     }
 
                     _context.SaveChanges();
@@ -615,7 +660,7 @@ namespace fa18Team22.Controllers
                                     foreach (OrderDetail od in order.OrderDetails)
                                     {
                                         //od.Price = Math.Round(od.Price * (item.DiscountAmount / 100), 2);
-                                        od.Price = od.Price * (item.DiscountAmount / 100);
+                                        od.Price = od.Price - (od.Price * (item.DiscountAmount / 100));
 
                                         //_context.OrderDetails.Update(od);
                                         _context.SaveChanges();
@@ -671,7 +716,7 @@ namespace fa18Team22.Controllers
 
 
         [HttpPost]
-        public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId) //ger CC user enters 
+        public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId, CCReplace SelectedReplaceCard) //ger CC user enters 
         {
 
             //getting the order that this CC is being used for
@@ -734,13 +779,30 @@ namespace fa18Team22.Controllers
                         {
                             customer.CreditCard1 = NewCreditCard;
                         }
-                        else if (customer.CreditCard1 == null)
+                        else if (customer.CreditCard2 == null)
                         {
                             customer.CreditCard2 = NewCreditCard;
                         }
-                        else //either CC3 is null, or we will override
+                        else if (customer.CreditCard3 == null)
                         {
                             customer.CreditCard3 = NewCreditCard;
+                        }
+                        else //either CC3 is null, or we will override
+                        {
+                            //giving them option to choose which to replace
+                            if (SelectedReplaceCard == CCReplace.CC1)
+                            {
+                                customer.CreditCard1 = NewCreditCard;
+                            }
+                            else if (SelectedReplaceCard == CCReplace.CC2)
+                            {
+                                customer.CreditCard2 = NewCreditCard;
+                            }
+                            else //(SelectedReplaceCard == CCReplace.CC3)
+                            {
+                                customer.CreditCard3 = NewCreditCard;
+                            }
+
                         }
                         //save changes to the CC being added to the customer
                         //_context.SaveChanges();

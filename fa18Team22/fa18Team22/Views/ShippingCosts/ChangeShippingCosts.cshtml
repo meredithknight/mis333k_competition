@@ -1,0 +1,39 @@
+﻿@model fa18Team22.Models.ShippingCosts
+@{
+    ViewData["Title"] = "Change Shipping Costs";
+}
+@*FONT*@
+<style type="text/css">
+    body {
+        font-family: Georgia;
+    }
+</style>
+<br />
+<h2>Change Shipping Costs</h2>
+<br />
+<div>
+    <!-- enter shipping costs-->
+    <form asp-action="ChangeShippingCosts">
+        <p><font color="red">@ViewBag.InvalidCost</font></p>
+        <div><input asp-for="ShippingCostsID" type="hidden" name="ShipCostId" class="form-control" /></div>
+        <div>
+            <p><font color="red">@ViewBag.InvalidFirstBook</font></p>
+            First Book Shipping Cost:<br>
+            <input asp-for="FirstBookShipCost" name="FirstBookShipCost" class="form-control" />
+            <br />
+            <p><font color="red">@ViewBag.InvalidAddBook</font></p>
+            Additional Book Shipping Cost:<br>
+            <input asp-for="AddBookShipCost" name="AddBookShipCost" class="form-control" />
+        </div>
+        <div>
+            <input type="submit" value="Update Shipping Costs">
+        </div>
+    </form>
+</div>
+<div>
+    <br />
+    <p>
+        <!-- home button -->
+        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Home</a>
+    </p>
+</div>
