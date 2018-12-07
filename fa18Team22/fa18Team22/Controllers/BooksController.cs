@@ -43,12 +43,14 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Books
+        [Authorize(Roles ="Manager")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Books.Include(m => m.Genre).Include(m=>m.Reviews).ToListAsync());
         }
 
-               // GET: Books/Details/5
+        // GET: Books/Details/5
+        [Authorize(Roles = "Manager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -233,39 +235,6 @@ namespace fa18Team22.Controllers
             }
             ViewBag.AllGenres = GetAllGenres(book);
             return View(book);
-        }
-
-
-
-        // GET: Books/Delete/5
-        [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var book = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookID == id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return View(book);
-        }
-
-        // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool BookExists(int id)
