@@ -57,7 +57,7 @@ namespace fa18Team22.Controllers
 
 
             var booksboughtquery = from r in _context.OrderDetails.Include(r => r.Order) select r;
-            booksboughtquery = booksboughtquery.Where(r => r.Order.Customer == currentuser);
+            booksboughtquery = booksboughtquery.Where(r => r.Order.Customer.UserName == currentuser.UserName);
             foreach (OrderDetail orddlt in booksboughtquery)
             {
                 booksboughtbyuser.Add(orddlt.Book);
