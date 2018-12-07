@@ -465,6 +465,7 @@ namespace fa18Team22.Controllers
                 //od.Order = _context.Orders.Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
                 Order ShoppingCartOrder = _context.Orders.Include(c => c.OrderDetails).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
+                ShippingCosts currentShipCosts = _context.ShippingCosts.LastOrDefault();
 
                 //if a shopping cart doesn't exist, 
                 if (ShoppingCartOrder == null) //no current shopping cart --> add all the fields that need to be put in to create an order
@@ -476,7 +477,8 @@ namespace fa18Team22.Controllers
 
                     ShoppingCartOrder.OrderDate = System.DateTime.Today;
 
-                    ShoppingCartOrder.ShippingCost = 3.50m; //because this is the first book being added to order
+                    //ShoppingCartOrder.ShippingCost = 3.50m; //because this is the first book being added to order
+                    ShoppingCartOrder.ShippingCost = currentShipCosts.FirstBookShipCost;
 
                     ShoppingCartOrder.IsComplete = false; //makes this the shopping cart
 
@@ -520,11 +522,13 @@ namespace fa18Team22.Controllers
                     //if (existingCart.OrderDetails.Count() > 1) //there is another order detail connected to the existing open order
                     if (orderDetailCount > 1)
                     {
-                        ShoppingCartOrder.ShippingCost = 1.50m + ShoppingCartOrder.ShippingCost;
+                        //ShoppingCartOrder.ShippingCost = 1.50m + ShoppingCartOrder.ShippingCost;
+                        ShoppingCartOrder.ShippingCost = currentShipCosts.AddBookShipCost + ShoppingCartOrder.ShippingCost;
                     }
                     else 
                     {
-                        ShoppingCartOrder.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                        //ShoppingCartOrder.ShippingCost = 3.50m; //add 1.50 each additional book if one is already in cart
+                        ShoppingCartOrder.ShippingCost = currentShipCosts.FirstBookShipCost;
                     }
 
                     _context.SaveChanges();

@@ -22,6 +22,7 @@
     <Folder Include="Seeding\" />
     <Folder Include="Models\ViewModels\" />
     <Folder Include="Seeding\" />
+    <Folder Include="Views\ShippingCosts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\SortOrderOption.cs" />
