@@ -8,6 +8,7 @@
     <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
     <div>
@@ -88,9 +89,17 @@
             @if (User.IsInRole("Manager") != true && User.IsInRole("Employee") != true)
             {
             <p>
-                <i class="fab fa-facebook-square"></i> Click <a href="https://www.facebook.com/Bevos-Bookstore-503270580166959/">here</a> to join us on Facebook.
+                <i class="fab fa-facebook-square"></i> Click <a href="https://www.facebook.com/Bevos-Bookstore-503270580166959/">here</a> to join us on Facebook!
             </p>
+            <p>
+                <i class="fab fa-twitter-square"></i> Click <a href="https://twitter.com/BevoBookstore">here</a> to join us on Twitter!
+            </p>
+            <p>
+                <i class="fab fa-instagram"></i> Click <a href="https://www.instagram.com/bevosbookstorexv/">here</a> to join us on Instagram!
+            </p>
+
             }
+
         </footer>
     </div>
     <script src="~/lib/jquery/jquery.js"></script>

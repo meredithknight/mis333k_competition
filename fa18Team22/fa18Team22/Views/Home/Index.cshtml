@@ -10,14 +10,51 @@
         font-family: Georgia;
     }
 </style>
-
-<div class="jumbotron">
-    <div class="container">
-        <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
-        <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
-        <p>@Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })</p>
+@if (User.IsInRole("Customer"))
+{
+    <div style="background:AliceBlue !important" class="jumbotron">
+        <div class="container">
+            <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+            <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
+            <p>@Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })</p>
+        </div>
     </div>
-</div>
+}
+
+@if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false && User.IsInRole("Customer") == false)
+{
+    <div style="background:AliceBlue !important" class="jumbotron">
+        <div class="container">
+            <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+            <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
+            <p>
+                @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })
+                @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success btn-lg" })
+                @Html.ActionLink("Log In", "Login", "Account", null, new { @class = "btn btn-info btn-lg" })
+            </p>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Employee"))
+{
+    <div style="background:AliceBlue !important" class="jumbotron">
+        <div class="container">
+            <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+            <p style="font-size: 24px;">Employee Home</p>
+        </div>
+    </div>
+}
+
+@if (User.IsInRole("Manager"))
+{
+    <div style="background:AliceBlue !important" class="jumbotron">
+        <div class="container">
+            <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+            <p style="font-size: 24px;">Manager Home</p>
+        </div>
+    </div>
+}
 
 <div class="home">
     <div class="class1">
@@ -73,46 +110,69 @@
 
             </tbody>
         </table>
-   </div>
+    </div>
     <p>
         @if (User.IsInRole("Employee"))
         {
-            <figure align="Center">
-                <img src="https://i.imgur.com/o1BMbEg.jpg?2" alt="EmployeeofTheMonth" style="width: 295px; height: 298px;">
-                <figcaption>Meet our employee of the month--Tommy!
-                <br>Average review approval time: 59s (wow!)
-                </figcaption>
-            </figure>
-        }
-    </p>
-    <p>
-        @if (User.IsInRole("Manager"))
-        {
+        <p align="center">
+            <strong>KEEP UP THE HARD WORK AND MAYBE YOU COULD BE EMPLOYEE OF THE MONTH</strong>
+        </p>
         <figure align="Center">
-            <img src="https://i.imgur.com/umulLok.jpg" alt="KnownBookThief" style="width: 257px; height: 246px;">
+            <img src="https://i.imgur.com/o1BMbEg.jpg?2" alt="EmployeeofTheMonth" style="width: 295px; height: 298px;">
             <figcaption>
-                HAVE YOU SEEN THIS MAN?
-                <br>Subject evaded capture after intercepting Bevo's
-                <br>Books 12.07.2018 procurement delivery.
+                Meet our employee of the month--Tommy!
+                <br>Average review approval time: <strong>59s</strong> (wow!)
             </figcaption>
         </figure>
+    }
+        </p>
+        <p>
+            @if (User.IsInRole("Manager"))
+            {
+                <figure align="Center">
+                    <img src="https://i.imgur.com/umulLok.jpg" alt="KnownBookThief" style="width: 257px; height: 246px;">
+                    <figcaption>
+                        <strong>HAVE YOU SEEN THIS MAN?</strong>
+                        <br><u>Managers be advised:</u>
+                        <br>Subject evaded capture after intercepting Bevo's
+                        <br>Books 12.07.2018 procurement delivery.
+                    </figcaption>
+                </figure>
+            }
+        </p>
+        @if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false)
+        {
+            <div class="class1">
+                <h3 align="center">
+                    <span style="font-size: 20px; color: brown;">
+                        <i class="fas fa-football-ball"></i>
+                    </span>
+                    Student Benefits
+                    <span style="font-size: 20px; color: orange;">
+                        <i class="fas fa-basketball-ball"></i>
+                    </span>
+                </h3>
+                <p align="center">
+                    Go support the horns every home game! After all University of Texas Home wins, students receive 20% off all purchases!
+                </p>
+                <p align="center">
+                    (Promotion only available in store. Must show student ID to receive discount.)
+                </p>
+            </div>
+            <h3 align="center">
+                <span style="font-size: 20px; color: lightblue;">
+                    <i class="fab fa-twitter"></i>               
+                     </span>
+                Twitter Feed
+                <span style="font-size: 20px; color: lightblue;">
+                    <i class="fab fa-twitter"></i>
+                </span>
+            </h3>
+            <div align ="center">             <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sooner Bookstore just went out of business. Experts conclude &quot;Oklahomans don&#39;t read... despite having nothing to do in Oklahoma.&quot; Don&#39;t have that problem here!<a href="https://twitter.com/hashtag/okcoolhookem?src=hash&amp;ref_src=twsrc%5Etfw">#okcoolhookem</a></p>&mdash; Bevo&#39;s Bookstore <a href="https://twitter.com/BevoBookstore/status/1070980293585182720?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote>             </div>
+            <div align ="center">
+                <blockquote class="twitter-tweet"><p lang="en" dir="ltr">The Art of Racing in the Rain is flying off the shelves! Get your copy before they&#39;re all gone! <a href="https://twitter.com/hashtag/okcoolhookem?src=hash&amp;ref_src=twsrc%5Etfw">#okcoolhookem</a> <a href="https://t.co/4ztsgcMVrl">pic.twitter.com/4ztsgcMVrl</a></p>&mdash; Bevo&#39;s Bookstore <a href="https://twitter.com/BevoBookstore/status/1070978763238883329?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <div align ="center">                 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Student&#39;s come shop and see our latest promos! Students get 20% off all purchases! <br><br>*In store purchases only*</p>&mdash; Bevo&#39;s Bookstore  <a href="https://twitter.com/BevoBookstore/status/1070970987586433024?ref_src=twsrc%5Etfw">December 7, 2018</a></blockquote>               </div>
+
         }
-    </p>
-    <div class="class1">
-        <h3 align="center">
-            <span style="font-size: 20px; color: brown;">
-                <i class="fas fa-football-ball"></i>
-            </span>
-            Student Benefits
-            <span style="font-size: 20px; color: orange;">
-                <i class="fas fa-basketball-ball"></i>
-            </span>
-        </h3>
-        <p align="center">
-            Go support the horns every home game! After all University of Texas Home wins, students receive 20% off all purchases!
-        </p>
-        <p align="center">
-            (Promotion only available in store. Must show student ID to receive discount.)
-        </p>
     </div>
-</div>
