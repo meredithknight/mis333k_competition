@@ -121,6 +121,7 @@ namespace fa18Team22.Models
         }
 
         [Display(Name = "Average Sales Price")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal? AvgSalesPrice
         {
             get 

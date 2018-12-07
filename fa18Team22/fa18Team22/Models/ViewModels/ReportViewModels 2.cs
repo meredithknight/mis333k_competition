@@ -15,10 +15,13 @@ namespace fa18Team22.Models
 
         public String CustomerName { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal SellingPrice { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal WeightedAvgCost { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ProfitMargin { get; set; }
 
         public DateTime OrderDate { get; set; }
@@ -37,12 +40,19 @@ namespace fa18Team22.Models
 
         public String CustomerName { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal OrderTotal { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal OrderCost { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal OrderCostAvg { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ProfitMargin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ProfitMarginMinusAvg { get; set; }
 
         public DateTime OrderDate { get; set; }
@@ -65,8 +75,10 @@ namespace fa18Team22.Models
 
         public Decimal CustomerTotal { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal CustomerBooksCost { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ProfitMargin { get; set; }
         
         public IEnumerable<AppUser> Customers { get; set; }
@@ -77,11 +89,13 @@ namespace fa18Team22.Models
 
     public class ReportDVM
     {
-
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal TR { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal TC { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal TP { get; set; }
 
         public IEnumerable<AppUser> Customers { get; set; }
@@ -97,6 +111,7 @@ namespace fa18Team22.Models
 
         public Int32 BooksInInventory { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal WeightedAvgCost { get; set; }
 
 
