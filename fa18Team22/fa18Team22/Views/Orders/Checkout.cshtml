@@ -88,6 +88,7 @@
             <br />
             @if (Model.Customer.CreditCard1 != null && Model.Customer.CreditCard2 != null && Model.Customer.CreditCard3 != null)
             {
+                <p>Select Credit Card to Replace:</p>
                 <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC1, true)Credit Card 1</label>
                 <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC2)Credit Card 2</label>
                 <label class="radio">@Html.RadioButton("SelectedReplaceCard", CCReplace.CC3)Credit Card 3</label>
