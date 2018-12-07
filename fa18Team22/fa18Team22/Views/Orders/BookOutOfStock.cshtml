@@ -9,11 +9,11 @@
         font-family: Georgia;
     }
 </style>
-<h2>This book is out of stock.</h2>
-<h3>You cannot add this book to your cart at this time.</h3>
+<h2><i class="fas fa-exclamation-triangle"></i> This book is out of stock.</h2>
+<h3>You cannot add this book to your cart at this time. <i class="fas fa-exclamation-triangle"></i></h3>
 <div>
     <!--<a asp-action="Checkout">Checkout</a>-->
     <!--Figure out how to get back to list of books-->
     <a asp-controller="Books"
-       asp-action="Index" class="btn btn-primary">Keep Shopping</a>
+       asp-action="Index" class="btn btn-primary">Keep Shopping <i class="fas fa-shopping-cart"></i></a>
 </div>

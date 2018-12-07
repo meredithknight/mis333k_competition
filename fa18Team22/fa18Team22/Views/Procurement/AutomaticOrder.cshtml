@@ -28,7 +28,12 @@
     }
 </style>
 
-<h2>Procurement</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-truck"></i>
+    </span>
+
+Procurement</h2>
 <form asp-action="AutoOrder1" asp-controller="Procurement" method="get">
 <table class="table">
     <thead>
@@ -69,7 +74,7 @@
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Order Supply" class="btn btn-success" />
+        <button type="submit" class="btn btn-success">Save Changes <i class="fas fa-plus-circle"></i></button>
     </div>
 </div>
 </form>

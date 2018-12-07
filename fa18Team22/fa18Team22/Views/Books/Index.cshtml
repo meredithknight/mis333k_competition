@@ -106,8 +106,8 @@ Books</h2>
                     @Html.DisplayFor(modelItem => item.Genre.GenreName)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.BookID" class="btn btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.BookID" class="btn btn-warning">Edit <i class="fas fa-edit"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details <i class="fas fa-list-ul"></i></a>
 
                 </td>
             </tr>

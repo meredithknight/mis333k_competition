@@ -25,10 +25,15 @@
     }
 </style>
 
-<h2>Index</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-shopping-bag"></i>
+    </span>
+
+Index</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New <i class="fas fa-plus-circle"></i></a>
 </p>
 <table class="table">
     <thead>
@@ -53,9 +58,9 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.OrderDetailID" class="btn btn-warning">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.OrderDetailID" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.OrderDetailID" class="btn btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.OrderDetailID" class="btn btn-warning">Edit Items <i class="fas fa-shopping-cart"></i></a>
+                    <a asp-action="Details" asp-route-id="@item.OrderDetailID" class="btn btn-info">Details <i class="fas fa-list-ul"></i></a>
+                    <a asp-action="Delete" asp-route-id="@item.OrderDetailID" class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }

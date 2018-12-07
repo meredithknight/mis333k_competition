@@ -11,7 +11,11 @@
         font-family: Georgia;
     }
 </style>
-<h2>All Customers Report</h2>
+<h2>
+     <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-sort-amount-up"></i>
+    </span>
+All Customers Report</h2>
 <form asp-action="ReviewReportC" asp-controller="Reports" method="get">
 
     @*Sort Options *@
@@ -23,5 +27,5 @@
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Customer Revenue Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Customer Revenue Descending </label>
     </div>
-    <button type="submit" class="btn btn-success">Generate Report</button>
+    <button type="submit" class="btn btn-success">Generate Report <i class="fas fa-arrow-circle-right"></i></button>
 </form>

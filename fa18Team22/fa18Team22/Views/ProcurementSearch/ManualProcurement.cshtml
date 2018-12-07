@@ -25,7 +25,11 @@
     }
 </style>
 
-<h2>Manual Procurement</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-parachute-box"></i>
+    </span>
+Manual Procurement</h2>
 <form asp-action="ManualProcurement" asp-controller="ProcurementSearch" method="get">
     <p class="form-group">
         @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
@@ -128,6 +132,6 @@
         }
     </table>
     <div class="form-group">
-        <input type="submit" value="Order Procurements" class="btn btn-success" />
+        <button type="submit" class="btn btn-success">Order Supply <i class="fas fa-plus-circle"></i></button>
     </div>
 }

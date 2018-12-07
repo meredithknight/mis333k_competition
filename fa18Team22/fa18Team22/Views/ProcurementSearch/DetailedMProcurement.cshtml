@@ -21,7 +21,11 @@
         border-bottom: 2px solid #ddd;
     }
 </style>
-<h2>Manual Procurement</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-parachute-box"></i>
+    </span>
+Manual Procurement</h2>
 
 <p><font color="red">@ViewBag.ProcurementError</font></p>
 
@@ -126,6 +130,6 @@
         }
     </table>
     <div class="form-group">
-        <input type="submit" value="Order Procurements" class="btn btn-success" />
+        <button type="submit" class="btn btn-success">Order Supply <i class="fas fa-plus-circle"></i></button>
     </div>
 }

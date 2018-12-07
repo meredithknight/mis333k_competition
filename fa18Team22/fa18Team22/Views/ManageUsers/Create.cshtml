@@ -10,7 +10,11 @@
     }
 </style>
 
-<h2>Create Role</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-user-tie"></i>
+    </span>
+Create Role</h2>
 
 @Html.ValidationSummary(true)
 
@@ -20,7 +24,7 @@
         <input name="name" value="@Model" class="form-control" />
     </div>
     
-    <button type="submit" class="btn btn-success">Create</button>
-    
-    <a asp-action="Index" class="btn btn-danger">Cancel</a>
+     <button type="submit" class="btn btn-warning">Create <i class="fas fa-plus-circle"></i></button>
+
+    <a asp-action="Index" class="btn btn-danger">Cancel <i class="fas fa-backspace"></i></a>
 </form>

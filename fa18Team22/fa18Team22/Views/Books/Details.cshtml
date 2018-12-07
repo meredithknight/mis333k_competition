@@ -11,7 +11,11 @@
     }
 </style>
 
-<h2>Details</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-list-ul"></i>
+    </span>
+Details</h2>
 
 <div>
     <h4>Book</h4>
@@ -84,12 +88,12 @@
 <div>
     @if (User.IsInRole("Customer") && Model.IsDiscontinued == false)
     {
-        <a asp-action="AddToOrder" asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success">Add to Order</a>
-        <a asp-action="Create" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Create Review</a>
+        <a asp-action="AddToOrder" asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success">Add to Order <i class="fas fa-cart-plus"></i></a>
+        <a asp-action="Create" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Create Review <i class="fas fa-star-half-alt"></i></a>
     }
     @if (User.IsInRole("Manager"))
     {
-        <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit</a>
+        <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit <i class="fas fa-edit"></i></a>
     }
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List <i class="fas fa-arrow-circle-left"></i></a>
 </div>

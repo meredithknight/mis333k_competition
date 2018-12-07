@@ -21,7 +21,11 @@
         border-bottom: 2px solid #ddd;
     }
 </style>
-<h2>Manage Employee Accounts</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-users-cog"></i>
+    </span>
+Manage Employee Accounts</h2>
 <p>
     @Html.ActionLink("Hire New Employee", "CreateEmployeeAccount", "Account", null, new { @class = "btn btn-primary" })
 </p>
@@ -96,9 +100,9 @@
                     @Html.DisplayFor(modelItem => item.Genre.GenreName)
                 </td>*@
                 <td>
-                    <a asp-action="EditEmployeeAccount" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="ChangeEmployeeUserStatus" asp-route-id="@item.Id" class="btn btn-info">Activate/Deactivate Account</a>
-                    <a asp-action="ChangeEmployeePassword" asp-route-id="@item.Id" class="btn btn-success">Change Employee Password</a>
+                    <a asp-action="EditEmployeeAccount" asp-route-id="@item.Id" class="btn btn-warning">Edit <i class="fas fa-user-edit"></i></a>
+                    <a asp-action="ChangeEmployeeUserStatus" asp-route-id="@item.Id" class="btn btn-info">Activate/Deactivate Account <i class="fas fa-user-clock"></i></a>
+                    <a asp-action="ChangeEmployeePassword" asp-route-id="@item.Id" class="btn btn-success">Change Employee Password <i class="fas fa-user-lock"></i></a>
                     @*<a asp-action="Delete" asp-route-id="@item.BookID" class="btn btn-danger">Delete</a>*@
                 </td>
             </tr>

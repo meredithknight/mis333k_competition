@@ -7,7 +7,11 @@
         font-family: Georgia;
     }
 </style>
-<h2>Activate/Deactivate Account</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-user-clock"></i>
+    </span>
+Activate/Deactivate Account</h2>
 @using (Html.BeginForm("ChangeCustomerUserStatus", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()

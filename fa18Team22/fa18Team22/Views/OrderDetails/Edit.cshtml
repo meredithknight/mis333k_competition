@@ -11,7 +11,12 @@
     }
 </style>
 
-<h2>Edit Book</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-shopping-cart"></i>
+    </span>
+
+Edit Book</h2>
 
 <!--<h4>OrderDetail</h4>-->
 <hr />
@@ -42,7 +47,7 @@
                 <p><font color="red">@ViewBag.QuantityError</font></p>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <button type="submit" class="btn btn-success">Save Changes <i class="far fa-save"></i></button>
                 <p></p>
             </div>
         </form>
@@ -50,7 +55,7 @@
 </div>
 
 <div>
-    <a asp-action="Delete" asp-controller="OrderDetails" asp-route-id="@Model.OrderDetailID">Delete Book From Order</a>
+    <a asp-action="Delete" asp-controller="OrderDetails" asp-route-id="@Model.OrderDetailID">Delete Book From Order <i class="fas fa-trash-alt"></i></a>
     <p></p>
-    <a asp-action="ShoppingCart" asp-controller="Orders">Back to Shopping Cart</a>
+    <a asp-action="ShoppingCart" asp-controller="Orders">Back to Shopping Cart <i class="fas fa-shopping-cart"></i></a>
 </div>

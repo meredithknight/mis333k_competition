@@ -12,7 +12,11 @@
     }
 </style>
 
-<h2>All Orders Report</h2>
+<h2>
+     <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-sort-amount-up"></i>
+    </span>
+All Orders Report</h2>
 <form asp-action="ReviewReportB" asp-controller="Reports" method="get">
 
     @*Search by Profit Margin*@     <div class="form-group">         Minimum Profit Margin: @Html.TextBox("ProfitMin", null, new { style = "width:100px" })         Maximum Profit Margin: @Html.TextBox("ProfitMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Search by Price*@     <div class="form-group">         Lowest Price: @Html.TextBox("PriceMin", null, new { style = "width:100px" })         Highest Price: @Html.TextBox("PriceMax", null, new { style = "width:100px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>
@@ -28,5 +32,5 @@
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Order Total Descending </label>
     </div>
 
-    <button type="submit" class="btn btn-success">Generate Report</button>
+    <button type="submit" class="btn btn-success">Generate Report <i class="fas fa-arrow-circle-right"></i></button>
 </form>

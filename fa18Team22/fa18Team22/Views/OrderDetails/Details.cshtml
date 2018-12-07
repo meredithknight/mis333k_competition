@@ -11,7 +11,11 @@
     }
 </style>
 
-<h2>Details</h2>
+<h2>
+<span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-list-ul"></i>
+    </span>
+Details</h2>
 
 <div>
     <h4>OrderDetail</h4>
@@ -32,6 +36,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderDetailID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.OrderDetailID">Edit <i class="fas fa-edit"></i></a> |
+    <a asp-action="Index">Back to List <i class="fas fa-arrow-circle-left"></i></a>
 </div>
