@@ -33,7 +33,7 @@ namespace fa18Team22
             //var connectionString = "Server=tcp:fa18projectdemo1.database.windows.net,1433;Initial Catalog=fa18ProjectDemo1;Persist Security Info=False;User ID=MISAdmin;Password=Password1;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
             //CONNECTION STRING TO MESS WITH
-            var connectionString = "Server=tcp:fa18team22v2copy.database.windows.net,1433;Initial Catalog=fa18team22_v2_Copy;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            var connectionString = "Server=tcp:fa18team22v2copy.database.windows.net,1433;Initial Catalog=fa18team22_v2_Copy;Persist Security Info=False;User ID=MISAdmin;Password=Password22;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
 
             //CONNECTION STRING USED BY PRE-GRADING
