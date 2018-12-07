@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<fa18Team22.Models.Promo>
+
 @{
     ViewData["Title"] = "Home";
 }
@@ -22,7 +23,7 @@
 
 
 <h3 align="center">
-    Current Promotions
+    <i class="glyphicon glyphicon-lock"></i>Current Promotions
 </h3>
 <table class="table">
     <thead>
@@ -46,24 +47,25 @@
     </thead>
     <tbody>
         @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PromoCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DiscountAmount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MinimumSpend)
-                </td>
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PromoCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumSpend)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShippingWaiver)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShippingWaiver)
+            </td>
 
-            </tr>
-        }
+        </tr>
+}
+
     </tbody>
 </table>
 
