@@ -11,9 +11,13 @@
     }
 </style>
 
-<h2>Create</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-pen-alt"></i>
+            </span>
+Write a Review</h2>
 
-<h4>Review</h4>
+
 
 <p>
     <font color="red">
@@ -45,7 +49,7 @@
                 </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" id="@Model.ReviewID" />
-                @*<a asp-controller="Review" asp-action="Creates" asp-route-id="@Model.ReviewID">Add a Review</a>*@
+                @*@<a asp-controller="Review" asp-action="Creates" asp-route-id="@Model.ReviewID">Add a Review</a>*@
 
             </div>
         </form>
@@ -53,7 +57,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List <i class="fas fa-arrow-circle-left"></i></a>
 </div>
 
 
