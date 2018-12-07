@@ -56,7 +56,7 @@ namespace fa18Team22.Controllers
             AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
 
 
-            var booksboughtquery = from r in _context.OrderDetails.Include(r => r.Order) select r;
+            var booksboughtquery = from r in _context.OrderDetails.Include(r => r.Order).Include(r =>r.Book) select r;
             booksboughtquery = booksboughtquery.Where(r => r.Order.Customer.UserName == currentuser.UserName);
             foreach (OrderDetail orddlt in booksboughtquery)
             {
