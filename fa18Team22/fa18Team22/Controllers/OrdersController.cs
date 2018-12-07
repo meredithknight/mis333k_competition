@@ -293,7 +293,8 @@ namespace fa18Team22.Controllers
 
 
 
-
+                    _context.Update(order);
+                    _context.SaveChanges();
 
                     return View(order);
                 }
