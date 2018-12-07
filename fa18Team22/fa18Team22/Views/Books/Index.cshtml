@@ -25,7 +25,12 @@
     }
 </style>
 
-<h2>Books</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-atlas"></i>
+    </span>
+
+Books</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", "Books", null, new { @class = "btn btn-primary" })
@@ -103,7 +108,7 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.BookID" class="btn btn-warning">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.BookID" class="btn btn-danger">Delete</a>
+
                 </td>
             </tr>
         }

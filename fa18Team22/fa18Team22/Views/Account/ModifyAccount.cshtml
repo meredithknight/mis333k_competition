@@ -10,7 +10,13 @@
     }
 </style>
 
-<h2>Modify Account</h2>
+<h2><span style="font-size: 3em; color: lightgrey;">
+<i class="fas fa-user-edit"></i>
+</span>
+
+Modify Account
+
+</h2>
 @using (Html.BeginForm("ModifyAccount", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -100,7 +106,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Modify Account" class="btn btn-warning" />
+            <button type="submit" class="btn btn-warning">Save Changes <i class="far fa-save"></i></button>
         </div>
     </div>
 }

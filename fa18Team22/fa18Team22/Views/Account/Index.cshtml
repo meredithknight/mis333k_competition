@@ -12,7 +12,10 @@
     }
 </style>
 
-<h2>@ViewBag.Title</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-user-cog"></i>   </span>
+@ViewBag.Title</h2>
 
 @Html.ActionLink("Modify account details", "ModifyAccount", "Account", new { id = Model.Id }, new { @class = "btn btn-warning" })
 @if (Model.HasPassword)
