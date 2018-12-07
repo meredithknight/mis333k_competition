@@ -13,9 +13,9 @@
 
 <h1 align="center">Bevo's Books</h1>
 
-<p align="center">
+<h2 align="center">
     Hello there! Welcome to the best book store at UT.
-</p>
+</h2>
 
 <p align="center">
     @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary" })
@@ -23,39 +23,40 @@
 
 @if (User.IsInRole("Customer"))
 {
-<container align ="left">
-    <h3 align="center">
-        <span style="font-size: 20px; color: green;">
-            <i class="far fa-money-bill-alt"></i>
-        </span>
-        Current Promotions
-        <span style="font-size: 20px; color: green;">
-            <i class="far fa-money-bill-alt"></i>
-        </span>
-    </h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Promotion Code
-                </th>
-                <th>
-                    Discount Percentage
-                </th>
-                <th>
-                    Minimum Required to Use
-                </th>
+<div class="home">
+    <div class="class1">
+        <h3 align="center">
+            <span style="font-size: 20px; color: green;">
+                <i class="far fa-money-bill-alt"></i>
+            </span>
+            Current Promotions
+            <span style="font-size: 20px; color: green;">
+                <i class="far fa-money-bill-alt"></i>
+            </span>
+        </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Promotion Code
+                    </th>
+                    <th>
+                        Discount Percentage
+                    </th>
+                    <th>
+                        Minimum Required to Use
+                    </th>
 
-                <th>
-                    Shipping Waiver?
-                </th>
+                    <th>
+                        Shipping Waiver?
+                    </th>
 
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.PromoCode)
@@ -72,46 +73,67 @@
                     </td>
 
                 </tr>
-            }
+                 }
 
-        </tbody>
-    </table>
-</container>
+            </tbody>
+        </table>
+    </div>
+    <div class="class1">
+        <h3 align="center">
+            <span style="font-size: 20px; color: brown;">
+                <i class="fas fa-football-ball"></i>
+            </span>
+            Student Benefits
+            <span style="font-size: 20px; color: orange;">
+                <i class="fas fa-basketball-ball"></i>
+            </span>
+        </h3>
+        <p align="center">
+        Go support the horns every home game!After all University of Texas Home wins, students receive 20% off all purchases! 
+        </p>
+        <p align ="center"> 
+        (Promotion only available in store. Must show student ID to receive discount.)
+        </p>
+    </div>
+</div>
 }
 
 @if (User.IsInRole("Manager"))
 {
-    <container align="left">
-        <span style="font-size: 20px; color: green;">
-            <i class="far fa-money-bill-alt"></i>
-        </span>
-        Current Promotions
-        <span style="font-size: 20px; color: green;">
-            <i class="far fa-money-bill-alt"></i>
-        </span>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Promotion Code
-                </th>
-                <th>
-                    Discount Percentage
-                </th>
-                <th>
-                    Minimum Required to Use
-                </th>
+    <div class="home">
+    <div class="class1">
+        <h3 align="center">
+            <span style="font-size: 20px; color: green;">
+                <i class="far fa-money-bill-alt"></i>
+            </span>
+            Current Promotions
+            <span style="font-size: 20px; color: green;">
+                <i class="far fa-money-bill-alt"></i>
+            </span>
+        </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Promotion Code
+                    </th>
+                    <th>
+                        Discount Percentage
+                    </th>
+                    <th>
+                        Minimum Required to Use
+                    </th>
 
-                <th>
-                    Shipping Waiver?
-                </th>
+                    <th>
+                        Shipping Waiver?
+                    </th>
 
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.PromoCode)
@@ -128,11 +150,29 @@
                     </td>
 
                 </tr>
-            }
+                 }
 
-        </tbody>
-    </table>
-    </container>
+            </tbody>
+        </table>
+    </div>
+    <div class="class1">
+        <h3 align="center">
+            <span style="font-size: 20px; color: brown;">
+                <i class="fas fa-football-ball"></i>
+            </span>
+            Student Benefits
+            <span style="font-size: 20px; color: orange;">
+                <i class="fas fa-basketball-ball"></i>
+            </span>
+        </h3>
+        <p align="center">
+        Go support the horns every home game!After all University of Texas Home wins, students receive 20% off all purchases! 
+        </p>
+        <p align ="center"> 
+        (Promotion only available in store. Must show student ID to receive discount.)
+        </p>
+    </div>
+</div>
 
 }
 
