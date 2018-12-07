@@ -84,8 +84,13 @@
         <hr />
         <footer align="center">
             <p>&copy; @DateTime.Now.Year - Bevo's Books</p>
-            <i class="fab fa-facebook-square"></i>
-            Click <a href="https://www.facebook.com/Bevos-Bookstore-503270580166959/?modal=admin_todo_tour">here</a> to join us on Facebook.
+
+            @if (User.IsInRole("Manager") != true && User.IsInRole("Employee") != true)
+            {
+            <p>
+                <i class="fab fa-facebook-square"></i> Click <a href="https://www.facebook.com/Bevos-Bookstore-503270580166959/?modal=admin_todo_tour">here</a> to join us on Facebook.
+            </p>
+            }
         </footer>
     </div>
     <script src="~/lib/jquery/jquery.js"></script>
