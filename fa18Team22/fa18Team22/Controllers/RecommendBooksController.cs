@@ -7,11 +7,13 @@ using fa18Team22.Models;
 using fa18Team22.DAL;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.Controllers;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace fa18Team22.Controllers
 {
+    [Authorize(Roles ="Customer")]
     public class RecommendBooksController : Controller
     {
         // GET: /<controller>/

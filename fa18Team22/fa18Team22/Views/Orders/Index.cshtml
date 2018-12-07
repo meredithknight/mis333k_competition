@@ -25,10 +25,13 @@
     }
 </style>
 
-<h2>Index</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-money-bill-alt"></i>    </span>
+Orders</h2>
 
 <p>
-    <a asp-action="ShoppingCart" class="btn btn-primary">View Shopping Cart</a>
+    <a asp-action="ShoppingCart" class="btn btn-primary">View Shopping Cart <i class="fas fa-shopping-cart"></i></a>
 </p>
 <table class="table">
     <thead>
@@ -82,7 +85,7 @@
 
 
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.OrderID" class="btn btn-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.OrderID" class="btn btn-info">Details <i class="fas fa-list-ul"></i></a>
                 </td>
             </tr>
         }

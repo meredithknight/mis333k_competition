@@ -102,16 +102,16 @@
         <p></p>
         <p><font color="red">@ViewBag.CannotReAdd</font></p>
         <p></p>
-        <a asp-action="AddToOrder" asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success">Add to Order</a>
-        <a asp-action="Create" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Create Review</a>
+        <a asp-action="AddToOrder" asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success"> Add to Order <i class="fas fa-cart-plus"></i></a>
+        <a asp-action="Create" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Create Review <i class="fas fa-star-half-alt"></i></a>
 
     }
     @if (User.IsInRole("Manager"))
     {
-        <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit</a>
+        <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit <i class="far fa-edit"></i></a>
     }
-    <a asp-action="ReviewsForBook" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Ratings and Reviews</a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    <a asp-action="ReviewsForBook" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Ratings and Reviews <i class="far fa-thumbs-up"></i></a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List <i class="fas fa-arrow-circle-left"></i></a>
 
 
 </div>

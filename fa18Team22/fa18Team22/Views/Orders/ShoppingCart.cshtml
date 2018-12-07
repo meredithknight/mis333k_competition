@@ -26,7 +26,10 @@
     }
 </style>
 <br />
-<h2>Shopping Cart</h2>
+<h2>
+<span style="font-size: 3em; color: lightgrey;">
+<i class="fas fa-shopping-cart"></i>    </span>
+ Shopping Cart</h2>
 <br />
 <div>
     <p></p>
@@ -110,8 +113,8 @@
     @*@Html.ActionLink("Checkout", "Checkout", "Orders", null, new { id = Model.OrderID })*@
 
 
-    <a asp-action="Checkout" asp-route-id="@Model.OrderID" class="btn btn-primary">Checkout</a>
+    <a asp-action="Checkout" asp-route-id="@Model.OrderID" class="btn btn-primary">Checkout <i class="fas fa-credit-card"></i></a>
     <!--Figure out how to get back to list of books-->
     <a asp-controller="Search"
-       asp-action="Index" class="btn btn-secondary">Keep Shopping</a>
+       asp-action="Index" class="btn btn-secondary">Keep Shopping <i class="fas fa-arrow-circle-right"></i></a>
 </div>

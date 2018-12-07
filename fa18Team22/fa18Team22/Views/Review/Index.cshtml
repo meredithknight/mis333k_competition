@@ -3,7 +3,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h2> Reviews </h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="far fa-thumbs-up"></i>    </span>
+ Reviews </h2>
 
 
 @*FONT*@
@@ -61,8 +64,8 @@
                     @Html.DisplayFor(modelItem => item.BookDetail)
                 </td>
                 <td>
-                    <a asp-controller="Review" asp-action="Create" asp-route-id="@item.BookID" class="btn btn-primary">Add a Review</a>
-                    <a asp-controller="Review" asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
+                    <a asp-controller="Review" asp-action="Create" asp-route-id="@item.BookID" class="btn btn-primary">Create a Review <i class="fas fa-star-half-alt"></i></a>
+                    <a asp-controller="Review" asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details <i class="fas fa-list-ul"></i></a>
                 </td>
             </tr>
         }

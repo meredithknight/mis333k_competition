@@ -25,13 +25,16 @@
     }
 </style>
 
-<h2>Browse Books</h2>
+<h2>
+    <span style="font-size: 3em; color: lightgrey;">
+        <i class="fas fa-atlas"></i>    </span>
+Browse Books</h2>
 <form asp-action="Index" asp-controller="Search" method="get">
     <p class="form-group">
         @*Buttons to redirect to the Detailed Search and Buttons to Show All Books*@
-        <a class="btn btn-primary" href="/Search/DetailedSearch">Detailed Search</a>
+        <a class="btn btn-primary" href="/Search/DetailedSearch">Detailed <i class="fas fa-search-plus"></i></a>
         @*TODO: Do we need to change href for this danger button the show all?*@
-        <a class="btn btn-secondary" href="/Search/Index">Show All</a>
+        <a class="btn btn-secondary" href="/Search/Index">Show All <i class="fas fa-backspace"></i></a>
     </p>
 </form>
 
@@ -108,7 +111,7 @@
                     @Html.DisplayFor(modelItem => item.IsDiscontinued)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.BookID" class="btn btn-info">Details <i class="fas fa-list-ul"></i></a>
                 </td>
             </tr>
         }
