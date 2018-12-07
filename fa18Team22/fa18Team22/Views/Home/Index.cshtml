@@ -12,7 +12,7 @@
 </style>
 @if (User.IsInRole("Customer"))
 {
-    <div class="jumbotron">
+    <div style="background:AliceBlue !important" class="jumbotron">
         <div class="container">
             <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
             <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
@@ -23,7 +23,7 @@
 
 @if (User.IsInRole("Manager") == false && User.IsInRole("Employee") == false && User.IsInRole("Customer") == false)
 {
-    <div class="jumbotron">
+    <div style="background:AliceBlue !important" class="jumbotron">
         <div class="container">
             <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
             <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
@@ -38,7 +38,7 @@
 
 @if (User.IsInRole("Employee"))
 {
-    <div class="jumbotron">
+    <div style="background:AliceBlue !important" class="jumbotron">
         <div class="container">
             <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
             <p style="font-size: 24px;">Employee Home</p>
@@ -48,7 +48,7 @@
 
 @if (User.IsInRole("Manager"))
 {
-    <div class="jumbotron">
+    <div style="background:AliceBlue !important" class="jumbotron">
         <div class="container">
             <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
             <p style="font-size: 24px;">Manager Home</p>
