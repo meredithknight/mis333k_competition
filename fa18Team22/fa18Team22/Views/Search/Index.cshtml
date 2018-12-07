@@ -84,7 +84,18 @@
                     @Html.DisplayFor(modelItem => item.BookDetail)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AvgRating)
+                    @*@Html.DisplayFor(modelItem => item.AvgRating)*@
+
+
+                    @{
+                        string parameterValue = item.AvgRating.ToString();
+                    }
+                    <text>@parameterValue</text>
+
+
+                    @*@Html.DisplayFor(modelItem => parameterValue)*@
+                    @*@Html.DisplayFor(modelItem => item.AvgRating.ToString().Substring(0, 2))*@
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SalesPrice)
