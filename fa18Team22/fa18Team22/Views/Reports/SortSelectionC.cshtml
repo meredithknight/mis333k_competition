@@ -1,5 +1,10 @@
 ﻿@using fa18Team22.Controllers
 @using fa18Team22.Models
+
+@{
+    ViewData["Title"] = "Customers";
+}
+
 @*FONT*@
 <style type="text/css">
     body {
@@ -12,7 +17,7 @@
     <div class="form-group">
         <label>Sort by Options:</label>
         <br />
-        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc,true) Customer Profit Margin Ascending </label>
+        <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginAsc, true) Customer Profit Margin Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.ProfitMarginDesc) Customer Profit Margin Descending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceAsc) Customer Revenue Ascending </label>
         <label class="radio">@Html.RadioButton("SelectedSort", SortReport.PriceDesc) Customer Revenue Descending </label>
