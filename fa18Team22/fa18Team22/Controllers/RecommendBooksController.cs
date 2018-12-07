@@ -91,6 +91,10 @@ namespace fa18Team22.Controllers
                             skipcounterhighestrated += 1;
                             querycounterhighestrated -= 0;
                         }
+                        else
+                        {
+                            break;
+                        }
                     }
                     else
                     {
