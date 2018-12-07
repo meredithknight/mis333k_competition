@@ -23,8 +23,15 @@
 
 @if (User.IsInRole("Customer"))
 {
+<container align ="left">
     <h3 align="center">
-        <i class="glyphicon glyphicon-lock"></i>Current Promotions
+        <span style="font-size: 20px; color: green;">
+            <i class="far fa-money-bill-alt"></i>
+        </span>
+        Current Promotions
+        <span style="font-size: 20px; color: green;">
+            <i class="far fa-money-bill-alt"></i>
+        </span>
     </h3>
     <table class="table">
         <thead>
@@ -69,8 +76,65 @@
 
         </tbody>
     </table>
+</container>
 }
 
+@if (User.IsInRole("Manager"))
+{
+    <container align="left">
+        <span style="font-size: 20px; color: green;">
+            <i class="far fa-money-bill-alt"></i>
+        </span>
+        Current Promotions
+        <span style="font-size: 20px; color: green;">
+            <i class="far fa-money-bill-alt"></i>
+        </span>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Promotion Code
+                </th>
+                <th>
+                    Discount Percentage
+                </th>
+                <th>
+                    Minimum Required to Use
+                </th>
+
+                <th>
+                    Shipping Waiver?
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiscountAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MinimumSpend)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShippingWaiver)
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    </container>
+
+}
 
 
 
