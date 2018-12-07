@@ -11,17 +11,13 @@
     }
 </style>
 
-<p></p>
-
-<h1 style="font-size:48px;" align="center">Bevo's Books</h1>
-
-<h2 align="center">
-    Hello there! Welcome to the best book store at UT.
-</h2>
-
-<p align="center">
-    @Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })
-</p>
+<div class="jumbotron">
+    <div class="container">
+        <h1 style="font-size: 48px;" align="left">Bevo's Books</h1>
+        <p style="font-size: 24px;">Welcome to Bevo's Bookstore!</p>
+        <p>@Html.ActionLink("Shop Books", "Index", "Search", null, new { @class = "btn btn-primary btn-lg" })</p>
+    </div>
+</div>
 
 <div class="home">
     <div class="class1">
