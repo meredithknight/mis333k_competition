@@ -89,6 +89,7 @@ namespace fa18Team22.Models
         public Decimal BookCost { get; set; }
 
         [Display(Name = "Average Book Cost")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal? AvgBookCost
         {
             get
