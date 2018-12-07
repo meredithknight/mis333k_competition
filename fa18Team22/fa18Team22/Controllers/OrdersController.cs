@@ -26,7 +26,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders - list of all previous orders
-        [Authorize]
+        [Authorize(Roles ="Customer, Employee, Manager")]
         public IActionResult Index()
         {
             List<Order> Orders = new List<Order>();
@@ -46,7 +46,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Orders/Details/5
-        [Authorize]
+        [Authorize(Roles = "Customer, Employee, Manager")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -68,28 +68,28 @@ namespace fa18Team22.Controllers
 
         //REMINDER: should this even be possible? -- or should it redirect you to shopping cart?
         // GET: Orders/Create
-        [Authorize]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //[Authorize]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Orders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create([Bind("OrderID,OrderDate,ShippingCost")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
+        //// POST: Orders/Create
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //public async Task<IActionResult> Create([Bind("OrderID,OrderDate,ShippingCost")] Order order)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(order);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(order);
+        //}
 
         //SHOULD ONLY BE ABLE TO EDIT CURRENT SHOPPING CART, NOT AN OLD ORDER
         // GET: Orders/Edit/5
@@ -198,7 +198,7 @@ namespace fa18Team22.Controllers
         //new actions MK added 11/14
 
         //GET
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         public IActionResult ShoppingCart()
         {
             //REMINDER: make it to find the open order for a 
@@ -303,7 +303,7 @@ namespace fa18Team22.Controllers
         }
 
         //GET
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         public IActionResult Checkout(int? id) //OrderID
         {
             if (id == null)
@@ -342,6 +342,7 @@ namespace fa18Team22.Controllers
         [Authorize]
         //12/5 broke it --> trying to pass promoCode from view to this controller method
         //public IActionResult PlacedOrder(int? id, Order order) //this is an orderID //add in string for credit card and make nullable to return an error
+        [Authorize(Roles = "Customer")]
         public IActionResult PlacedOrder(int? id) //this is an orderID
         {
             if (id == null)
@@ -591,6 +592,7 @@ namespace fa18Team22.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public IActionResult EnterPromo(string promoCode, int orderId) //get the coupon code that the customer enters
         {
 
@@ -718,6 +720,7 @@ namespace fa18Team22.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId, CCReplace SelectedReplaceCard) //ger CC user enters 
         {
 
