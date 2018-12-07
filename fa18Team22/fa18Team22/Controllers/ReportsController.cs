@@ -184,32 +184,58 @@ namespace fa18Team22.Controllers
             {
                 OrderReportVM orvm = new OrderReportVM();
                 List<string> ListBookTandQ = new List<string>();
-                decimal OrderProfit = 0;
+                decimal OrderRev = 0;
                 decimal OrderCost = 0;
+                decimal OrderProcQuantity = 0;
+
+                int OrderQuantity = 0;
+
                 string BookTitle;
                 int BookQ;
                 string TandQ;
                 foreach (OrderDetail od in OrdersReport)
                 {
+                    int intTotalProc = od.Book.InitialInventory;
+                    decimal decTotalCost = od.Book.InitialCost * od.Book.InitialInventory;
+
+                    foreach (Procurement pro in od.Book.Procurements) 
+                    {
+                        intTotalProc += pro.Quantity;
+                        decTotalCost += pro.Price * pro.Quantity;
+                    }
+
                     if (od.Order.OrderID == order.OrderID)
                     {
-                        OrderProfit += od.ExtendedPrice;
-                        OrderCost += (Decimal)od.Book.AvgBookCost;
+                        OrderRev += od.ExtendedPrice;
                         BookTitle = od.Book.Title;
                         BookQ = od.Quantity;
                         TandQ = BookTitle + " (" + BookQ.ToString() + ") ";
                         ListBookTandQ.Add(TandQ);
                         orvm.CustomerName = od.Order.Customer.FirstName + ' ' + od.Order.Customer.LastName;
+                        OrderCost += decTotalCost;
+                        OrderProcQuantity += intTotalProc;
+                        orvm.OrderDate = od.Order.OrderDate;
+                        OrderQuantity += od.Quantity;
                     }
 
                 }
 
+
+
                 orvm.Payment = order.Payment;
                 orvm.OrderNumber = order.OrderNumber;
-                orvm.ProfitMargin = (OrderProfit - OrderCost);
+                orvm.OrderCostAvg = (OrderCost / OrderProcQuantity);
+
+                decimal OrderCostAvgTimesOrderQuantity = (OrderCost / OrderProcQuantity)*OrderQuantity;
+                orvm.OrderCost = OrderCostAvgTimesOrderQuantity;
+                orvm.ProfitMargin = (OrderRev - OrderCostAvgTimesOrderQuantity);
+
+
                 orvm.BookTandQ = ListBookTandQ;
-                orvm.OrderTotal = OrderProfit;
-                orvm.OrderCost = OrderCost;
+                orvm.OrderTotal = OrderRev;
+
+                orvm.ProfitMarginMinusAvg = OrderRev - (OrderCost / OrderProcQuantity);
+
                 if (orvm.OrderTotal != 0)
                 {
                     allBooksReports.Add(orvm);

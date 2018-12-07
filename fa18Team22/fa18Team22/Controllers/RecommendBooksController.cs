@@ -56,12 +56,14 @@ namespace fa18Team22.Controllers
             AppUser currentuser = _context.Users.FirstOrDefault(u => u.UserName == userId);
 
 
-            var booksboughtquery = from r in _context.OrderDetails.Include(r => r.Order) select r;
-            booksboughtquery = booksboughtquery.Where(r => r.Order.Customer == currentuser);
+            var booksboughtquery = from r in _context.OrderDetails.Include(r => r.Order).Include(r =>r.Book) select r;
+            booksboughtquery = booksboughtquery.Where(r => r.Order.Customer.UserName == currentuser.UserName);
             foreach (OrderDetail orddlt in booksboughtquery)
             {
                 booksboughtbyuser.Add(orddlt.Book);
             }
+            Int16 skipcounterhighestrated = 0;
+            Int32 querycounterhighestrated = 0;
             Int16 skipcounter = 1;
             Int16 skipcounter3 = 1;
             Boolean sameauthor = false;
@@ -72,19 +74,35 @@ namespace fa18Team22.Controllers
             if (query.ToList().Count() > 1)
             {
                 List<Book> querylist = query.ToList();
-                Book highestratedbook = querylist.OrderByDescending(r => r.AvgRating).FirstOrDefault();
-                if (highestratedbook != null)
+                querycounterhighestrated = querylist.Count();
+                while(querycounterhighestrated != 0)
                 {
-                    if(highestratedbook.Title == orderDetails.Book.Title)
+                    Book highestratedbook = querylist.OrderByDescending(r => r.AvgRating).Skip(skipcounterhighestrated).FirstOrDefault();
+                    if (highestratedbook != null)
                     {
-                        highestratedbook = querylist.Skip(1).FirstOrDefault();
+                        if (highestratedbook.Title == orderDetails.Book.Title)
+                        {
+                            highestratedbook = querylist.Skip(1).FirstOrDefault();
+                        }
+                        bookstorecommend.Add(highestratedbook);
+                        if (booksboughtbyuser.Any(r => r.BookID == highestratedbook.BookID))
+                        {
+                            bookstorecommend.Remove(highestratedbook);
+                            skipcounterhighestrated += 1;
+                            querycounterhighestrated -= 0;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    bookstorecommend.Add(highestratedbook);
-                    if (booksboughtbyuser.Any(r => r == highestratedbook))
+                    else
                     {
-                        bookstorecommend.Remove(highestratedbook);
+                        skipcounterhighestrated += 1;
+                        querycounterhighestrated -= 0;
                     }
                 }
+
             }
             else
             {
@@ -123,7 +141,7 @@ namespace fa18Team22.Controllers
                         if (sameauthor == true)
                         {
                             bookstorecommend.Add(firstbookforthree);
-                            if (booksboughtbyuser.Any(r => r == firstbookforthree))
+                            if (booksboughtbyuser.Any(r => r.BookID == firstbookforthree.BookID))
                             {
                                 bookstorecommend.Remove(firstbookforthree);
                             }
@@ -159,7 +177,7 @@ namespace fa18Team22.Controllers
                             if (sameauthor == true)
                             {
                                 bookstorecommend.Add(booktoadd);
-                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                                 {
                                     bookstorecommend.Remove(booktoadd);
                                 }
@@ -182,7 +200,7 @@ namespace fa18Team22.Controllers
                     if (firstbookforthree != null)
                     {
                         bookstorecommend.Add(firstbookforthree);
-                        if (booksboughtbyuser.Any(r => r == firstbookforthree))
+                        if (booksboughtbyuser.Any(r => r.BookID == firstbookforthree.BookID))
                         {
                             bookstorecommend.Remove(firstbookforthree);
                         }
@@ -218,7 +236,7 @@ namespace fa18Team22.Controllers
                             if (sameauthor == true)
                             {
                                 bookstorecommend.Add(booktoadd);
-                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                                 {
                                     bookstorecommend.Remove(booktoadd);
                                 }
@@ -260,7 +278,7 @@ namespace fa18Team22.Controllers
                             if (sameauthor == true)
                             {
                                 bookstorecommend.Add(booktoadd);
-                                if (booksboughtbyuser.Any(r => r == booktoadd))
+                                if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                                 {
                                     bookstorecommend.Remove(booktoadd);
                                 }
@@ -313,7 +331,7 @@ namespace fa18Team22.Controllers
                     if (sameauthor == true)
                     {
                         bookstorecommend.Add(firstbookfortwo);
-                        if (booksboughtbyuser.Any(r => r == firstbookfortwo))
+                        if (booksboughtbyuser.Any(r => r.BookID == firstbookfortwo.BookID))
                         {
                             bookstorecommend.Remove(firstbookfortwo);
                         }
@@ -349,7 +367,7 @@ namespace fa18Team22.Controllers
                         if (sameauthor == true)
                         {
                             bookstorecommend.Add(booktoadd);
-                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                             {
                                 bookstorecommend.Remove(booktoadd);
                             }
@@ -396,7 +414,7 @@ namespace fa18Team22.Controllers
                     if (sameauthor == true)
                     {
                         bookstorecommend.Add(firstbookfortwo);
-                        if (booksboughtbyuser.Any(r => r == firstbookfortwo))
+                        if (booksboughtbyuser.Any(r => r.BookID == firstbookfortwo.BookID))
                         {
                             bookstorecommend.Remove(firstbookfortwo);
                         }
@@ -433,7 +451,7 @@ namespace fa18Team22.Controllers
                         if (sameauthor == true)
                         {
                             bookstorecommend.Add(booktoadd);
-                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                             {
                                 bookstorecommend.Remove(booktoadd);
                             }
@@ -475,7 +493,7 @@ namespace fa18Team22.Controllers
                         if (sameauthor == true)
                         {
                             bookstorecommend.Add(booktoadd);
-                            if (booksboughtbyuser.Any(r => r == booktoadd))
+                            if (booksboughtbyuser.Any(r => r.BookID == booktoadd.BookID))
                             {
                                 bookstorecommend.Remove(booktoadd);
                             }
