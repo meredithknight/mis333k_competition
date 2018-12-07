@@ -195,6 +195,8 @@ namespace fa18Team22.Controllers
             OrderDetail od = _context.OrderDetails.Include(c => c.Order).FirstOrDefault(c => c.OrderDetailID == id);
             Order order = _context.Orders.Include(c => c.OrderDetails).ThenInclude(c => c.Book).FirstOrDefault(c => c.OrderID == od.Order.OrderID);
 
+            ShippingCosts currentShipCosts = _context.ShippingCosts.LastOrDefault();
+
             int orderDetailCount = order.OrderDetails.Count();
 
             //check if there's another book in the order already
@@ -203,7 +205,8 @@ namespace fa18Team22.Controllers
                 //if there is already other book(s) in the order
                 decimal oldShippingCost = order.ShippingCost;
 
-                decimal leftoverShippingCost = oldShippingCost - (od.Quantity * 1.50m);
+                //decimal leftoverShippingCost = oldShippingCost - (od.Quantity * 1.50m);
+                decimal leftoverShippingCost = oldShippingCost - (od.Quantity * currentShipCosts.AddBookShipCost);
                 //use the old quantity and subtract that old cost
 
                 order.ShippingCost = leftoverShippingCost;
