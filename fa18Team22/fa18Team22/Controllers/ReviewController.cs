@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using fa18Team22.DAL;
 using fa18Team22.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace fa18Team22.Controllers
 {
@@ -86,6 +87,7 @@ namespace fa18Team22.Controllers
         }
 
         // GET: Review/Create
+        [Authorize]
         public IActionResult Create(int? id)
         {
             if (id == null)
@@ -177,6 +179,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create([Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review, Int16 Rating, string ReviewText, int id)
         {
             if (ModelState.IsValid)
@@ -199,7 +202,7 @@ namespace fa18Team22.Controllers
             return View(review);
         }
 
-        
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult Approve(int? id)
         {
             String userId = User.Identity.Name;
@@ -213,6 +216,8 @@ namespace fa18Team22.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Manager, Employee")]
         public IActionResult Reject(int? id)
         {
             String userId = User.Identity.Name;
@@ -237,6 +242,7 @@ namespace fa18Team22.Controllers
 
 
         // GET: Review/Edit/5
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -257,6 +263,7 @@ namespace fa18Team22.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int id, [Bind("ReviewID,Rating,ReviewText,ApprovalStatus")] Review review)
         {
             if (id != review.ReviewID)
