@@ -17,7 +17,7 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
-    if (User.IsInRole("Employee, Manager"))
+    if (User.IsInRole("Employee") || User.IsInRole("Manager"))
     {
         <div class="form-group">
             <input asp-for="FirstName" type="hidden" class="form-control" />
