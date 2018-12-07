@@ -96,6 +96,7 @@
     </dl>
 </div>
 <div>
+
     @if (User.IsInRole("Customer") && Model.IsDiscontinued == false)
     {
         <p></p>
@@ -103,11 +104,13 @@
         <p></p>
         <a asp-action="AddToOrder" asp-controller="Orders" asp-route-id="@Model.BookID" class="btn btn-success">Add to Order</a>
         <a asp-action="Create" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Create Review</a>
+
     }
     @if (User.IsInRole("Manager"))
     {
         <a asp-controller="Books" asp-action="Edit" asp-route-id="@Model.BookID" class="btn btn-warning">Edit</a>
     }
+    <a asp-action="ReviewsForBook" asp-controller="Review" asp-route-id="@Model.BookID" class="btn btn-success">Ratings and Reviews</a>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 
 

@@ -428,42 +428,20 @@ namespace fa18Team22.Controllers
 
         //POST report F (reviews)
         [Authorize(Roles = "Manager, Employee")]
-        public async Task<ActionResult> DisplayReviewReport(ReviewOptions ReviewOption, SortReport SortBy, String RejectedMin, String RejectedMax, String AcceptedMin, String AcceptedMax)
+        public async Task<ActionResult> DisplayReviewReport(ReviewOptions ReviewOption, SortReport SortBy)
         {
-            try
-            {
-                Int16 acceptedmin = Convert.ToInt16(AcceptedMin);
-                Int16 acceptedmax = Convert.ToInt16(AcceptedMax);
-                Int16 rejectedmin = Convert.ToInt16(RejectedMin);
-                Int16 rejectedmax = Convert.ToInt16(RejectedMax);
-
-                //if (AcceptedMin == null)
-                //{
-                //    acceptedmin = 0;
-                //}
-                if (AcceptedMax == null)
-                {
-                    acceptedmax = 100;
-                }
-                //if(RejectedMin == null)
-                //{
-                //    rejectedmin = 0;
-                //}
-                if (RejectedMax == null)
-                {
-                    rejectedmax = 100;
-                }
 
                 List<AppUser> employees = new List<AppUser>();
                 List<AppUser> members = new List<AppUser>();
                 List<AppUser> nonMembers = new List<AppUser>();
-                foreach (AppUser user in _userManager.Users.Include(User => User.ReviewsApproved).Include(User => User.ReviewsRejected)
-                         .Where(r => (r.ReviewsApproved.Count() >= acceptedmin &&
-                                 r.ReviewsApproved.Count() <= acceptedmax) ||
-                                 (r.ReviewsRejected.Count() >= rejectedmin &&
-                                  r.ReviewsRejected.Count() <= rejectedmax)))
+                foreach (AppUser user in _userManager.Users.Include(User => User.ReviewsApproved).Include(User => User.ReviewsRejected))
                 {
                     var emplist = await _userManager.IsInRoleAsync(user, "Employee") ? members : nonMembers;
+                    emplist.Add(user);
+                }
+                foreach (AppUser user in _userManager.Users.Include(User => User.ReviewsApproved).Include(User => User.ReviewsRejected))
+                {
+                    var emplist = await _userManager.IsInRoleAsync(user, "Manager") ? members : nonMembers;
                     emplist.Add(user);
                 }
                 RoleEditModel re = new RoleEditModel();
@@ -477,72 +455,66 @@ namespace fa18Team22.Controllers
 
                 var empsort = employees.OrderBy(User => User.Email);
 
-                //if (!string.IsNullOrEmpty(ReviewsMin))
-                //{
-                //    decimal decRevMin;
+            //if (!string.IsNullOrEmpty(ReviewsMin))
+            //{
+            //    decimal decRevMin;
 
-                //    try
-                //    {
-                //        decRevMin = Convert.ToDecimal(ReviewsMin);
-                //    }
-                //    catch
-                //    {
-                //        //adding error message for viewbag
-                //        @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
+            //    try
+            //    {
+            //        decRevMin = Convert.ToDecimal(ReviewsMin);
+            //    }
+            //    catch
+            //    {
+            //        //adding error message for viewbag
+            //        @ViewBag.Message = ProfitMin + "is not a valid number. Please try again.";
 
-                //    }
-                //    //query = query.Where(r => r.Price >= decProfitMin);
-                //    decRevMin = Convert.ToDecimal(PriceMin);
-                //    empsort = empsort.Where(r => r.Price >= decRevMin);
+            //    }
+            //    //query = query.Where(r => r.Price >= decProfitMin);
+            //    decRevMin = Convert.ToDecimal(PriceMin);
+            //    empsort = empsort.Where(r => r.Price >= decRevMin);
 
-                //}
+            //}
 
-                switch (ReviewOption)
-                {
-                    case ReviewOptions.EmpNum:
-                        switch (SortBy)
-                        {
-                            case SortReport.Ascending:
-                                empsort = employees.OrderBy(User => User.Email);
-                                break;
-                            case SortReport.Descending:
-                                empsort = employees.OrderByDescending(User => User.Email);
-                                break;
-                        }
-                        break;
-                    case ReviewOptions.Accept:
-                        switch (SortBy)
-                        {
-                            case SortReport.Ascending:
-                                empsort = employees.OrderBy(User => User.NumofApprove);
-                                break;
-                            case SortReport.Descending:
-                                empsort = employees.OrderByDescending(User => User.NumofApprove);
-                                break;
-                        }
-                        break;
-                    case ReviewOptions.Reject:
-                        switch (SortBy)
-                        {
-                            case SortReport.Ascending:
-                                empsort = employees.OrderBy(User => User.NumofRejected);
-                                break;
-                            case SortReport.Descending:
-                                empsort = employees.OrderByDescending(User => User.NumofRejected);
-                                break;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                return View("ReviewReport", empsort);
-            }
-            catch(FormatException)
+            switch (ReviewOption)
             {
-                ViewBag.ConvertError = "Values must be integers!";
-                return View("ReviewReportSort");
+                case ReviewOptions.EmpNum:
+                    switch (SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.Email);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.Email);
+                            break;
+                    }
+                    break;
+                case ReviewOptions.Accept:
+                    switch (SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.NumofApprove);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.NumofApprove);
+                            break;
+                    }
+                    break;
+                case ReviewOptions.Reject:
+                    switch (SortBy)
+                    {
+                        case SortReport.Ascending:
+                            empsort = employees.OrderBy(User => User.NumofRejected);
+                            break;
+                        case SortReport.Descending:
+                            empsort = employees.OrderByDescending(User => User.NumofRejected);
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+
             }
+            return View("ReviewReport", empsort);
 
         }
     }

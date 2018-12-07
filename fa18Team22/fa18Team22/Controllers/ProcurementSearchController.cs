@@ -59,7 +59,7 @@ namespace fa18Team22.Controllers
                 apvm.InventoryMinimum = book.ReplenishMinimum;
                 apvm.SellingPrice = book.SalesPrice;
                 apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                apvm.IncludeInProcurement = true;
+                apvm.IncludeInProcurement = false;
                 apvm.QuantityToOrder = 5;
                 BooksToOrder.Add(apvm);
 
@@ -121,7 +121,7 @@ namespace fa18Team22.Controllers
                         apvm2.InventoryMinimum = book.ReplenishMinimum;
                         apvm2.SellingPrice = book.SalesPrice;
                         apvm2.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                        apvm2.IncludeInProcurement = true;
+                        apvm2.IncludeInProcurement = false;
                         apvm2.QuantityToOrder = 5;
                         BooksToOrder.Add(apvm2);
 
@@ -304,7 +304,7 @@ namespace fa18Team22.Controllers
                 apvm.InventoryMinimum = book.ReplenishMinimum;
                 apvm.SellingPrice = book.SalesPrice;
                 apvm.ProfitMargin = ((Decimal)book.AvgSalesPrice - (Decimal)book.AvgBookCost);
-                apvm.IncludeInProcurement = true;
+                apvm.IncludeInProcurement = false;
                 apvm.QuantityToOrder = 5;
                 BooksToOrder.Add(apvm);
 
@@ -319,6 +319,10 @@ namespace fa18Team22.Controllers
                     }
                 }
 
+            }
+            if(BooksToOrder.Count == 0)
+            {
+                ViewBag.SelectedBooksCount = 0;
             }
             ViewBag.DetailedMError = "";
             return View(BooksToOrder);

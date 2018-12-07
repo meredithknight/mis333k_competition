@@ -249,6 +249,24 @@ namespace fa18Team22.Controllers
         }
 
 
+        public ActionResult ReviewsForBook(int? id)
+        {
+            if(id == null)
+            {
+                return View("Error", new string[] { "Book not found" });
+            }
+            Book book = _context.Books.FirstOrDefault(r => r.BookID == id);
+            if(book == null)
+            {
+                return View("Error", new string[] { "Book not found" });
+            }
+
+            var query = from r in _context.Reviews.Include(r => r.Book).Where(r => r.Book.BookID == id && r.ApprovalStatus == true) select r;
+            List<Review> reviews = query.ToList();
+            return View(reviews);
+        }
+
+
         // GET: Review/Edit/5
         [Authorize(Roles = "Manager, Employee")]
         public async Task<IActionResult> Edit(int? id)
