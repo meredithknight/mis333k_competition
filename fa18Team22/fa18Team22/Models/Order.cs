@@ -29,9 +29,11 @@ namespace fa18Team22.Models
 
         //calculate shipping cost in controller 
         [Display(Name = "Shipping Cost")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ShippingCost { get; set; }
 
         [Display(Name = "Order Total")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal OrderTotal
         {
             get

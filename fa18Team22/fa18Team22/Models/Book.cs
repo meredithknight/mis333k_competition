@@ -30,15 +30,18 @@ namespace fa18Team22.Models
         public String BookDetail { get; set; }
 
         [Display(Name = "Sales Price")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal SalesPrice { get; set; }
 
         [Display(Name = "Inventory")]
         public Int32 Inventory { get; set; }
 
-        [Display(Name = "Sales Price")]
+        [Display(Name = "Initial Sales Price")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal InitialSalesPrice { get; set; }
 
-        [Display(Name = "Sales Price")]
+        [Display(Name = "Inital Cost")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal InitialCost { get; set; }
 
         [Display(Name = "Inventory")]
@@ -82,6 +85,7 @@ namespace fa18Team22.Models
         public Int32 ReplenishMinimum { get; set; }
 
         [Display(Name = "Book Cost")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal BookCost { get; set; }
 
         [Display(Name = "Average Book Cost")]

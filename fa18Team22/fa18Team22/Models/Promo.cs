@@ -22,6 +22,7 @@ namespace fa18Team22.Models
         public Boolean Status { get; set; }
 
         [Display(Name = "Minimum Spend")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal MinimumSpend { get; set; }
 
     	//navigational properties
