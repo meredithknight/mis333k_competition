@@ -73,6 +73,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Rejecter.LastName)
                 </td>
+                <td>
+                    <a asp-controller="Review" asp-action="Edit" asp-route-id="@item.ReviewID" class="btn btn-danger">Edit <i class="far fa-thumbs-down"></i></a>
+                </td>
+
             </tr>
         }
     </tbody>

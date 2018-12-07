@@ -241,7 +241,7 @@ namespace fa18Team22.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager, Employee")]
         public ActionResult AllReviews()
         {
             var query = from r in _context.Reviews.Include(r => r.Book).Include(r => r.Author).Include(r => r.Approver).Include(r => r.Rejecter) select r;
