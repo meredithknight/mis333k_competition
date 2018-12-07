@@ -591,6 +591,45 @@ namespace fa18Team22.Controllers
             return View("ManageCustomerAccounts", allCustomers);
         }
 
+        [Authorize(Roles="Manager, Employee")]
+        public ActionResult ChangeCustomerPassword(string id)
+        {
+            ChangeOtherPasswordViewModel selectedAccount = new ChangeOtherPasswordViewModel();
+            selectedAccount.AccountSelectedID = id;
+
+            return View(selectedAccount);
+        }
+
+        //
+        // POST: /Account/ChangeCustomerPassword
+        [Authorize(Roles = "Manager, Employee")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<ActionResult> ChangeCustomerPassword(ChangeOtherPasswordViewModel model, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //AppUser userLoggedIn = await _userManager.FindByNameAsync(User.Identity.Name);
+            AppUser customerSelected = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.ChangePasswordAsync(customerSelected, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                //don't want to sign in when password is changed
+                //await _signInManager.SignInAsync(customerSelected, isPersistent: false);
+                String emailsubject = "Team 22: Password Changed";
+                String emailbody = "Your password to Bevo Books has been changed.";
+                SendEmail(customerSelected.Email, customerSelected.FirstName, emailbody, emailsubject);
+                return RedirectToAction("ManageCustomerAccounts", "Account");
+            }
+            AddErrors(result);
+            return View(model);
+        }
+
+
         //END OF CUSTOMER CONTROLLER /// /////////////////////////////////////////////////////////////////////
 
         //START OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
@@ -836,6 +875,46 @@ namespace fa18Team22.Controllers
             }
             return View(account);
         }
+
+
+        [Authorize(Roles = "Manager")]
+        public ActionResult ChangeEmployeePassword(string id)
+        {
+            ChangeOtherPasswordViewModel selectedAccount = new ChangeOtherPasswordViewModel();
+            selectedAccount.AccountSelectedID = id;
+
+            return View(selectedAccount);
+        }
+
+        //
+        // POST: /Account/ChangeCustomerPassword
+        [Authorize(Roles = "Manager")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<ActionResult> ChangeEmployeePassword(ChangeOtherPasswordViewModel model, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            //AppUser userLoggedIn = await _userManager.FindByNameAsync(User.Identity.Name);
+            AppUser employeeSelected = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.ChangePasswordAsync(employeeSelected, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                //don't want to sign in when password is changed
+                //await _signInManager.SignInAsync(customerSelected, isPersistent: false);
+                String emailsubject = "Team 22: Password Changed";
+                String emailbody = "Your password to Bevo Books has been changed.";
+                SendEmail(employeeSelected.Email, employeeSelected.FirstName, emailbody, emailsubject);
+                return RedirectToAction("ManageCustomerAccounts", "Account");
+            }
+            AddErrors(result);
+            return View(model);
+        }
+
 
         //END OF EMPLOYEE CONTROLLER /// /////////////////////////////////////////////////////////////////////
 
