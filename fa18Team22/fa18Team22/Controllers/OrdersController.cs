@@ -14,6 +14,8 @@ using System.Net;
 
 namespace fa18Team22.Controllers
 {
+    public enum CCReplace { CC1, CC2, CC3 }
+
     public class OrdersController : Controller
     {
         private readonly AppDbContext _context;
@@ -314,10 +316,17 @@ namespace fa18Team22.Controllers
             //include promo attached
             Order order = _context.Orders.Include(c=>c.Promo).Include(m => m.OrderDetails).ThenInclude(m => m.Book).Where(c => c.IsComplete == false).Where(c => c.Customer.UserName == User.Identity.Name).FirstOrDefault();
 
+            int odCount = order.OrderDetails.Count();
+
             if (order == null)
             {
                 return View("Error", new string[] { "Order not found!" });
             }
+            if (odCount == 0)
+            {
+                return View("Error", new string[] { "No items in cart!" });
+            }
+
 
             String userid = User.Identity.Name;
 
@@ -651,7 +660,7 @@ namespace fa18Team22.Controllers
                                     foreach (OrderDetail od in order.OrderDetails)
                                     {
                                         //od.Price = Math.Round(od.Price * (item.DiscountAmount / 100), 2);
-                                        od.Price = od.Price * (item.DiscountAmount / 100);
+                                        od.Price = od.Price - (od.Price * (item.DiscountAmount / 100));
 
                                         //_context.OrderDetails.Update(od);
                                         _context.SaveChanges();
@@ -707,7 +716,7 @@ namespace fa18Team22.Controllers
 
 
         [HttpPost]
-        public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId) //ger CC user enters 
+        public IActionResult PaymentInformation(string CreditCard, string NewCreditCard, int orderId, CCReplace SelectedReplaceCard) //ger CC user enters 
         {
 
             //getting the order that this CC is being used for
@@ -770,13 +779,30 @@ namespace fa18Team22.Controllers
                         {
                             customer.CreditCard1 = NewCreditCard;
                         }
-                        else if (customer.CreditCard1 == null)
+                        else if (customer.CreditCard2 == null)
                         {
                             customer.CreditCard2 = NewCreditCard;
                         }
-                        else //either CC3 is null, or we will override
+                        else if (customer.CreditCard3 == null)
                         {
                             customer.CreditCard3 = NewCreditCard;
+                        }
+                        else //either CC3 is null, or we will override
+                        {
+                            //giving them option to choose which to replace
+                            if (SelectedReplaceCard == CCReplace.CC1)
+                            {
+                                customer.CreditCard1 = NewCreditCard;
+                            }
+                            else if (SelectedReplaceCard == CCReplace.CC2)
+                            {
+                                customer.CreditCard2 = NewCreditCard;
+                            }
+                            else //(SelectedReplaceCard == CCReplace.CC3)
+                            {
+                                customer.CreditCard3 = NewCreditCard;
+                            }
+
                         }
                         //save changes to the CC being added to the customer
                         //_context.SaveChanges();
