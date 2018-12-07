@@ -27,6 +27,7 @@ namespace fa18Team22.Models
         public Decimal AvgRating { get; set; }
 
         [Display(Name = "Price")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal SalesPrice { get; set; }
 
         [Display(Name = "In Stock?")]

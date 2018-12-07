@@ -24,6 +24,7 @@ namespace fa18Team22.Models
 
         public Int32 InventoryMinimum { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal SellingPrice { get; set; }
 
         public Decimal AvgRatingProc { get; set; }
@@ -32,6 +33,7 @@ namespace fa18Team22.Models
 
         public String userID { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Decimal ProfitMargin { get; set; }
 
         public Boolean IncludeInProcurement { get; set; }
