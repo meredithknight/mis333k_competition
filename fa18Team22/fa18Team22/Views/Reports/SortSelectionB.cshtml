@@ -15,7 +15,7 @@
 <h2>All Orders Report</h2>
 <form asp-action="ReviewReportB" asp-controller="Reports" method="get">
 
-    @*Search by Profit Margin*@     <div class="form-group">         Profit Margin: @Html.TextBox("ProfitMin", null, new { style = "width:250px" })         Profit Margin: @Html.TextBox("ProfitMax", null, new { style = "width:250px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Search by Price*@     <div class="form-group">         Lowest Price: @Html.TextBox("PriceMin", null, new { style = "width:250px" })         Highest Price: @Html.TextBox("PriceMax", null, new { style = "width:250px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>
+    @*Search by Profit Margin*@     <div class="form-group">         Minimum Profit Margin: @Html.TextBox("ProfitMin", null, new { style = "width:250px" })         Maximum Profit Margin: @Html.TextBox("ProfitMax", null, new { style = "width:250px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>      @*Search by Price*@     <div class="form-group">         Lowest Price: @Html.TextBox("PriceMin", null, new { style = "width:250px" })         Highest Price: @Html.TextBox("PriceMax", null, new { style = "width:250px" })         <div class="text-danger"> @ViewBag.Message </div>     </div>
 
     @*Sort Options *@
     <div class="form-group">
